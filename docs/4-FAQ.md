@@ -1,11 +1,11 @@
 ---
 id: Frequently Asked Questions
+sidebar_position: 4
 ---
 
 ### How does Liquidity Book work?
 
 #TODO links to relevant whitepaper/tweets/substack
-
 
 ### How do I create new pair?
 
@@ -23,6 +23,6 @@ bool unlocked = factory.creationUnlocked();
 
 #TODO
 
-### 
-More questions to add.
+###
 
+More questions to add.

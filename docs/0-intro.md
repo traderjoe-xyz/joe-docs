@@ -17,4 +17,4 @@ Like Uniswap V3, it is also a concentrated liquidity AMM with some subtle differ
 - Liquidity is aggregated vertically instead of horizontally
 - Liquidity positions are fungible
 - Liquidity positions are not restricted to uniform distribution across its price range; they can be distributed in any shape desired
-
+- Swap fees have a variable component that increase during times of volatility

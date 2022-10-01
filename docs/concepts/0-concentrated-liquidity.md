@@ -18,11 +18,11 @@ With the Liquidity Book (LB), liquidity providers can instead provide liquidity 
 
 To allow concentrated liquidity, the price curve is discretized into **bins**, which is similar to the tick concept in Uniswap V3. The main difference however, is that LB uses the **constant sum** price formula instead of the constant product formula.
 
-What this means is that each bin represents a single price point and the price difference between two consecutive bins is the bin step.
+What this means is that each bin represents a single price point and the difference between two consecutive bins is the bin step.
 
 Take for example USDC/USDT again. If the current price is \$1 and the bin step is 1 basis point (i.e. 0.0001 or 0.01%), then the next consecutive bins up are $1 * 1.0001 = \$1.0001$, $1.0001 * 1.0001 = \$1.00020001$, etc. Astute mathematicians will notice that this is the geometric sequence $1.0001^n$.
 
-In addition to using a different pricing invariant, bin steps are **not** restricted to 1 basis point and is a parameter set by the pool creator. Because of this, there can be **multiple** markets of the same pair but varying only in their bin step. Put differently, if we say $X$ is asset X, $Y$ is asset Y and $s$ is the bin step, then each market is uniquely identified by its tuple $(X, Y, s)$.
+In addition to using a different pricing invariant, bin steps are **not** restricted to 1 basis point and is a parameter set by the pool creator. Because of this, there can be **multiple** markets of the same pair but varying only in their bin step. Put differently, given asset $X$, asset $Y$ and bin step $s$, each market is uniquely identified by its tuple $(X, Y, s)$.
 
 ## Bin Pricing & Math
 
@@ -34,7 +34,7 @@ However, we also need to account for very small fractions, so we use **128.128 b
 
 Now that we have the lower and upper bounds of price and we discretized the entire price curve into bins, **how many bins could we possibly have**?
 
-Remember how the price of each bin was basically a geometric sequence $(1 + s)^i$ - we now need to find the maximum integer for $i$ such that the entire value is less than the upper limit of price, $2^{128}$.
+Remember how the price of each bin was basically a geometric sequence $(1 + s)^i$. We now need to find the maximum integer for $i$ such that the entire value is less than the upper limit of price, $2^{128}$.
 
 In the whitepaper this is expressed as $argmax_i\left((1 + s)^i < 2^{128} \right)$.
 

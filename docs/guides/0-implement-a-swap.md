@@ -158,6 +158,3 @@ pairBinSteps[1] = 0; // points to DEX v1 pair
 
 uint256[] memory amountsIn = router.swapTokensForExactTokens(amountOut, 100e18, pairBinSteps, tokenList, DEV, block.timestamp);
 ```
-
-
-## 

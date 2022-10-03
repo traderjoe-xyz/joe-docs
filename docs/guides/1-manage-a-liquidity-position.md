@@ -53,18 +53,19 @@ Distributions + delta IDs define, how tokens will be spread across bins.
 Liquidity deposited is always dependent on bin, that is active during transaction. `idSlippage` defines, how much can actual distribution differ from `activeIdDesired`.
 
 Take below points into account while choosing `LiquidityParameters` argument:
-1. Sum of all values in `distributionX` array has to be less or equal to `Constants.PRECISION`
-2. Sum of all values in `distributionY` array has to be less or equal to `Constants.PRECISION`
-3. Distributions can take all shapes and values, and are set independently
-4. If sum of all `distributionX` (`distributionY`) values for is not equal to `Constants.PRECISION`, full `amountX` (`amountY`) value will not be deposited. Plan `amountXmin` (`amountYmin`) accordingly
-5. Any excess funds (sent to router, but not added) will be sent back to the user
-6. `_distributionX` for `IDs < activeIdDesired`has to be `0`
-7. `_distributionY` for `IDs > activeIdDesired` has to be `0`
-8. For every bin in `deltaIds` array at least one of the distributions has to be more than `0`
-9. Lengths of distribution arrays and delta ID array have to be the same
-10. Maximum number of bins, that can be populated at the same time is around `51` due to Avalanche blockchain block gas limit (`8M`) 
-11. If you want to add liquidity only to one token, use `amountX = 0` or `amountY = 0` and appropriate `_deltaIds`
-12. When adding liquidity to AVAX pair, `tokenX`/`tokenY` has to be WAVAX and `value` of transaction has to be equal to `amountX`/`amountY`
+1. Sum of all values in `distributionX` array has to be less or equal to `Constants.PRECISION`.
+2. Sum of all values in `distributionY` array has to be less or equal to `Constants.PRECISION`.
+3. Distributions can take all shapes and values, and are set independently.
+4. If sum of all `distributionX` (`distributionY`) values for is not equal to `Constants.PRECISION`, full `amountX` (`amountY`) value will not be deposited. Plan `amountXmin` (`amountYmin`) accordingly.
+5. Any excess funds (sent to router, but not added) will be sent back to the user.
+6. `_distributionX` for `IDs < activeIdDesired`has to be `0`.
+7. `_distributionY` for `IDs > activeIdDesired` has to be `0`.
+8. For every bin in `deltaIds` array at least one of the distributions has to be more than `0`.
+9. Lengths of distribution arrays and delta ID array have to be the same.
+10. Maximum number of bins, that can be populated at the same time is around `51` due to Avalanche blockchain block gas limit (`8M`). In this case, multiple transactions can be used to add more liquidity.
+11. If you want to add liquidity only to one token, use `amountX = 0` or `amountY = 0` and appropriate `_deltaIds`.
+12. When adding liquidity to AVAX pair, `tokenX`/`tokenY` has to be WAVAX and `value` of transaction has to be equal to `amountX`/`amountY`.
+13. Remember to approve spending `tokenX`/`tokenY` by `LBRouter`.
 
 ### Code sample
 
@@ -185,15 +186,57 @@ Arrays `ids` and `amounts` define, which bin IDs will be withdrawn, and how many
 
 
 Take below points into account while choosing arguments for `removeLiquidity` functions:
-1. `amountXMin` and `amountYMin` define amount slippage - if liquidity removal yields less tokens, it will revert with `LBRouter__AmountSlippageCaught`. Amount slippage might occur, when bin composition changes due to swaps.
+1. `amountXMin` and `amountYMin` define amount slippage - if liquidity removal yields less tokens, it will revert with `LBRouter__AmountSlippageCaught`. Amount slippage might occur, when bin composition or active bin change due to swaps.
 2. Lengths of `ids` and `amounts` must be the same.
-3. `amounts` array consists of `LBToken` balances, not tokenX/tokenY balances; in case of active bin change it's possible that unexpected token is withdrawn.
-4. `tokenX`/`tokenY` order doesn't matter
-5. 
-
+3. `amounts` array consists of `LBToken` balances, not `tokenX`/`tokenY` balances; in case of active bin change it's possible that unexpected token is withdrawn.
+4. `tokenX`/`tokenY` order doesn't matter.
+5. Maximum number of bins, that can be withdrawn at the same time is around `51` due to Avalanche blockchain block gas limit (`8M`). In this case, multiple transactions can be used to remove more liquidity.
 
 
 ### Code example
 
+Below code example includes no slippage or bin composition change - might revert, if computation done off-chain or during high market volatility.
+Steps to withdraw liquidity:
 
+1. Choose bin IDs, that are to be withdrawn (`uint256[] memory ids`).
+2. Check `LBToken` balances owned. Any amount can be withdrawn, 100% withdrawn in below code example (`uint256[] memory amounts`).
+3. Compute how many underlying assets should be withdrawn during current conditions and set accepted slippage.
+4. Approve spending `LBToken` by `LBRouter`.
+5. Remove liquidity
 
+```js
+uint256 _numberOfBinsToWithdraw = 3;
+
+uint256[] memory amounts = new uint256[](_numberOfBinsToWithdraw);
+uint256[] memory ids = new uint256[](_numberOfBinsToWithdraw);
+ids[0] = 8388608;
+ids[1] = 8388611;
+ids[2] = 8388605;
+uint256 totalXbalanceWithdrawn;
+uint256 totalYBalanceWithdrawn;
+
+for (uint256 i; i < _numberOfBinsToWithdraw; i++) {
+    uint256 LBTokenAmount = pair.balanceOf(DEV, ids[i]);
+    amounts[i] = LBTokenAmount;
+    (uint256 binReserveX, uint256 binReserveY) = pair.getBin(uint24(ids[i]));
+
+    bool hasXBalanceInBin = (LBTokenAmount != 0) && (binReserveX != 0);
+    bool hasYBalanceInBin = (LBTokenAmount != 0) && (binReserveY != 0);
+    totalXbalanceWithdrawn += hasXBalanceInBin ? (LBTokenAmount * binReserveX - 1) / pair.totalSupply(ids[i]) + 1 : 0;
+    totalYBalanceWithdrawn += hasYBalanceInBin ? (LBTokenAmount * binReserveY - 1) / pair.totalSupply(ids[i]) + 1 : 0;
+}
+
+pair.setApprovalForAll(address(router), true);
+
+router.removeLiquidity(
+    token6D,
+    token18D,
+    binStep,
+    totalXbalanceWithdrawn,
+    totalYBalanceWithdrawn, 
+    ids,
+    amounts,
+    DEV,
+    block.timestamp
+);
+```

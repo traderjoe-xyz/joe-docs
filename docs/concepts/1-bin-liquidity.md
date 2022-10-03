@@ -61,7 +61,7 @@ LB introduces a new token standard, `LBToken`, as the receipt token for liquidit
 
 ## Liquidity Tracking
 
-To track liquidity, we use a three level tree in which each node is a 256 bit array represented by a `uint256`. The bottom level, depth 2, contains $256^3 = 16,777,216$ slots, which contains exact the maximum possible number of bins, $2^{24}$.
+To track liquidity, we use a three level trie in which each node is a 256 bit array represented by a `uint256`. The bottom level, depth 2, contains $256^3 = 16,777,216$ slots, which contains exact the maximum possible number of bins, $2^{24}$.
 
 When a bin has liquidity, its slot will contain a 1, otherwise it contains a 0. If it contains a 1, then the corresponding slot in its parent will also contain a 1, and likewise, so will the corresponding slot in its grandparent.
 

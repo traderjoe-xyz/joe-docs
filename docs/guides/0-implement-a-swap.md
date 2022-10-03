@@ -40,7 +40,7 @@ There are 9 different functions, that are possible to use for swapping. This doc
     ) external returns (uint256[] memory amountsIn);
 ```
 
-To get familiar with all possible options, visit DEX v2 repository - [interfaces/ILBRouter.sol](https://github.com/) or [LBRouter.sol](https://github.com/) #TODO LINKS
+To get familiar with all possible options, visit DEX v2 repository - [interfaces/ILBRouter.sol](https://github.com/traderjoe-xyz/joe-v2/blob/main/src/interfaces/ILBRouter.sol) or [LBRouter.sol](https://github.com/traderjoe-xyz/joe-v2/blob/main/src/LBRouter.sol)
 
 ## Common function arguments
 

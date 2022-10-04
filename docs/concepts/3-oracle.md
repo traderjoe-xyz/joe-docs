@@ -7,22 +7,25 @@ sidebar_label: Oracle
 
 ## Introduction
 
-`LBPairs` are providing a TWAP oracle for price but also volatility. The function `getOracleSampleFrom` can be called to get the time-weighted average for active IDs (translate to a price), volatility accumulated and bin crossed.
+`LBPairs` are providing a TWAP oracle for price but also volatility. The function `getOracleSampleFrom` can be called to get cumulative value for active IDs (translate to a price), volatility accumulated and bin crossed.
 
 ## Time-Weighted Average
 
-To retrieve the historical data, you must call `getOracleSampleFrom`. This function takes the period to consider as the input. It will return a time-weighted average of the value: the most recent values will have more weight than the older ones. This can be summarized by the formula below:
+Return values of the `getOracleSampleFrom` are **cumulative**, meaning that they are the sum of all the values stored in the history of the pair. To get the average value on a defined period, two calls must be made:
 
-For a set of measurements $M = [M(t-1), M(t-5), M(t-12), M(t-24)]$, fetching the time-wheighted average of the last 30 seconds:
+$$ 
+\textbf{T\!W\!A\!P}  = \frac{getOracleSampleFrom(t_2) - getOracleSampleFrom(t_1)}{timestamp(t_2) - timestamp(t_1)}
 $$
-\overline{M} = \frac {29 * M(t-1) + 25 * M(t-5) + 18 * M(t-12) + 6 * M(t-24)} {29 + 25 + 18 + 6}
-$$
+
+A `oracleSampleLifetime` is defined, meaning that only one value per lifetime period will be stored, containing the sum of all the data generated during the period.
 
 ## Data storage
 
-Data is stored in a circular manner, meaning that every new value will replace the oldest value stored in the oracle object. This way a swap will only update a storage slot and not create a new one, which would be much more expensive in gas.
+The oracle object is an array of **samples**. The `oracleSampleLifetime` defines the time between the creation of two samples: every swap within that period will update the current sample, and the first swap after the end of the sample's lifetime will create a brand new **sample**.
 
-By default, the oracle will only store the last two swaps, but the length of the oracle array can be increased by calling `increaseOracleLength`.
+Data is stored in a circular manner, meaning that every new sample will replace the oldest one stored in the oracle array. This way, creating a new data point will only update a storage slot and not create a new one, which would be much more expensive in gas.
+
+By default, the oracle will only store the last two samples, but the length of the oracle array can be increased by calling `increaseOracleLength`. Adding slots on the oracle array will allow calculating averages on longer periods.
 
 ## Security
 

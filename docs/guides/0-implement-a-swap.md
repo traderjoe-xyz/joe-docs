@@ -9,14 +9,31 @@ sidebar_label: Implement A Swap
 
 Like Joe v1, swaps on Joe v2 can be executed through a router contract called `LBRouter`. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. This is recommended way to use Joe v2 for most users.
 
-Swapping with Router provides experience similar to swapping on Joe v1 (Uniswap v2-style) from user perspective, with few differences:
+Functions that can be used can be divided into two categories:
 
-1. There is necessity to provide additional `uint256[] memory _pairBinSteps` argument. `_pairBinSteps` needs to be used to determine exact `LBPair` unambiguously, as different markets exist (different bin steps for Joe v2 pairs as well as Joe v1 liquidity). 
-2. Gas costs will vary not only depending on length of `tokenPath`, but also on amount of bins crossed during every swap.
-3. Amount of events emitted may vary - there will be `swap` event emitted for every bin, that is used.
-4. Fees are varying between markets and dynamically adjusted based on volatility.
+When the input amount is specified:
+- swapExactTokensForTokens
+- swapExactTokensForAVAX
+- swapExactAVAXForTokens
 
-There are 9 different functions, that are possible to use for swapping. This documentation will not go in details into every of them, as most use similar concepts.
+When the desired output amount is specified:
+- swapTokensForExactTokens
+- swapTokensForExactAVAX
+- swapAVAXForExactTokens
+
+#### When input amount is specified
+
+- swapExactTokensForTokens - when you specify an exact amount of ERC-20 to swap for another ERC-20. E.g. USDC/USDT and you input USDC; router will then fetch how much USDT to expect as output and perform swap.
+- swapExactTokensForAVAX - when you specify an exact amount of ERC-20 to swap for AVAX. E.g AVAX/USDC and you input USDC; router will then fetch how much AVAX to expect as output and perform swap.
+- swapExactAVAXForTokens - when you specify an exact amount of AVAX to swap for an ERC-20. E.g AVAX/USDC and you input AVAX; router will then fetch how much USDC to expect as output and perform swap.
+
+#### When output amount is specified
+
+- swapTokensForExactTokens - when you specify exact amount of ERC-20 that you want to receive. E.g. USDC/USDT and you input USDC; router will then fetch how much USDT to transfer from your wallet and perform swap.
+- swapTokensForExactAVAX - when you specify exact amount of AVAX that you want to receive. E.g. AVAX/USDT and you input AVAX; router will then fetch how much USDT to transfer from your wallet and perform swap.
+- swapAVAXForExactTokens - when you specify exact amount of ERC-20 that you want to receive. E.g. AVAX/USDT and you input USDT; router will then fetch how much AVAX to transfer from your wallet and perform swap.
+
+Every function has specific arguments, that need to be given. Below there are 2 examples. To get familiar with all possible options, visit DEX v2 repository - [interfaces/ILBRouter.sol](https://github.com/traderjoe-xyz/joe-v2/blob/main/src/interfaces/ILBRouter.sol) or [LBRouter.sol](https://github.com/traderjoe-xyz/joe-v2/blob/main/src/LBRouter.sol)
 
 ```js
     // Swaps exact tokens for tokens while performing safety checks
@@ -40,7 +57,17 @@ There are 9 different functions, that are possible to use for swapping. This doc
     ) external returns (uint256[] memory amountsIn);
 ```
 
-To get familiar with all possible options, visit DEX v2 repository - [interfaces/ILBRouter.sol](https://github.com/traderjoe-xyz/joe-v2/blob/main/src/interfaces/ILBRouter.sol) or [LBRouter.sol](https://github.com/traderjoe-xyz/joe-v2/blob/main/src/LBRouter.sol)
+
+
+## Joe v2 specific traits
+
+Swapping with Router provides experience similar to swapping on Joe v1 (Uniswap v2-style) from user perspective, with few differences:
+
+1. There is necessity to provide additional `uint256[] memory _pairBinSteps` argument. `_pairBinSteps` needs to be used to determine exact `LBPair` unambiguously, as different markets exist (different bin steps for Joe v2 pairs as well as Joe v1 liquidity). 
+2. Gas costs will vary not only depending on length of `tokenPath`, but also on amount of bins crossed during every swap.
+3. Amount of events emitted may vary - there will be `swap` event emitted for every bin, that is used.
+4. Fees are varying between markets and dynamically adjusted based on volatility.
+
 
 ## Common function arguments
 
@@ -157,4 +184,49 @@ pairBinSteps[0] = 20;
 pairBinSteps[1] = 0; // points to DEX v1 pair
 
 uint256[] memory amountsIn = router.swapTokensForExactTokens(amountOut, 100e18, pairBinSteps, tokenList, DEV, block.timestamp);
+```
+
+
+## Helper view functions
+
+### getSwapOut/getSwapIn
+
+Below functions from `LBRouter` contract help calculate `amountIn`/`amountOut` for a swap including one pair.
+
+```js
+function getSwapIn(
+    ILBPair LBPair,
+    uint256 amountOut,
+    bool swapForY
+) external view returns (uint256 amountIn, uint256 feesIn);
+
+function getSwapOut(
+    ILBPair LBPair,
+    uint256 amountIn,
+    bool swapForY
+) external view returns (uint256 amountOut, uint256 feesIn);
+```
+
+### findBestPathAmountIn / findBestPathAmountOut
+
+Below functions from `LBQuoter` contract help calculate `amountIn`/`amountOut` for a swap including any number of pairs. 
+
+```js
+function findBestPathAmountOut(address[] memory _route, uint256 _amountOut)
+    public
+    view
+    returns (Quote memory quote)
+
+function findBestPathAmountIn(address[] memory _route, uint256 _amountIn) 
+    public 
+    view 
+    returns (Quote memory quote)
+
+struct Quote {
+    address[] route;
+    address[] pairs;
+    uint256[] binSteps;
+    uint256[] amounts;
+    uint256[] virtualAmountsWithoutSlippage;
+}
 ```

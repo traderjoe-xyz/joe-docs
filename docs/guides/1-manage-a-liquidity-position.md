@@ -9,9 +9,34 @@ sidebar_label: Manage A Liquidity Position
 
 Like Joe v1, managing liquidity on Joe v2 can be executed through a router contract called `LBRouter`. This contract will abstract some of the complexity of the liquidity management, perform safety checks and will revert if certain conditions were to not be met. This is recommended way to use Joe v2 for most users.
 
+In contrast to v1, liquidity can be concentrated in arbitrary shapes and never covers price range from 0 to infinity. It is crucial to properly understand and define required bin distributions before starting liquidity management. Basic concepts are explained under [Concentrated Liquidity](../concepts/0-concentrated-liquidity.md) and [Bin Liquidity](../concepts/1-bin-liquidity.md). You can find more technical approach below.
+
+## Pair creation
+
+Creating new pools is not permissionless at the moment of launch - `creationUnlocked()` function of `LBFactory` returns `false`.
+
+During pair creation `createLBPair` function of `LBFactory` contract is called. 
+
+```js
+function createLBPair(
+    IERC20 tokenX,
+    IERC20 tokenY,
+    uint24 activeId,
+    uint16 binStep
+) external returns (ILBPair pair);
+```
+
+`activeId` argument sets initial price.
+
+After pair creation tokens can be added to any desired bin provided that: 
+- Above bin `activeId` only `tokenX` liquidity can be added
+- Below bin `activeId` only `tokenY` liquidity can be added
+- Both `tokenX` and `tokenY` liquidity can be added to bin `activeId`
+
+
 ## Adding liquidity with LBRouter
 
-To add liquidity using Router struct `LiquidityParameters` from `ILBRouter.sol` should be used as an input to function:
+To add liquidity using Router struct `LiquidityParameters` defined in contract `ILBRouter` should be used as an input to function:
 
 ```js
 function addLiquidity(LiquidityParameters memory liquidityParameters)
@@ -49,8 +74,9 @@ struct LiquidityParameters {
 }
 ```
 
-Distributions + delta IDs define, how tokens will be spread across bins.
-Liquidity deposited is always dependent on bin, that is active during transaction. `idSlippage` defines, how much can actual distribution differ from `activeIdDesired`.
+`distributionX`, `distributionY` define, how tokens will be spread across chosen bins.
+
+`deltaIds` define, which bins liquidity will be added to, relatively to `activeId`. `idSlippage` defines, how much can actual distribution differ from `activeIdDesired`.
 
 Take below points into account while choosing `LiquidityParameters` argument:
 1. Sum of all values in `distributionX` array has to be less or equal to `Constants.PRECISION`.
@@ -58,7 +84,7 @@ Take below points into account while choosing `LiquidityParameters` argument:
 3. Distributions can take all shapes and values, and are set independently.
 4. If sum of all `distributionX` (`distributionY`) values for is not equal to `Constants.PRECISION`, full `amountX` (`amountY`) value will not be deposited. Plan `amountXmin` (`amountYmin`) accordingly.
 5. Any excess funds (sent to router, but not added) will be sent back to the user.
-6. `_distributionX` for `IDs < activeIdDesired`has to be `0`.
+6. `_distributionX` for `IDs < activeIdDesired` has to be `0`.
 7. `_distributionY` for `IDs > activeIdDesired` has to be `0`.
 8. For every bin in `deltaIds` array at least one of the distributions has to be more than `0`.
 9. Lengths of distribution arrays and delta ID array have to be the same.
@@ -154,7 +180,7 @@ There are some key differences between adding and removing liquidity, when funct
 2. `tokenX`/`tokenY` order doesn't matter.
 3. `LBtoken` balances to remove are stated explicitly (not relatively as `Precision`) 
 
-To remove liquidity using Router following functions should be used:
+To remove liquidity using Router one of following functions should be used:
 
 
 ```js
@@ -195,7 +221,8 @@ Take below points into account while choosing arguments for `removeLiquidity` fu
 
 ### Code example
 
-Below code example includes no slippage or bin composition change - might revert, if computation done off-chain or during high market volatility.
+Below code example includes no slippage or bin composition change - might revert, if computation done off-chain and/or during high market volatility.
+
 Steps to withdraw liquidity:
 
 1. Choose bin IDs, that are to be withdrawn (`uint256[] memory ids`).

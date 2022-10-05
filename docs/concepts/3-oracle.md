@@ -27,7 +27,7 @@ $$
 The data **samples** are stored in an array that we consider as the **oracle**. To save gas again, samples are not added at the end of the array endlessly but are replaced in a rolling basis, meaning that the oldest sample will be replaced when a new one is created.
 
 <p align="center">
-  <img src="/img/sample-array.png" alt="Chart showing a sample being replaced" width="500px" />
+  <img src="/img/sample_array.png" alt="Chart showing a sample being replaced" width="500px" />
   <figcaption>The sample 7 is replaced by the last sample created</figcaption>
 </p>
 

@@ -7,9 +7,9 @@ sidebar_label: Fees
 
 ## Introduction
 
-In this section we discuss fees. Fees on the Liquidity Book differs from the usual fixed rate fee from Joe V1, as here they depends on the volatility.
+In this section we discuss fees. Fees on the Liquidity Book differ from the usual fixed rate fee from Joe V1, as here they depends on the volatility.
 
-The swap fee is paid to liquidity providers for the trading activity that occurs. The total swap fee ($f_s$) will have two components: a **base fee** ($f_b$) and a **variable fee** ($f_v$), which is a function of instantaneous price volatility. The fee rate will be applied to the swap amount in each liquidity bin and distributed proportionally to the liquidity providers in that bin following a distribution to the protocol. Fees will be held separate from liquidity and claimable by liquidity providers.
+The swap fee is paid to liquidity providers for the trading activity that occurs. The total swap fee ($f_s$) will have two components: a **base fee** ($f_b$) and a **variable fee** ($f_v$), which is a function of instantaneous price volatility. The fee rate will be applied to the swap amount in each liquidity bin and distributed proportionally to the liquidity providers in that bin. Fees will be held separate from liquidity and claimable by liquidity providers.
 
 ## Base Fee
 
@@ -21,7 +21,13 @@ $$
 
 ### Variable Fee
 
-The variable fee on the other hand depends on the volatility of the market. It will be affected by the frequency of the swaps, but doing large swaps accross many bins (on large price movements) will also increase it. The variable fee is calculated for every bin crossed during a swap individually and then summed up. The variable fee for a specific bin ($f_v(k)$) will be calculated using the **variable fee control** ($A$), bin step ($s$) and the **volatility accumulator** ($v_a(k)$):
+The variable fee on the other hand depends on the volatility of the market. It will be affected by the frequency of the swaps, but doing large swaps accross many bins (on large price movements) will also increase it. Fees are calculated and distributed *per bin*, to allow a fair distribution of the fee to the liquidity providers of the bin crossed. 
+
+*"If a swap crosses 5 bins, 5 calculations will be made. We note $k$ the index of the bin crossed, from 0 to 4."*
+
+In the following sections, we will consider the calculation of the fees for a single bin, so everything will be a function of $k$. The total fee paid is the sum of the fees paid for every bin crossed.
+
+The variable fee for a bin ($f_v(k)$) will be calculated using the **variable fee control** parameter ($A$), bin step ($s$) and the **volatility accumulator** ($v_a(k)$):
 
 $$
 f_v(k) = A(v_a(k) \cdot s) ^ 2
@@ -29,7 +35,7 @@ $$
 
 ### Volatility Accumulator
 
-The **volatility accumulator** ($v_a(k)$) is the witness of the current volatility of the pair. This value will be kept in memory between each calculation. It will be calculated during a swap and will depend on two factors: the **volatility reference** ($v_r$) from the previous swaps, and the **introduced volatility**.
+The **volatility accumulator** ($v_a(k)$) is the witness of the current volatility of the pair. This value will be kept in memory between each calculation step. It will be calculated during a swap and will depend on two factors: the **volatility reference** ($v_r$) from the previous swaps, and the **introduced volatility**.
 
 At the beginning of every swap, the **volatility accumulator** of the previous swap will become the **volatility reference** for the current one. It is adjusted depending on how much time passed since the last swap, following this formula:
 $$
@@ -43,20 +49,23 @@ If we passed the `filterPeriod` ($t_f$), the **volatility reference** will only 
 
 This means that high frequency trades will stack up the volatility, while slowing the rate of the trades will slowly reduce the volatility, or even reset it after a long moment without any trade.
 
-Now that the **volatility reference** is calculated, it is time to calculate the volatility introduced by the trade. To help on the calculation, the `indexRef`variable is introduced:
+Now that the **volatility reference** is calculated, it is time to calculate the volatility introduced by the trade. To help on the calculation, the `indexRef`variable is introduced. This variable is used to evaluate the amplitude of the swap by looking at the shift of the active ID of the bin. It can be considered as the active ID of the pair at the begining of the swap *with a nuance*, as frequent trades (frequency below the filter period) won't affect it and it will be the value of the previous swap. The formula for the calculation is:
 $$
-i_r(k) = \begin{cases}
-            i_r, & t < t_f \\
-            activeId + k, & t_f <= t
-          \end{cases}
+i_r = \begin{cases}
+        i_r, & t < t_f \\
+        activeId, & t_f <= t
+      \end{cases}
 $$
 
-The **volatility accumulated** will then be the sum of the **volatility reference** and the **introduced volatility**, calulated using the **index reference**:
+The **volatility accumulated** will then be the sum of the **volatility reference** and the **introduced volatility**, calculated using the **index reference**:
 $$
 v_a(k) = v_r + |i_r - (activeId + k)|
 $$
 
 The **volatility accumulated** for the bin $k$ will then be used to calculate the fees generated by swapping through this bin and be allocated to the liquidity providers of the bin.
+
+The final fee for the bin $k$ will be:
+$f\!ee = (swap\;amount)_k * (f_b + f_v)_k$
 
 ## Protocol Fees
 

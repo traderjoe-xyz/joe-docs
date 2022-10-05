@@ -6,6 +6,10 @@ sidebar_label: Helper View Functions
 
 # Helper view functions
 
+There are many functions in Liquidity Book Contracts, that can be used to obtain data directly from blockchain, which might affect decisions that are made. In following paragraphs some of them are presented. They were grouped in 3 paragraphs, depending where they can be most commonly used - during swaps, liquidity management or determining token ownership/value.
+
+Take note, that not every of them is to be found in the same contract.
+
 ## Swaps
 
 ### getSwapOut/getSwapIn

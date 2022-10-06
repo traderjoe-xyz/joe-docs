@@ -19,7 +19,7 @@ $$
 f_b = B \cdot s
 $$
 
-### Variable Fee
+## Variable Fee
 
 The variable fee on the other hand depends on the volatility of the market. It will be affected by the frequency of the swaps, but doing large swaps accross many bins (on large price movements) will also increase it. Fees are calculated and distributed _per bin_, to allow a fair distribution of the fee to the liquidity providers of the bin crossed.
 

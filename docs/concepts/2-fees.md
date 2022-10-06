@@ -53,12 +53,12 @@ $$
 
 (Note: $activeId$ is the ID of the active bin **before** the swap is made.)
 
-The **volatility reference** ($v_r$) depends on the time elapsed since the last transaction ($t$). We define a window which has an upper and lower bound. If $t$ is smaller than the lower bound defined by **filter period** ($t_f$) (i.e. high frequency of transactions occurring), then $v_r$ becomes $v_a$. If $t$ is greater than the upper bound defined by **decay period** ($t_d$) (i.e. low frequency of transactions occurring), then $v_r$ is reset to 0. If $t$ is within the window, then it takes the previous $v_a$ decayed by a factor $R$.
+The **volatility reference** ($v_r$) depends on the time elapsed since the last transaction ($t$). We define a window which has an upper and lower bound. If $t$ is smaller than the lower bound defined by **filter period** ($t_f$) (i.e. high frequency of transactions occurring), then $v_r$ stays the same. If $t$ is greater than the upper bound defined by **decay period** ($t_d$) (i.e. low frequency of transactions occurring), then $v_r$ is reset to 0. If $t$ is within the window, then it takes the previous $v_a$ decayed by a factor $R$.
 
 $$
  v_r = \begin{cases}
-          v_a, & t < t_f \\
-          R * v_a, & t_f <= t < t_d \\
+          v_r, & t < t_f \\
+          R \cdot v_a, & t_f <= t < t_d \\
           0 , & t_d <= t
         \end{cases}
 $$
@@ -116,14 +116,14 @@ $$
 
 Bob makes a trade 0.3 secs later that crosses -2 bins to 106. So $-2\leq k \leq 0$:
 
-Note: $i_r$ does not update as the transaction was less than the filter period.
+Note: $v_r$ and $i_r$ do not update as the transaction was less than the filter period.
 
 $$
 i_r = 103\\
-v_r = 6.5\\
-v_a(0) = 6.5 + |103 - (108 + 0)| = 11.5 \\
-v_a(-1) = 6.5 + |103 - (108 - 1)| = 10.5 \\
-v_a(-2) = 6.5 + |103 - (108 - 2)| = 9.5
+v_r = 1.5\\
+v_a(0) = 1.5 + |103 - (108 + 0)| = 6.5 \\
+v_a(-1) = 1.5 + |103 - (108 - 1)| = 5.5 \\
+v_a(-2) = 1.5 + |103 - (108 - 2)| = 4.5
 $$
 
 Notice that the volatility accumulator is decreasing despite high frequency of transactions.

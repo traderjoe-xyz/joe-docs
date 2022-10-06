@@ -11,18 +11,11 @@ Like Joe V1, managing liquidity on Joe V2 can be executed through a router contr
 
 In contrast to V1, liquidity can be concentrated in arbitrary shapes and any price range the user desires.
 
-Next paragraphs will explain how to manage a liquidity position, namely:
+Next sections how to:
 
-- How are new pairs created.
-- How to add liquidity:
-  - Which functions to use.
-  - How to properly select liquidity parameters.
-  - How to use them in code example.
-  - How to choose bin distributions based on chosen goals.
-- How to remove liquidity:
-  - Which functions to use.
-  - How to properly select arguments.
-  - How to use them in code example.
+- How are new pairs created
+- How to add liquidity
+- How to remove liquidity
 
 ## Pair Creation
 

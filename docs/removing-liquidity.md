@@ -1,4 +1,0 @@
----
-id: Removing Liquidity
----
-#TODO

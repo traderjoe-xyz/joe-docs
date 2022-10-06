@@ -1,4 +1,0 @@
----
-id: Quoter Usage
----
-#TODO

@@ -7,7 +7,7 @@ sidebar_label: Oracle
 
 ## Introduction
 
-`LBPair` stores cumulative values for the following data:
+`LBPair` stores cumulative values as a **sample** for the following data:
 
 - Active bin ID
 - Volatility accumulated ($v_a$)
@@ -15,11 +15,23 @@ sidebar_label: Oracle
 
 The active bin ID can be easily converted into the bin price via helper functions, allowing users to obtain historical prices easily.
 
-## Samples and Time Weighted Average
+Using cumulative values allow us to take the **time-weighted average values** easily.
 
-Swaps historical data must be saved in the storage of the contract. To reduce gas costs, these values are aggregated into **samples** that allow calculating **time weighted average** of the data stored (active ID of the pair, volatility accumulated and bin crossed). The frequency of the sample creation is determined by the `oracleSampleLifetime`. This will be the time precision of the oracle.
+## Samples
 
-For every swap, the three values mentionned above will be added to the corresponding cumulative value of the sample, weighted by the time since the last value was added. For example, if the active ID of the pair doesn't change for 5 minutes, it will have more impact on the average active ID than if it only stays to this ID for a few seconds.
+Samples are stored in a 16-bit circular array. Howwever, by default, the oracle array only stores 2 samples, but it can be extended by anyone by calling `increaseOracleLength`. This is to shift the burden of gas cost to the oracle user.
+
+Each sample consists of three values: cumulative bin ID, cumulative volatility accumulated and cumultive bins crossed.
+
+Samples are updated at the end of each swap.
+
+A new sample is created if enough time has passed since the creation of the previous sample as defined by the variable `oracleSampleLifeTime`. To be specific, given a new swap, if the time since creation of sample $i$ has exceeded `oracleSampleLifeTime`, then we create sample $i+1$. Otherwise, we update the cumulative values in sample $i$.
+
+<p align="center">
+  <img src="/img/sample_array.png" alt="Chart showing a sample being replaced" width="500px" />
+</p>
+
+## Time-Weighted Average Values
 
 Sample values can be read by calling `getOracleSampleFrom`. This will return the three cumulative values at the time specified by the `timeDelta` input: `cumulativeId`, `cumulativeVolatilityAccumulated` and `cumulativeBinCrossed`.
 
@@ -29,13 +41,4 @@ $$
 \textbf{Time Weighted Average}  = \frac{getOracleSampleFrom(t_2).value - getOracleSampleFrom(t_1).value}{timestamp(t_2) - timestamp(t_1)}
 $$
 
-## Oracle
-
-The data **samples** are stored in an array that we consider as the **oracle**. To save gas again, samples are not added at the end of the array endlessly but are replaced in a rolling basis in what can be called a **circular buffer**. This means that the oldest sample will be replaced when a new one is created.
-
-<p align="center">
-  <img src="/img/sample_array.png" alt="Chart showing a sample being replaced" width="500px" />
-  <figcaption>The sample 7 is replaced by the last sample created</figcaption>
-</p>
-
-The `oracleSampleLifetime` controls the frequency of samples creation. Every swap happening after more than the specified interval will create a new **sample**. By default, the oracle array only contains 2 samples, but it can be extended by anyone by calling `increaseOracleLength`.
+To convert time-weighted average ID to time-weighted average price, you can use the `getPriceFromId()` function from the `LBRouter` contract.

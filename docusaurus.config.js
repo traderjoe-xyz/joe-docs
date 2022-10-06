@@ -8,8 +8,8 @@ const katex = require("rehype-katex");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "First docs draft",
-  tagline: "Docusaurus",
+  title: "Liquidity Book Docs",
+  tagline: "Documentation for Joe V2: Liquidity Book",
   url: "https://your-docusaurus-test-site.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -19,7 +19,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "traderjoe-xyz", // Usually your GitHub org/user name.
-  projectName: "docs1", // Usually your repo name.
+  projectName: "joe-docs-v2", // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -36,6 +36,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
+          routeBasePath: "/",
           remarkPlugins: [math],
           rehypePlugins: [katex],
           // Please change this to your repo.
@@ -60,7 +61,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "First docs draft",
+        title: "Liquidity Book Docs",
         logo: {
           alt: "My Site Logo",
           src: "img/logo.svg",

@@ -7,39 +7,130 @@ sidebar_label: Fees
 
 ## Introduction
 
-In this secion we discuss fees. There are two fees that the trader pays: the swap fee and the protocol fee.
+In this section we discuss fees. Fees on the Liquidity Book differ from the usual fixed rate fee from Joe V1, as here they depends on the volatility.
 
-The swap fee is paid to liquidity providers for the trading activity that occurs. The total swap fee $f_s$ will have two components: a **base fee**, $f_b$, and a **variable fee**, $f_v$, which is a function of instantaneous price volatility. The fee rate will be applied to the swap amount in each liquidity bin and distributed proportionally to the liquidity providers in that bin following a distribution to the protocol. Fees will be held separate from liquidity and claimable by liquidity providers.
+The swap fee is paid to liquidity providers for the trading activity that occurs. The total swap fee ($f_s$) will have two components: a **base fee** ($f_b$) and a **variable fee** ($f_v$), which is a function of instantaneous price volatility. The fee rate will be applied to the swap amount in each liquidity bin and distributed proportionally to the liquidity providers in that bin. Fees will be held separate from liquidity and claimable by liquidity providers.
 
 ## Base Fee
 
-The base fee is similar to the Joe V1 0.3% fee. The exact percentage is set by the protocol owner using the **base factor**, $B$, and the **bin step**, $s$:
+The base fee is similar to the Joe V1 0.3% fee. The exact percentage is set by the protocol owner using the **base factor** ($B$) and the **bin step** ($s$):
 
 $$
 f_b = B \cdot s
 $$
 
-## Variable Fee
+### Variable Fee
 
-The variable fee on the other hand depends on the volatility of the market. It will be affected by the frequency of the swaps, but doing large swap accross many bins (on large price movements) will also increase it. The variable fee is calculated per bin ($k$) using the **variable fee parameter**, $A$, bin step, $s$, and the **volatility accumulator**, $v_k$:
+The variable fee on the other hand depends on the volatility of the market. It will be affected by the frequency of the swaps, but doing large swaps accross many bins (on large price movements) will also increase it. Fees are calculated and distributed _per bin_, to allow a fair distribution of the fee to the liquidity providers of the bin crossed.
+
+Fees are calculated iteratively as each bin is crossed (if the swap is large enough). In other words, if a large swap crosses $n$ bins, then the total swap fee is calculated per bin $k$ (such that $0 \leq k \leq n$), where $k$ is the difference in bin IDs from the initial bin where the swap originated and the current bin in which it is being calculated.
+
+Example - take AVAX/USDC. The active bin before swap is \$100. A large buy order is made that pushes the price up to \$103. The values of $k$ for each bin is listed below (note: bin prices are simplified for this example):
+
+\$100 bin - ID = 1844; $k$ = 0
+
+\$101 bin - ID = 1845; $k$ = 1
+
+\$102 bin - ID = 1846; $k$ = 2
+
+\$103 bin - ID = 1847; $k$ = 3
+
+$k$ can also be negative if it pushes the price downwards.
+
+The variable fee for a bin $f_v(k)$ will be calculated using the **variable fee control** parameter ($A$), bin step ($s$) and the **volatility accumulator** ($v_a(k)$):
 
 $$
-f_v(k) = A(v_k \cdot s)
+f_v(k) = A(v_a(k) \cdot s) ^ 2
 $$
 
-<!-- TODO: Needs more context. What is volatility accumlator? WHat is filter period, decay period? This shoud probably be a section of its own -->
+### Volatility Accumulator
 
-The variable fee is calculated using a set of parameters:
+The **volatility accumulator** ($v_a(k)$) is the witness of the current volatility of the pair. This value will be kept in memory between each calculation step. It will be calculated during a swap and will depend on two factors: the **volatility reference** ($v_r$) from the previous swaps, and the **introduced volatility** ($|i_r - (activeId + k)|$):
 
-- `variableFeeControl`: Also called $A$ in the whitepaper. Used to control the variable fee, can be 0 to disable them.
-- `filterPeriod`: If two swaps happen within this period, the accumulator value $v_k$ will not be touched, to prevent spam.
-- `decayPeriod`: Period where the accumulator value $v_k$ is halved.
-- `reductionFactor`: Controls how fast the variable fee will evolve over time.
-- `maxVolatilityAccumulated`: The max value for $v_k$.
+$$
+v_a(k) = v_r + |i_r - (activeId + k)|
+$$
 
-<!-- TODO: add a configuration example ? -->
+(Note: $activeId$ is the ID of the active bin **before** the swap is made.)
+
+The **volatility reference** ($v_r$) depends on the time elapsed since the last transaction ($t$). We define a window which has an upper and lower bound. If $t$ is smaller than the lower bound defined by **filter period** ($t_f$) (i.e. high frequency of transactions occurring), then $v_r$ stays the same. If $t$ is greater than the upper bound defined by **decay period** ($t_d$) (i.e. low frequency of transactions occurring), then $v_r$ is reset to 0. If $t$ is within the window, then it takes the previous $v_a$ decayed by a factor $R$.
+
+$$
+ v_r = \begin{cases}
+          v_r, & t < t_f \\
+          R \cdot v_a, & t_f <= t < t_d \\
+          0 , & t_d <= t
+        \end{cases}
+$$
+
+This means that high frequency trades will stack up volatility, while low frequency trades will slowly reduce the volatility, or even reset it after a long moment has passed without any trade.
+
+Now that the **volatility reference** is calculated, it is time to calculate the volatility introduced by the trade. Another varriable, the **index reference** ($i_r$), is introduced. In most cases, $i_r$ will simply be the ID of the active bin before the swap is made. But in times of high frequency transactions, $i_r$ will keep its old value instead. This is to prevent people from manipulating fees by making small lots of small transactions that increase and decrease price.
+
+$$
+i_r = \begin{cases}
+        i_r, & t < t_f \\
+        activeId, & t_f <= t
+      \end{cases}
+$$
+
+The **volatility accumulated** for the bin $k$ will then be used to calculate the fees generated by swapping through this bin and be allocated to the liquidity providers of the bin.
+
+The final fee for the bin $k$ will be:
+$f\!ee = (swap\;amount)_k \cdot (f_b + f_v)_k$
+
+### Volatility Accumulator Example
+
+All that was probably extremely confusing so we outline an example of how the volatility accumulator will look as swaps are made.
+
+Let $t_f$ = 1 sec, $t_d$ = 5 secs, $R$ = 0.5 secs and active bin ID is 100.
+
+#### Swap 1
+
+You make a trade that crosses +3 bins to 103. So $0\leq k \leq 3$:
+
+$$
+i_r = 100\\
+v_r = 0 \\
+v_a(0) = 0 + |100 - (100 + 0)| = 0\\
+v_a(1) = 0 + |100 - (100 + 1)| = 1\\
+v_a(2) = 0 + |100 - (100 + 2)| = 2\\
+v_a(3) = 0 + |100 - (100 + 3)| = 3
+$$
+
+#### Swap 2
+
+Alice makes a trade 4 secs later that crosses +5 bins to 108. So $0\leq k \leq 5$:
+
+$$
+i_r = 103\\
+v_r = 0.5 * 3 = 1.5\\
+v_a(0) = 1.5 + |103 - (103 + 0)| = 1.5\\
+v_a(1) = 1.5 + |103 - (103 + 1)| = 2.5\\
+v_a(2) = 1.5 + |103 - (103 + 2)| = 3.5\\
+...\\
+v_a(5) = 1.5 + |103 - (103 + 5)| = 6.5
+$$
+
+#### Swap 3
+
+Bob makes a trade 0.3 secs later that crosses -2 bins to 106. So $-2\leq k \leq 0$:
+
+Note: $v_r$ and $i_r$ do not update as the transaction was less than the filter period.
+
+$$
+i_r = 103\\
+v_r = 1.5\\
+v_a(0) = 1.5 + |103 - (108 + 0)| = 6.5 \\
+v_a(-1) = 1.5 + |103 - (108 - 1)| = 5.5 \\
+v_a(-2) = 1.5 + |103 - (108 - 2)| = 4.5
+$$
+
+Notice that the volatility accumulator is decreasing despite high frequency of transactions.
 
 ## Protocol Fees
 
 A share of all the fees is also taken by the protocol and distributed to JOE token holders via the StableJoeStaking contract. It is expressed as a variable, `protocolShare`, which is a percentage of the total swap fee. The maximum possible is 25%.
 
+$$
+$$

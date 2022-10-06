@@ -11,7 +11,7 @@ Like Joe V1, managing liquidity on Joe V2 can be executed through a router contr
 
 In contrast to V1, liquidity can be concentrated in arbitrary shapes and any price range the user desires.
 
-Next sections how to:
+Next sections explain how to:
 
 - How are new pairs created
 - How to add liquidity

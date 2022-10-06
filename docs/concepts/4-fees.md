@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 4
 sidebar_label: Fees
 ---
 
@@ -90,11 +90,26 @@ Let $t_f$ = 1 sec, $t_d$ = 5 secs, $R$ = 0.5 secs and active bin ID is 100.
 You make a trade that crosses +3 bins to 103. So $0\leq k \leq 3$:
 
 $$
-i_r = 100\\
-v_r = 0 \\
-v_a(0) = 0 + |100 - (100 + 0)| = 0\\
-v_a(1) = 0 + |100 - (100 + 1)| = 1\\
-v_a(2) = 0 + |100 - (100 + 2)| = 2\\
+i_r = 100
+$$
+
+$$
+v_r = 0
+$$
+
+$$
+v_a(0) = 0 + |100 - (100 + 0)| = 0
+$$
+
+$$
+v_a(1) = 0 + |100 - (100 + 1)| = 1
+$$
+
+$$
+v_a(2) = 0 + |100 - (100 + 2)| = 2
+$$
+
+$$
 v_a(3) = 0 + |100 - (100 + 3)| = 3
 $$
 
@@ -103,12 +118,30 @@ $$
 Alice makes a trade 4 secs later that crosses +5 bins to 108. So $0\leq k \leq 5$:
 
 $$
-i_r = 103\\
-v_r = 0.5 * 3 = 1.5\\
-v_a(0) = 1.5 + |103 - (103 + 0)| = 1.5\\
-v_a(1) = 1.5 + |103 - (103 + 1)| = 2.5\\
-v_a(2) = 1.5 + |103 - (103 + 2)| = 3.5\\
-...\\
+i_r = 103
+$$
+
+$$
+v_r = 0.5 \cdot 3 = 1.5
+$$
+
+$$
+v_a(0) = 1.5 + |103 - (103 + 0)| = 1.5
+$$
+
+$$
+v_a(1) = 1.5 + |103 - (103 + 1)| = 2.5
+$$
+
+$$
+v_a(2) = 1.5 + |103 - (103 + 2)| = 3.5
+$$
+
+$$
+...
+$$
+
+$$
 v_a(5) = 1.5 + |103 - (103 + 5)| = 6.5
 $$
 
@@ -119,10 +152,22 @@ Bob makes a trade 0.3 secs later that crosses -2 bins to 106. So $-2\leq k \leq 
 Note: $v_r$ and $i_r$ do not update as the transaction was less than the filter period.
 
 $$
-i_r = 103\\
-v_r = 1.5\\
-v_a(0) = 1.5 + |103 - (108 + 0)| = 6.5 \\
-v_a(-1) = 1.5 + |103 - (108 - 1)| = 5.5 \\
+i_r = 103
+$$
+
+$$
+v_r = 1.5
+$$
+
+$$
+v_a(0) = 1.5 + |103 - (108 + 0)| = 6.5
+$$
+
+$$
+v_a(-1) = 1.5 + |103 - (108 - 1)| = 5.5
+$$
+
+$$
 v_a(-2) = 1.5 + |103 - (108 - 2)| = 4.5
 $$
 
@@ -131,6 +176,11 @@ Notice that the volatility accumulator is decreasing despite high frequency of t
 ## Protocol Fees
 
 A share of all the fees is also taken by the protocol and distributed to JOE token holders via the StableJoeStaking contract. It is expressed as a variable, `protocolShare`, which is a percentage of the total swap fee. The maximum possible is 25%.
+
+$$
+
+
+$$
 
 $$
 $$

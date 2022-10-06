@@ -14,7 +14,7 @@ The rest of the document describes:
 - Which functions should be called to swap tokens
 - How to use them in code examples
 
-## Swap functions
+## Swap Functions
 
 Swap functions can be broadly divided into two categories:
 

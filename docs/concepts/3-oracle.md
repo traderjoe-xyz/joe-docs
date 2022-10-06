@@ -7,7 +7,13 @@ sidebar_label: Oracle
 
 ## Introduction
 
-`LBPairs` are providing historical data not only for prices but also for **volatility accumulated** and **bin crossed**. The price data is characterized by the **active bin ID** of the pair. These values are aggregated over time and averages on specific periods can be fetched.
+`LBPair` stores cumulative values for the following data:
+
+- Active bin ID
+- Volatility accumulated ($v_a$)
+- Number of bins crossed ($k$)
+
+The active bin ID can be easily converted into the bin price via helper functions, allowing users to obtain historical prices easily.
 
 ## Samples and Time Weighted Average
 
@@ -15,10 +21,11 @@ Swaps historical data must be saved in the storage of the contract. To reduce ga
 
 For every swap, the three values mentionned above will be added to the corresponding cumulative value of the sample, weighted by the time since the last value was added. For example, if the active ID of the pair doesn't change for 5 minutes, it will have more impact on the average active ID than if it only stays to this ID for a few seconds.
 
-Sample values can be read by calling `getOracleSampleFrom`. This will return the three cumulative values at the time specified by the `timeDelta` input: `cumulativeId`,  `cumulativeVolatilityAccumulated` and `cumulativeBinCrossed`.
+Sample values can be read by calling `getOracleSampleFrom`. This will return the three cumulative values at the time specified by the `timeDelta` input: `cumulativeId`, `cumulativeVolatilityAccumulated` and `cumulativeBinCrossed`.
 
 To calculate the average value of any of those three variables, `getOracleSampleFrom` needs to called on two different timestamps, and the average value will be:
-$$ 
+
+$$
 \textbf{Time Weighted Average}  = \frac{getOracleSampleFrom(t_2).value - getOracleSampleFrom(t_1).value}{timestamp(t_2) - timestamp(t_1)}
 $$
 
@@ -32,4 +39,3 @@ The data **samples** are stored in an array that we consider as the **oracle**. 
 </p>
 
 The `oracleSampleLifetime` controls the frequency of samples creation. Every swap happening after more than the specified interval will create a new **sample**. By default, the oracle array only contains 2 samples, but it can be extended by anyone by calling `increaseOracleLength`.
-

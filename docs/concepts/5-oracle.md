@@ -15,7 +15,7 @@ sidebar_label: Oracle
 
 The active bin ID can be easily converted into the bin price via helper functions, allowing users to obtain historical prices easily.
 
-Using cumulative values allow us to take the **time-weighted average values** easily.
+Using cumulative values allow us to take the **time-weighted average values**.
 
 ## Samples
 

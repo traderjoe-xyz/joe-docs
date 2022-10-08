@@ -8,7 +8,7 @@ const katex = require("rehype-katex");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Liquidity Book Docs",
+  title: "Joe V2: Liquidity Book Docs",
   tagline: "Documentation for Joe V2: Liquidity Book",
   url: "https://your-docusaurus-test-site.com",
   baseUrl: "/",
@@ -61,33 +61,32 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "Liquidity Book Docs",
+        title: "Joe V2: Liquidity Book Docs",
         logo: {
-          alt: "My Site Logo",
-          src: "img/logo.svg",
+          alt: "Trader Joe logo",
+          src: "img/joe_logo.svg",
         },
         items: [
           {
-            type: "doc",
-            docId: "intro",
-            position: "left",
-            label: "Docs",
+            label: "Whitepaper",
+            position: "right",
+            href: "https://github.com/traderjoe-xyz/LB-Whitepaper/blob/main/Joe%20v2%20Liquidity%20Book%20Whitepaper.pdf",
           },
-          //{ to: '/blog', label: 'Blog', position: 'left' },
           {
-            href: "https://github.com/traderjoe-xyz",
+            href: "https://github.com/traderjoe-xyz/joe-v2",
             label: "GitHub",
             position: "right",
+          },
+          {
+            label: "Docs V1",
+            position: "right",
+            href: "https://docs.traderjoexyz.com",
           },
         ],
       },
       footer: {
         style: "dark",
         links: [
-          {
-            title: "Developers",
-            items: [],
-          },
           {
             title: "Community",
             items: [
@@ -99,19 +98,13 @@ const config = {
                 label: "Twitter",
                 href: "https://twitter.com/traderjoe_xyz",
               },
-            ],
-          },
-          {
-            title: "More",
-            items: [
               {
-                label: "GitHub",
-                href: "https://github.com/traderjoe-xyz",
+                label: "Blog",
+                href: "https://joecontent.substack.com/",
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

@@ -6,5 +6,5 @@ phases:
       - GIT_TAG=${GIT_TAG:-$(echo $CODEBUILD_WEBHOOK_TRIGGER | awk -F/ {'print $2'})}
   build:
     commands:
-      - aws s3 rm s3://$DEPLOYMENT_BUCKET/ --recursive --exclude "asset-manifest.json" --exclude "favicon.png" --exclude "index.html" --exclude "manifest.json" --exclude "service-worker.js"
+      - aws s3 rm s3://$DEPLOYMENT_BUCKET/ --recursive --exclude "404.html" --exclude "index.html" --exclude "sitemap.xml"
       - aws s3 cp s3://$BUILD_BUCKET_ARTIFACTS/$GIT_TAG s3://$DEPLOYMENT_BUCKET --recursive

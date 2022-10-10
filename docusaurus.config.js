@@ -10,7 +10,7 @@ const katex = require("rehype-katex");
 const config = {
   title: "Joe V2: Liquidity Book Docs",
   tagline: "Documentation for Joe V2: Liquidity Book",
-  url: "https://your-docusaurus-test-site.com",
+  url: "https://docs.traderjoexyz.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -80,7 +80,7 @@ const config = {
           {
             label: "Docs V1",
             position: "right",
-            href: "https://docs.traderjoexyz.com",
+            href: "https://help.traderjoexyz.com/en/security-and-contracts/contracts",
           },
         ],
       },

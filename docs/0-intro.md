@@ -4,7 +4,13 @@ sidebar_label: Introduction
 slug: /
 ---
 
+
 # Introduction
+
+:::info
+User Manual has been moved to https://help.traderjoexyz.com
+:::
+
 
 Trader Joe V1 was a fork of Uniswap V2, a constant product Automated Market Maker (AMM).
 

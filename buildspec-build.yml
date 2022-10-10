@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  git-credential-helper: yes
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16.x
+  pre_build:
+    commands:
+      - npm install -g yarn
+      - yarn
+  build:
+    commands:
+      - npm run build
+      - |-
+        if [ $ENVIRONMENT != "prod" ] && [ $ENVIRONMENT != "fuji" ]; then
+          cat <<- '  EOF' | sed -r 's/^ {2}//' > build/robots.txt
+          User-agent: *
+          Disallow: /
+          EOF
+        fi
+  post_build:
+    commands:
+      - aws s3 cp build s3://$BUILD_BUCKET_ARTIFACTS/$ENVIRONMENT-$CODEBUILD_BUILD_NUMBER --recursive
+      - git tag $ENVIRONMENT-$CODEBUILD_BUILD_NUMBER
+      - git push --tags

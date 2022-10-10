@@ -386,64 +386,6 @@ Collect and update fees before any token transfer, mint or burn
 | _id | uint256 | The id of the token |
 | _amount | uint256 | The amount of token of type `id` |
 
-### _getPendingFees
-
-```solidity
-function _getPendingFees(struct ILBPair.Bin _bin, address _account, uint256 _id, uint256 _balance) private view returns (uint256 amountX, uint256 amountY)
-```
-
-View function to get the pending fees of an account on a given bin
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| _bin | struct ILBPair.Bin | The bin where the user is collecting fees |
-| _account | address | The address of the user |
-| _id | uint256 | The id where the user is collecting fees |
-| _balance | uint256 | The previous balance of the user |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountX | uint256 | The amount of tokenX pending for the account |
-| amountY | uint256 | The amount of tokenY pending for the account |
-
-### _updateUserDebts
-
-```solidity
-function _updateUserDebts(struct ILBPair.Bin _bin, address _account, uint256 _id, uint256 _balance) private
-```
-
-Update fees of a given user
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| _bin | struct ILBPair.Bin | The bin where the user has collected fees |
-| _account | address | The address of the user |
-| _id | uint256 | The id where the user has collected fees |
-| _balance | uint256 | The new balance of the user |
-
-### _cacheFees
-
-```solidity
-function _cacheFees(struct ILBPair.Bin _bin, address _user, uint256 _id, uint256 _previousBalance, uint256 _newBalance) private
-```
-
-Update the unclaimed fees of a given user before a transfer
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| _bin | struct ILBPair.Bin | The bin where the user has collected fees |
-| _user | address | The address of the user |
-| _id | uint256 | The id where the user has collected fees |
-| _previousBalance | uint256 | The previous balance of the user |
-| _newBalance | uint256 | The new balance of the user |
 
 ### _setFeesParameters
 
@@ -458,38 +400,6 @@ Internal function to set the fee parameters of the pair
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | _packedFeeParameters | bytes32 | The packed fee parameters |
-
-### _increaseOracle
-
-```solidity
-function _increaseOracle(uint16 _newSize) private
-```
-
-Private function to increase the oracle's number of sample
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| _newSize | uint16 | The new size of the oracle. Needs to be bigger than current one |
-
-### _getOracleParameters
-
-```solidity
-function _getOracleParameters() internal view returns (uint256 oracleSampleLifetime, uint256 oracleSize, uint256 oracleActiveSize, uint256 oracleLastTimestamp, uint256 oracleId)
-```
-
-Private view function to return the oracle's parameters
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| oracleSampleLifetime | uint256 | The lifetime of a sample, it accumulates information for up to this timestamp |
-| oracleSize | uint256 | The size of the oracle (last ids can be empty) |
-| oracleActiveSize | uint256 | The active size of the oracle (no empty data) |
-| oracleLastTimestamp | uint256 | The timestamp of the creation of the oracle's latest sample |
-| oracleId | uint256 | The index of the oracle's latest sample |
 
 ### _getReservesAndId
 

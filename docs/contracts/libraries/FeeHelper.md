@@ -189,23 +189,3 @@ Return the fees distribution added to an amount
 | ---- | ---- | ----------- |
 | fees | struct FeeHelper.FeesDistribution | The fee distribution |
 
-### getTotalFee
-
-```solidity
-function getTotalFee(struct FeeHelper.FeeParameters _fp) private pure returns (uint256)
-```
-
-Return the total fee, i.e. baseFee + variableFee
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| _fp | struct FeeHelper.FeeParameters | The current fee parameter |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| [0] | uint256 | The total fee, with 18 decimals |
-

@@ -67,18 +67,3 @@ Returns the amount of token received by the pair
 | ---- | ---- | ----------- |
 | [0] | uint256 | The amount received by the pair |
 
-### _catchTransferError
-
-```solidity
-function _catchTransferError(bool success, bytes result) private pure
-```
-
-Private view function to catch the error and bubble it up if present
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| success | bool | Whether the transaction succeeded or not |
-| result | bytes | The result of the transaction |
-

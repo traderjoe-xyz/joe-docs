@@ -26,5 +26,5 @@ absSub, can't underflow or overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | uint256 | The result of x - y |
+| [0] | uint256 | The result of abs(x - y) |
 

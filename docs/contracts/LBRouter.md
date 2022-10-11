@@ -34,7 +34,7 @@ _Receive function that only accept AVAX from the WAVAX contract_
 ### getIdFromPrice
 
 ```solidity
-function getIdFromPrice(contract ILBPair _LBPair, uint256 _price) external view returns (uint24)
+function getIdFromPrice(contract ILBPair _LBPair, uint256 _price) external view override returns (uint24)
 ```
 
 Returns the approximate id corresponding to the inputted price.
@@ -56,7 +56,7 @@ Warning, the returned id may be inaccurate close to the start price of a bin
 ### getPriceFromId
 
 ```solidity
-function getPriceFromId(contract ILBPair _LBPair, uint24 _id) external view returns (uint256)
+function getPriceFromId(contract ILBPair _LBPair, uint24 _id) external view override returns (uint256)
 ```
 
 Returns the price corresponding to the inputted id
@@ -77,7 +77,7 @@ Returns the price corresponding to the inputted id
 ### getSwapIn
 
 ```solidity
-function getSwapIn(contract ILBPair _LBPair, uint256 _amountOut, bool _swapForY) public view returns (uint256 amountIn, uint256 feesIn)
+function getSwapIn(contract ILBPair _LBPair, uint256 _amountOut, bool _swapForY) public view override returns (uint256 amountIn, uint256 feesIn)
 ```
 
 Simulate a swap in
@@ -100,7 +100,7 @@ Simulate a swap in
 ### getSwapOut
 
 ```solidity
-function getSwapOut(contract ILBPair _LBPair, uint256 _amountIn, bool _swapForY) external view returns (uint256 amountOut, uint256 feesIn)
+function getSwapOut(contract ILBPair _LBPair, uint256 _amountIn, bool _swapForY) external view override returns (uint256 amountOut, uint256 feesIn)
 ```
 
 Simulate a swap out
@@ -123,7 +123,7 @@ Simulate a swap out
 ### createLBPair
 
 ```solidity
-function createLBPair(contract IERC20 _tokenX, contract IERC20 _tokenY, uint24 _activeId, uint16 _binStep) external returns (contract ILBPair pair)
+function createLBPair(contract IERC20 _tokenX, contract IERC20 _tokenY, uint24 _activeId, uint16 _binStep) external override returns (contract ILBPair pair)
 ```
 
 Create a liquidity bin LBPair for _tokenX and _tokenY using the factory
@@ -146,7 +146,7 @@ Create a liquidity bin LBPair for _tokenX and _tokenY using the factory
 ### addLiquidity
 
 ```solidity
-function addLiquidity(struct ILBRouter.LiquidityParameters _liquidityParameters) external returns (uint256[] depositIds, uint256[] liquidityMinted)
+function addLiquidity(struct ILBRouter.LiquidityParameters _liquidityParameters) external override returns (uint256[] depositIds, uint256[] liquidityMinted)
 ```
 
 Add liquidity while performing safety checks
@@ -169,7 +169,7 @@ _This function is compliant with fee on transfer tokens_
 ### addLiquidityAVAX
 
 ```solidity
-function addLiquidityAVAX(struct ILBRouter.LiquidityParameters _liquidityParameters) external payable returns (uint256[] depositIds, uint256[] liquidityMinted)
+function addLiquidityAVAX(struct ILBRouter.LiquidityParameters _liquidityParameters) external payable override returns (uint256[] depositIds, uint256[] liquidityMinted)
 ```
 
 Add liquidity with AVAX while performing safety checks
@@ -192,7 +192,7 @@ _This function is compliant with fee on transfer tokens_
 ### removeLiquidity
 
 ```solidity
-function removeLiquidity(contract IERC20 _tokenX, contract IERC20 _tokenY, uint16 _binStep, uint256 _amountXMin, uint256 _amountYMin, uint256[] _ids, uint256[] _amounts, address _to, uint256 _deadline) external returns (uint256 amountX, uint256 amountY)
+function removeLiquidity(contract IERC20 _tokenX, contract IERC20 _tokenY, uint16 _binStep, uint256 _amountXMin, uint256 _amountYMin, uint256[] _ids, uint256[] _amounts, address _to, uint256 _deadline) external override ensure(_deadline) returns (uint256 amountX, uint256 amountY)
 ```
 
 Remove liquidity while performing safety checks
@@ -223,7 +223,7 @@ _This function is compliant with fee on transfer tokens_
 ### removeLiquidityAVAX
 
 ```solidity
-function removeLiquidityAVAX(contract IERC20 _token, uint16 _binStep, uint256 _amountTokenMin, uint256 _amountAVAXMin, uint256[] _ids, uint256[] _amounts, address payable _to, uint256 _deadline) external returns (uint256 amountToken, uint256 amountAVAX)
+function removeLiquidityAVAX(contract IERC20 _token, uint16 _binStep, uint256 _amountTokenMin, uint256 _amountAVAXMin, uint256[] _ids, uint256[] _amounts, address payable _to, uint256 _deadline) external override ensure(_deadline) returns (uint256 amountToken, uint256 amountAVAX)
 ```
 
 Remove AVAX liquidity while performing safety checks
@@ -255,7 +255,7 @@ use the `removeLiquidity` function to remove liquidity with fee on transfer toke
 ### swapExactTokensForTokens
 
 ```solidity
-function swapExactTokensForTokens(uint256 _amountIn, uint256 _amountOutMin, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external returns (uint256 amountOut)
+function swapExactTokensForTokens(uint256 _amountIn, uint256 _amountOutMin, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external override ensure(_deadline) verifyInputs(_pairBinSteps, _tokenPath) returns (uint256 amountOut)
 ```
 
 Swaps exact tokens for tokens while performing safety checks
@@ -280,7 +280,7 @@ Swaps exact tokens for tokens while performing safety checks
 ### swapExactTokensForAVAX
 
 ```solidity
-function swapExactTokensForAVAX(uint256 _amountIn, uint256 _amountOutMinAVAX, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address payable _to, uint256 _deadline) external returns (uint256 amountOut)
+function swapExactTokensForAVAX(uint256 _amountIn, uint256 _amountOutMinAVAX, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address payable _to, uint256 _deadline) external override ensure(_deadline) verifyInputs(_pairBinSteps, _tokenPath) returns (uint256 amountOut)
 ```
 
 Swaps exact tokens for AVAX while performing safety checks
@@ -305,7 +305,7 @@ Swaps exact tokens for AVAX while performing safety checks
 ### swapExactAVAXForTokens
 
 ```solidity
-function swapExactAVAXForTokens(uint256 _amountOutMin, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external payable returns (uint256 amountOut)
+function swapExactAVAXForTokens(uint256 _amountOutMin, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external payable override ensure(_deadline) verifyInputs(_pairBinSteps, _tokenPath) returns (uint256 amountOut)
 ```
 
 Swaps exact AVAX for tokens while performing safety checks
@@ -329,7 +329,7 @@ Swaps exact AVAX for tokens while performing safety checks
 ### swapTokensForExactTokens
 
 ```solidity
-function swapTokensForExactTokens(uint256 _amountOut, uint256 _amountInMax, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external returns (uint256[] amountsIn)
+function swapTokensForExactTokens(uint256 _amountOut, uint256 _amountInMax, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external override ensure(_deadline) verifyInputs(_pairBinSteps, _tokenPath) returns (uint256[] amountsIn)
 ```
 
 Swaps tokens for exact tokens while performing safety checks
@@ -354,7 +354,7 @@ Swaps tokens for exact tokens while performing safety checks
 ### swapTokensForExactAVAX
 
 ```solidity
-function swapTokensForExactAVAX(uint256 _amountAVAXOut, uint256 _amountInMax, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address payable _to, uint256 _deadline) external returns (uint256[] amountsIn)
+function swapTokensForExactAVAX(uint256 _amountAVAXOut, uint256 _amountInMax, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address payable _to, uint256 _deadline) external override ensure(_deadline) verifyInputs(_pairBinSteps, _tokenPath) returns (uint256[] amountsIn)
 ```
 
 Swaps tokens for exact AVAX while performing safety checks
@@ -379,7 +379,7 @@ Swaps tokens for exact AVAX while performing safety checks
 ### swapAVAXForExactTokens
 
 ```solidity
-function swapAVAXForExactTokens(uint256 _amountOut, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external payable returns (uint256[] amountsIn)
+function swapAVAXForExactTokens(uint256 _amountOut, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external payable override ensure(_deadline) verifyInputs(_pairBinSteps, _tokenPath) returns (uint256[] amountsIn)
 ```
 
 Swaps AVAX for exact tokens while performing safety checks
@@ -405,7 +405,7 @@ _will refund any excess sent_
 ### swapExactTokensForTokensSupportingFeeOnTransferTokens
 
 ```solidity
-function swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256 _amountIn, uint256 _amountOutMin, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external returns (uint256 amountOut)
+function swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256 _amountIn, uint256 _amountOutMin, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external override ensure(_deadline) verifyInputs(_pairBinSteps, _tokenPath) returns (uint256 amountOut)
 ```
 
 Swaps exact tokens for tokens while performing safety checks supporting for fee on transfer tokens
@@ -430,7 +430,7 @@ Swaps exact tokens for tokens while performing safety checks supporting for fee 
 ### swapExactTokensForAVAXSupportingFeeOnTransferTokens
 
 ```solidity
-function swapExactTokensForAVAXSupportingFeeOnTransferTokens(uint256 _amountIn, uint256 _amountOutMinAVAX, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address payable _to, uint256 _deadline) external returns (uint256 amountOut)
+function swapExactTokensForAVAXSupportingFeeOnTransferTokens(uint256 _amountIn, uint256 _amountOutMinAVAX, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address payable _to, uint256 _deadline) external override ensure(_deadline) verifyInputs(_pairBinSteps, _tokenPath) returns (uint256 amountOut)
 ```
 
 Swaps exact tokens for AVAX while performing safety checks supporting for fee on transfer tokens
@@ -455,7 +455,7 @@ Swaps exact tokens for AVAX while performing safety checks supporting for fee on
 ### swapExactAVAXForTokensSupportingFeeOnTransferTokens
 
 ```solidity
-function swapExactAVAXForTokensSupportingFeeOnTransferTokens(uint256 _amountOutMin, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external payable returns (uint256 amountOut)
+function swapExactAVAXForTokensSupportingFeeOnTransferTokens(uint256 _amountOutMin, uint256[] _pairBinSteps, contract IERC20[] _tokenPath, address _to, uint256 _deadline) external payable override ensure(_deadline) verifyInputs(_pairBinSteps, _tokenPath) returns (uint256 amountOut)
 ```
 
 Swaps exact AVAX for tokens while performing safety checks supporting for fee on transfer tokens
@@ -479,7 +479,7 @@ Swaps exact AVAX for tokens while performing safety checks supporting for fee on
 ### sweep
 
 ```solidity
-function sweep(contract IERC20 _token, address _to, uint256 _amount) external
+function sweep(contract IERC20 _token, address _to, uint256 _amount) external override onlyFactoryOwner
 ```
 
 Unstuck tokens that are sent to this contract by mistake
@@ -497,7 +497,7 @@ _Only callable by the factory owner_
 ### sweepLBToken
 
 ```solidity
-function sweepLBToken(contract ILBToken _lbToken, address _to, uint256[] _ids, uint256[] _amounts) external
+function sweepLBToken(contract ILBToken _lbToken, address _to, uint256[] _ids, uint256[] _amounts) external override onlyFactoryOwner
 ```
 
 Unstuck LBTokens that are sent to this contract by mistake

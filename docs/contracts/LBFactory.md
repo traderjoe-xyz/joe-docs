@@ -27,7 +27,7 @@ Constructor
 ### getNumberOfLBPairs
 
 ```solidity
-function getNumberOfLBPairs() external view returns (uint256)
+function getNumberOfLBPairs() external view override returns (uint256)
 ```
 
 View function to return the number of LBPairs created
@@ -41,7 +41,7 @@ View function to return the number of LBPairs created
 ### getNumberOfQuoteAssets
 
 ```solidity
-function getNumberOfQuoteAssets() external view returns (uint256)
+function getNumberOfQuoteAssets() external view override returns (uint256)
 ```
 
 View function to return the number of quote assets whitelisted
@@ -55,7 +55,7 @@ View function to return the number of quote assets whitelisted
 ### getQuoteAsset
 
 ```solidity
-function getQuoteAsset(uint256 _index) external view returns (contract IERC20)
+function getQuoteAsset(uint256 _index) external view override returns (contract IERC20)
 ```
 
 View function to return the quote asset whitelisted at index `index`
@@ -75,7 +75,7 @@ View function to return the quote asset whitelisted at index `index`
 ### isQuoteAsset
 
 ```solidity
-function isQuoteAsset(contract IERC20 _token) external view returns (bool)
+function isQuoteAsset(contract IERC20 _token) external view override returns (bool)
 ```
 
 View function to return whether a token is a quotedAsset (true) or not (false)
@@ -95,7 +95,7 @@ View function to return whether a token is a quotedAsset (true) or not (false)
 ### getLBPairInformation
 
 ```solidity
-function getLBPairInformation(contract IERC20 _tokenA, contract IERC20 _tokenB, uint256 _binStep) external view returns (struct ILBFactory.LBPairInformation)
+function getLBPairInformation(contract IERC20 _tokenA, contract IERC20 _tokenB, uint256 _binStep) external view override returns (struct ILBFactory.LBPairInformation)
 ```
 
 Returns the LBPairInformation if it exists,
@@ -118,7 +118,7 @@ if not, then the address 0 is returned. The order doesn't matter
 ### getPreset
 
 ```solidity
-function getPreset(uint16 _binStep) external view returns (uint256 baseFactor, uint256 filterPeriod, uint256 decayPeriod, uint256 reductionFactor, uint256 variableFeeControl, uint256 protocolShare, uint256 maxVolatilityAccumulated, uint256 sampleLifetime)
+function getPreset(uint16 _binStep) external view override returns (uint256 baseFactor, uint256 filterPeriod, uint256 decayPeriod, uint256 reductionFactor, uint256 variableFeeControl, uint256 protocolShare, uint256 maxVolatilityAccumulated, uint256 sampleLifetime)
 ```
 
 View function to return the different parameters of the preset
@@ -145,7 +145,7 @@ View function to return the different parameters of the preset
 ### getAllBinSteps
 
 ```solidity
-function getAllBinSteps() external view returns (uint256[] presetsBinStep)
+function getAllBinSteps() external view override returns (uint256[] presetsBinStep)
 ```
 
 View function to return the list of available binStep with a preset
@@ -159,7 +159,7 @@ View function to return the list of available binStep with a preset
 ### getAllLBPairs
 
 ```solidity
-function getAllLBPairs(contract IERC20 _tokenX, contract IERC20 _tokenY) external view returns (struct ILBFactory.LBPairInformation[] LBPairsAvailable)
+function getAllLBPairs(contract IERC20 _tokenX, contract IERC20 _tokenY) external view override returns (struct ILBFactory.LBPairInformation[] LBPairsAvailable)
 ```
 
 View function to return all the LBPair of a pair of tokens
@@ -180,7 +180,7 @@ View function to return all the LBPair of a pair of tokens
 ### setLBPairImplementation
 
 ```solidity
-function setLBPairImplementation(address _LBPairImplementation) external
+function setLBPairImplementation(address _LBPairImplementation) external override onlyOwner
 ```
 
 Set the LBPair implementation address
@@ -196,7 +196,7 @@ _Needs to be called by the owner_
 ### createLBPair
 
 ```solidity
-function createLBPair(contract IERC20 _tokenX, contract IERC20 _tokenY, uint24 _activeId, uint16 _binStep) external returns (contract ILBPair _LBPair)
+function createLBPair(contract IERC20 _tokenX, contract IERC20 _tokenY, uint24 _activeId, uint16 _binStep) external override returns (contract ILBPair _LBPair)
 ```
 
 Create a liquidity bin LBPair for _tokenX and _tokenY
@@ -219,7 +219,7 @@ Create a liquidity bin LBPair for _tokenX and _tokenY
 ### setLBPairIgnored
 
 ```solidity
-function setLBPairIgnored(contract IERC20 _tokenX, contract IERC20 _tokenY, uint256 _binStep, bool _ignored) external
+function setLBPairIgnored(contract IERC20 _tokenX, contract IERC20 _tokenY, uint256 _binStep, bool _ignored) external override onlyOwner 
 ```
 
 Function to set whether the pair is ignored or not for routing, it will make the pair unusable by the router
@@ -236,7 +236,7 @@ Function to set whether the pair is ignored or not for routing, it will make the
 ### setPreset
 
 ```solidity
-function setPreset(uint16 _binStep, uint16 _baseFactor, uint16 _filterPeriod, uint16 _decayPeriod, uint16 _reductionFactor, uint24 _variableFeeControl, uint16 _protocolShare, uint24 _maxVolatilityAccumulated, uint16 _sampleLifetime) external
+function setPreset(uint16 _binStep, uint16 _baseFactor, uint16 _filterPeriod, uint16 _decayPeriod, uint16 _reductionFactor, uint24 _variableFeeControl, uint16 _protocolShare, uint24 _maxVolatilityAccumulated, uint16 _sampleLifetime) external override onlyOwner
 ```
 
 Sets the preset parameters of a bin step
@@ -258,7 +258,7 @@ Sets the preset parameters of a bin step
 ### removePreset
 
 ```solidity
-function removePreset(uint16 _binStep) external
+function removePreset(uint16 _binStep) external override onlyOwner
 ```
 
 Remove the preset linked to a binStep
@@ -272,7 +272,7 @@ Remove the preset linked to a binStep
 ### setFeesParametersOnPair
 
 ```solidity
-function setFeesParametersOnPair(contract IERC20 _tokenX, contract IERC20 _tokenY, uint16 _binStep, uint16 _baseFactor, uint16 _filterPeriod, uint16 _decayPeriod, uint16 _reductionFactor, uint24 _variableFeeControl, uint16 _protocolShare, uint24 _maxVolatilityAccumulated) external
+function setFeesParametersOnPair(contract IERC20 _tokenX, contract IERC20 _tokenY, uint16 _binStep, uint16 _baseFactor, uint16 _filterPeriod, uint16 _decayPeriod, uint16 _reductionFactor, uint24 _variableFeeControl, uint16 _protocolShare, uint24 _maxVolatilityAccumulated) external override onlyOwner
 ```
 
 Function to set the fee parameter of a LBPair
@@ -295,7 +295,7 @@ Function to set the fee parameter of a LBPair
 ### setFeeRecipient
 
 ```solidity
-function setFeeRecipient(address _feeRecipient) external
+function setFeeRecipient(address _feeRecipient) external override onlyOwner
 ```
 
 Function to set the recipient of the fees. This address needs to be able to receive ERC20s
@@ -309,7 +309,7 @@ Function to set the recipient of the fees. This address needs to be able to rece
 ### setFlashLoanFee
 
 ```solidity
-function setFlashLoanFee(uint256 _flashLoanFee) external
+function setFlashLoanFee(uint256 _flashLoanFee) external override onlyOwner
 ```
 
 Function to set the flash loan fee
@@ -323,7 +323,7 @@ Function to set the flash loan fee
 ### setFactoryLockedState
 
 ```solidity
-function setFactoryLockedState(bool _locked) external
+function setFactoryLockedState(bool _locked) external override onlyOwner
 ```
 
 Function to set the creation restriction of the Factory
@@ -337,7 +337,7 @@ Function to set the creation restriction of the Factory
 ### addQuoteAsset
 
 ```solidity
-function addQuoteAsset(contract IERC20 _quoteAsset) external
+function addQuoteAsset(contract IERC20 _quoteAsset) external override onlyOwner
 ```
 
 Function to add an asset to the whitelist of quote assets
@@ -351,7 +351,7 @@ Function to add an asset to the whitelist of quote assets
 ### removeQuoteAsset
 
 ```solidity
-function removeQuoteAsset(contract IERC20 _quoteAsset) external
+function removeQuoteAsset(contract IERC20 _quoteAsset) external override onlyOwner
 ```
 
 Function to remove an asset to the whitelist of quote assets
@@ -379,5 +379,5 @@ Internal function to set the recipient of the fee
 ### forceDecay
 
 ```solidity
-function forceDecay(contract ILBPair _LBPair) external
+function forceDecay(contract ILBPair _LBPair) external override onlyOwner
 ```

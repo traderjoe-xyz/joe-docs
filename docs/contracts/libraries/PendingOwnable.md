@@ -31,7 +31,7 @@ Initializes the contract setting the deployer as the initial owner
 ### owner
 
 ```solidity
-function owner() public view returns (address)
+function owner() public view override returns (address)
 ```
 
 Returns the address of the current owner
@@ -45,7 +45,7 @@ Returns the address of the current owner
 ### pendingOwner
 
 ```solidity
-function pendingOwner() public view returns (address)
+function pendingOwner() public view override returns (address)
 ```
 
 Returns the address of the current pending owner
@@ -59,7 +59,7 @@ Returns the address of the current pending owner
 ### setPendingOwner
 
 ```solidity
-function setPendingOwner(address pendingOwner_) public
+function setPendingOwner(address pendingOwner_) public override onlyOwner
 ```
 
 Sets the pending owner address. This address will be able to become
@@ -68,7 +68,7 @@ the owner of this contract by calling {becomeOwner}
 ### revokePendingOwner
 
 ```solidity
-function revokePendingOwner() public
+function revokePendingOwner() public override onlyOwner
 ```
 
 Revoke the pending owner address. This address will not be able to
@@ -78,7 +78,7 @@ Can only be called by the owner
 ### becomeOwner
 
 ```solidity
-function becomeOwner() public
+function becomeOwner() public override onlyPendingOwner
 ```
 
 Transfers the ownership to the new owner (`pendingOwner).
@@ -87,7 +87,7 @@ Can only be called by the pending owner
 ### renounceOwnership
 
 ```solidity
-function renounceOwnership() public
+function renounceOwnership() public override onlyOwner
 ```
 
 Leaves the contract without owner. It will not be possible to call

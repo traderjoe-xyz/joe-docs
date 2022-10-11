@@ -24,7 +24,7 @@ Set the factory address
 ### initialize
 
 ```solidity
-function initialize(contract IERC20 _tokenX, contract IERC20 _tokenY, uint24 _activeId, uint16 _sampleLifetime, bytes32 _packedFeeParameters) external
+function initialize(contract IERC20 _tokenX, contract IERC20 _tokenY, uint24 _activeId, uint16 _sampleLifetime, bytes32 _packedFeeParameters) external override onlyFactory
 ```
 
 Initialize the parameters of the LBPair
@@ -46,7 +46,7 @@ as it validates the different parameters_
 ### getReservesAndId
 
 ```solidity
-function getReservesAndId() external view returns (uint256 reserveX, uint256 reserveY, uint256 activeId)
+function getReservesAndId() external view override returns (uint256 reserveX, uint256 reserveY, uint256 activeId)
 ```
 
 View function to get the reserves and active id
@@ -62,7 +62,7 @@ View function to get the reserves and active id
 ### getGlobalFees
 
 ```solidity
-function getGlobalFees() external view returns (uint256 feesXTotal, uint256 feesYTotal, uint256 feesXProtocol, uint256 feesYProtocol)
+function getGlobalFees() external view override returns (uint256 feesXTotal, uint256 feesYTotal, uint256 feesXProtocol, uint256 feesYProtocol)
 ```
 
 View function to get the global fees information, the total fees and those for protocol
@@ -81,7 +81,7 @@ _The fees for users are `total - protocol`_
 ### getOracleParameters
 
 ```solidity
-function getOracleParameters() external view returns (uint256 oracleSampleLifetime, uint256 oracleSize, uint256 oracleActiveSize, uint256 oracleLastTimestamp, uint256 oracleId, uint256 min, uint256 max)
+function getOracleParameters() external view override returns (uint256 oracleSampleLifetime, uint256 oracleSize, uint256 oracleActiveSize, uint256 oracleLastTimestamp, uint256 oracleId, uint256 min, uint256 max)
 ```
 
 View function to get the oracle parameters
@@ -101,7 +101,7 @@ View function to get the oracle parameters
 ### getOracleSampleFrom
 
 ```solidity
-function getOracleSampleFrom(uint256 _timeDelta) external view returns (uint256 cumulativeId, uint256 cumulativeVolatilityAccumulated, uint256 cumulativeBinCrossed)
+function getOracleSampleFrom(uint256 _timeDelta) external view override returns (uint256 cumulativeId, uint256 cumulativeVolatilityAccumulated, uint256 cumulativeBinCrossed)
 ```
 
 View function to get the oracle's sample at `_timeDelta` seconds
@@ -125,7 +125,7 @@ _Return a linearized sample, the weighted average of 2 neighboring samples_
 ### feeParameters
 
 ```solidity
-function feeParameters() external view returns (struct FeeHelper.FeeParameters)
+function feeParameters() external view override returns (struct FeeHelper.FeeParameters)
 ```
 
 View function to get the fee parameters
@@ -139,7 +139,7 @@ View function to get the fee parameters
 ### findFirstNonEmptyBinId
 
 ```solidity
-function findFirstNonEmptyBinId(uint24 _id, bool _swapForY) external view returns (uint24)
+function findFirstNonEmptyBinId(uint24 _id, bool _swapForY) external view override returns (uint24)
 ```
 
 View function to get the first bin that isn't empty, will not be `_id` itself
@@ -160,7 +160,7 @@ View function to get the first bin that isn't empty, will not be `_id` itself
 ### getBin
 
 ```solidity
-function getBin(uint24 _id) external view returns (uint256 reserveX, uint256 reserveY)
+function getBin(uint24 _id) external view override returns (uint256 reserveX, uint256 reserveY)
 ```
 
 View function to get the bin at `id`
@@ -181,7 +181,7 @@ View function to get the bin at `id`
 ### pendingFees
 
 ```solidity
-function pendingFees(address _account, uint256[] _ids) external view returns (uint256 amountX, uint256 amountY)
+function pendingFees(address _account, uint256[] _ids) external view override returns (uint256 amountX, uint256 amountY)
 ```
 
 View function to get the pending fees of a user
@@ -205,7 +205,7 @@ _The array must be strictly increasing to ensure uniqueness_
 ### swap
 
 ```solidity
-function swap(bool _swapForY, address _to) external returns (uint256 amountXOut, uint256 amountYOut)
+function swap(bool _swapForY, address _to) external override nonReentrant returns (uint256 amountXOut, uint256 amountYOut)
 ```
 
 Performs a low level swap, this needs to be called from a contract which performs important safety checks
@@ -229,7 +229,7 @@ _Will swap the full amount that this contract received of token X or Y_
 ### flashLoan
 
 ```solidity
-function flashLoan(address _to, uint256 _amountXOut, uint256 _amountYOut, bytes _data) external
+function flashLoan(address _to, uint256 _amountXOut, uint256 _amountYOut, bytes _data) external override nonReentrant
 ```
 
 Performs a flash loan
@@ -246,7 +246,7 @@ Performs a flash loan
 ### mint
 
 ```solidity
-function mint(uint256[] _ids, uint256[] _distributionX, uint256[] _distributionY, address _to) external returns (uint256, uint256, uint256[] liquidityMinted)
+function mint(uint256[] _ids, uint256[] _distributionX, uint256[] _distributionY, address _to) external override nonReentrant returns (uint256, uint256, uint256[] liquidityMinted)
 ```
 
 Performs a low level add, this needs to be called from a contract which performs important safety checks.
@@ -271,7 +271,7 @@ Performs a low level add, this needs to be called from a contract which performs
 ### burn
 
 ```solidity
-function burn(uint256[] _ids, uint256[] _amounts, address _to) external returns (uint256 amountX, uint256 amountY)
+function burn(uint256[] _ids, uint256[] _amounts, address _to) external override nonReentrant returns (uint256 amountX, uint256 amountY)
 ```
 
 Performs a low level remove, this needs to be called from a contract which performs important safety checks
@@ -294,7 +294,7 @@ Performs a low level remove, this needs to be called from a contract which perfo
 ### increaseOracleLength
 
 ```solidity
-function increaseOracleLength(uint16 _newSize) external
+function increaseOracleLength(uint16 _newSize) external override
 ```
 
 Increase the length of the oracle
@@ -308,7 +308,7 @@ Increase the length of the oracle
 ### collectFees
 
 ```solidity
-function collectFees(address _account, uint256[] _ids) external returns (uint256 amountX, uint256 amountY)
+function collectFees(address _account, uint256[] _ids) external override nonReentrant returns (uint256 amountX, uint256 amountY)
 ```
 
 Collect fees of an user
@@ -330,7 +330,7 @@ Collect fees of an user
 ### collectProtocolFees
 
 ```solidity
-function collectProtocolFees() external returns (uint256 amountX, uint256 amountY)
+function collectProtocolFees() external override nonReentrant returns (uint256 amountX, uint256 amountY)
 ```
 
 Collect the protocol fees and send them to the feeRecipient
@@ -348,7 +348,7 @@ Only callable by the fee recipient_
 ### setFeesParameters
 
 ```solidity
-function setFeesParameters(bytes32 _packedFeeParameters) external
+function setFeesParameters(bytes32 _packedFeeParameters) external override onlyFactory 
 ```
 
 Set the fees parameters
@@ -366,13 +366,13 @@ Only callable by the factory_
 ### forceDecay
 
 ```solidity
-function forceDecay() external
+function forceDecay() external override onlyFactory 
 ```
 
 ### _beforeTokenTransfer
 
 ```solidity
-function _beforeTokenTransfer(address _from, address _to, uint256 _id, uint256 _amount) internal
+function _beforeTokenTransfer(address _from, address _to, uint256 _id, uint256 _amount) internal orverride(LBToken)
 ```
 
 Collect and update fees before any token transfer, mint or burn

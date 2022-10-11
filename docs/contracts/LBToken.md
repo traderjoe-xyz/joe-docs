@@ -11,7 +11,7 @@ It allows to create multi-ERC20 represented by their ids
 ### name
 
 ```solidity
-function name() public pure virtual returns (string)
+function name() public pure virtual override returns (string)
 ```
 
 Returns the name of the token
@@ -25,7 +25,7 @@ Returns the name of the token
 ### symbol
 
 ```solidity
-function symbol() public pure virtual returns (string)
+function symbol() public pure virtual override returns (string)
 ```
 
 Returns the symbol of the token, usually a shorter version of the name
@@ -39,7 +39,7 @@ Returns the symbol of the token, usually a shorter version of the name
 ### totalSupply
 
 ```solidity
-function totalSupply(uint256 _id) public view virtual returns (uint256)
+function totalSupply(uint256 _id) public view virtual override returns (uint256)
 ```
 
 Returns the total supply of token of type `id`
@@ -61,7 +61,7 @@ _This is the amount of token of type `id` minted minus the amount burned_
 ### balanceOf
 
 ```solidity
-function balanceOf(address _account, uint256 _id) public view virtual returns (uint256)
+function balanceOf(address _account, uint256 _id) public view virtual override returns (uint256)
 ```
 
 Returns the amount of tokens of type `id` owned by `_account`
@@ -82,7 +82,7 @@ Returns the amount of tokens of type `id` owned by `_account`
 ### balanceOfBatch
 
 ```solidity
-function balanceOfBatch(address[] _accounts, uint256[] _ids) public view virtual returns (uint256[] batchBalances)
+function balanceOfBatch(address[] _accounts, uint256[] _ids) public view virtual override checkLength(_accounts.length, _ids.length) returns (uint256[] batchBalances)
 ```
 
 Return the balance of multiple (account/id) pairs
@@ -103,7 +103,7 @@ Return the balance of multiple (account/id) pairs
 ### userPositionAtIndex
 
 ```solidity
-function userPositionAtIndex(address _account, uint256 _index) public view virtual returns (uint256)
+function userPositionAtIndex(address _account, uint256 _index) public view virtual override returns (uint256)
 ```
 
 Returns the type id at index `_index` where `account` has a non-zero balance
@@ -124,7 +124,7 @@ Returns the type id at index `_index` where `account` has a non-zero balance
 ### userPositionNumber
 
 ```solidity
-function userPositionNumber(address _account) public view virtual returns (uint256)
+function userPositionNumber(address _account) public view virtual override returns (uint256)
 ```
 
 Returns the number of non-zero balances of `account`
@@ -144,7 +144,7 @@ Returns the number of non-zero balances of `account`
 ### isApprovedForAll
 
 ```solidity
-function isApprovedForAll(address _owner, address _spender) public view virtual returns (bool)
+function isApprovedForAll(address _owner, address _spender) public view virtual override returns (bool)
 ```
 
 Returns true if `spender` is approved to transfer `_account`'s tokens
@@ -165,7 +165,7 @@ Returns true if `spender` is approved to transfer `_account`'s tokens
 ### setApprovalForAll
 
 ```solidity
-function setApprovalForAll(address _spender, bool _approved) public virtual
+function setApprovalForAll(address _spender, bool _approved) public virtual override 
 ```
 
 Grants or revokes permission to `spender` to transfer the caller's tokens, according to `approved`
@@ -180,7 +180,7 @@ Grants or revokes permission to `spender` to transfer the caller's tokens, accor
 ### safeTransferFrom
 
 ```solidity
-function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _amount) public virtual
+function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _amount) public virtual override checkAddresses(_from, _to) checkApproval(_from, msg.sender)
 ```
 
 Transfers `_amount` token of type `_id` from `_from` to `_to`
@@ -197,7 +197,7 @@ Transfers `_amount` token of type `_id` from `_from` to `_to`
 ### safeBatchTransferFrom
 
 ```solidity
-function safeBatchTransferFrom(address _from, address _to, uint256[] _ids, uint256[] _amounts) public virtual
+function safeBatchTransferFrom(address _from, address _to, uint256[] _ids, uint256[] _amounts) public virtual override checkLength(_ids.length, _amounts.length) checkAddresses(_from, _to) checkApproval(_from, msg.sender)
 ```
 
 Batch transfers `_amount` tokens of type `_id` from `_from` to `_to`

@@ -24,7 +24,9 @@ You can also find Joe V1 contracts:
 
 [AVAX Faucet](https://faucet.avax.network/) is official faucet by Avalanche Foundation. (Please note that their USDC, USDT tokens are not compatible with Trader Joe testnet.)
 
-You may also request testnet tokens (AVAX, USDC, USDT) from [our faucet](https://testnet.snowtrace.io/address/0x2F416a337c8DbD75E9c0a9c276ad948Aa155Cd25#writeContract). It is limited to 1 request per wallet per day.
+You may also request testnet tokens (AVAX, USDC, USDT) from our faucet - head to Trader Joe Discord [here](https://discord.gg/traderjoe), and use command `!faucet <your-address>` on channel `#lb-testnet`. Please note: You can fund your address only once per 24h (command has a 60 second global delay).
+
+Using our faucet directly on-chain is disabled.
 
 ## ERC20 Tokens
 

@@ -11,17 +11,20 @@ slug: /
 User Manual has been moved to https://help.traderjoexyz.com
 :::
 
+Joe V2 is a decentralized exchange based on Liquidity Book, a novel AMM protocol. 
 
-Trader Joe V1 was a fork of Uniswap V2, a constant product Automated Market Maker (AMM).
+It has the following improvements from the Joe V1 Dex: 
+- Zero 0% slippage for swaps between ticks
+- Dynamic fees to improve liquidity provider profitability
 
-Trader Joe V2, officially called the Liquidity Book, is a novel AMM that aims to solve the shortcomings of Uniswap V3.
 
-Like Uniswap V3, it is also a concentrated liquidity AMM with some subtle differences:
+### Liquidity Book vs Uniswap V3
 
+Both Liquidity Book and Uniswap V3 are concentrated liquidity AMMs with some subtle differences:
 - Price ranges are discretized into bins instead of ticks
 - Bin steps (or tick sizes) can be more than 1 basis point
 - Bins use constant sum invariant instead of constant product
 - Liquidity is aggregated vertically instead of horizontally
 - Liquidity positions are fungible
 - Liquidity positions are not restricted to uniform distribution across its price range; they can be distributed in any shape desired
-- Swap fees have a variable component that increase during times of volatility
+- Swap fees have fixed + variable pricing, which allows the AMM to charge more fees when market experiences high volatility. 

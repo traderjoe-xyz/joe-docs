@@ -9,9 +9,9 @@ All the Joe V2 contracts have been deployed on the Avalanche Mainnet:
 
 | Contract  |                                                        Address                                                        |
 | :-------: | :-------------------------------------------------------------------------------------------------------------------: |
-| LBFactory | [0x4Fa8f706Fb49F4cbd49e01D41A8554FE4100E667](https://snowtrace.io/address/0x4Fa8f706Fb49F4cbd49e01D41A8554FE4100E667) |
-| LBRouter  | [0xC39fD00FBdA552Ac9C405bC50dE050a6d2335616](https://snowtrace.io/address/0xC39fD00FBdA552Ac9C405bC50dE050a6d2335616) |
-| LBQuoter  | [0x7fBb8B867bbfcdDDCB5977b83b1B4c1b55ea1F3C](https://snowtrace.io/address/0x7fBb8B867bbfcdDDCB5977b83b1B4c1b55ea1F3C) |
+| LBFactory | [0x6E77932A92582f504FF6c4BdbCef7Da6c198aEEf](https://snowtrace.io/address/0x6E77932A92582f504FF6c4BdbCef7Da6c198aEEf) |
+| LBRouter  | [0xE3Ffc583dC176575eEA7FD9dF2A7c65F7E23f4C3](https://snowtrace.io/address/0xE3Ffc583dC176575eEA7FD9dF2A7c65F7E23f4C3) |
+| LBQuoter  | [0x51409fD32C15E9857eeF9F28275FA0842C3C4545](https://snowtrace.io/address/0x51409fD32C15E9857eeF9F28275FA0842C3C4545) |
 
 You can also find Joe V1 contracts:
 

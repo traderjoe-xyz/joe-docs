@@ -100,47 +100,6 @@ Return the balance of multiple (account/id) pairs
 | ---- | ---- | ----------- |
 | batchBalances | uint256[] | The balance for each (account, id) pair |
 
-### userPositionAtIndex
-
-```solidity
-function userPositionAtIndex(address _account, uint256 _index) public view virtual override returns (uint256)
-```
-
-Returns the type id at index `_index` where `account` has a non-zero balance
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| _account | address | The address of the account |
-| _index | uint256 | The position index |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| [0] | uint256 | The `account` non-zero position at index `_index` |
-
-### userPositionNumber
-
-```solidity
-function userPositionNumber(address _account) public view virtual override returns (uint256)
-```
-
-Returns the number of non-zero balances of `account`
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| _account | address | The address of the account |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| [0] | uint256 | The number of non-zero balances of `account` |
-
 ### isApprovedForAll
 
 ```solidity

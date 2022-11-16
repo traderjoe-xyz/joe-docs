@@ -229,19 +229,19 @@ _Will swap the full amount that this contract received of token X or Y_
 ### flashLoan
 
 ```solidity
-function flashLoan(address _to, uint256 _amountXOut, uint256 _amountYOut, bytes _data) external override nonReentrant
+function flashLoan(ILBFlashLoanCallback _receiver, IERC20 _token, uint256 _amount, bytes calldata _data) external override nonReentrant
 ```
 
-Performs a flash loan
+Perform a flashloan on one of the tokens of the pair. The flashloan will call the `_receiver` contract to perform the desired operations. The `_receiver` contract is expected to transfer the `amount + fee` of the token to this contract.
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| _to | address | the address that will execute the external call |
-| _amountXOut | uint256 | The amount of tokenX |
-| _amountYOut | uint256 | The amount of tokenY |
-| _data | bytes | The bytes data that will be forwarded to _to |
+| _receiver | ILBFlashLoanCallback | The contract that will receive the flashloan and execute the callback |
+| _token | IERC20 | The address of the token to flashloan |
+| _amount | uint256 | The amount of token to flashloan |
+| _data | bytes | The call data that will be forwarded to the `_receiver` contract during the callback |
 
 ### mint
 

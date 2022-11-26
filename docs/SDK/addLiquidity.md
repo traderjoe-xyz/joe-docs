@@ -114,7 +114,7 @@ const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, PROVIDER)
 const activeBinId = lbPairData.activeId.toNumber()
 ```
 
-## 4. Get addLiquidity parameters
+## 5. Get addLiquidity parameters
 ```js
 // get idSlippage
 const idSlippage = Bin.getIdSlippageFromPriceSlippage(

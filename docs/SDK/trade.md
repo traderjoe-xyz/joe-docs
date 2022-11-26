@@ -5,7 +5,7 @@ sidebar_label: Making a Trade
 
 # Making a Trade 
 
-This guide demonstrates how to execute a swap. We will be swapping 20 USDC for AVAX.
+This guide demonstrates how to execute a swap. In this example, we will be swapping 20 USDC for AVAX.
 
 ### 1. Required imports for this guide
 ```js
@@ -26,7 +26,10 @@ const PROVIDER = new JsonRpcProvider(FUJI_URL)
 const WALLET_PK = "{WALLET_PRIVATE_KEY}"
 const SIGNER = new Wallet(WALLET_PK, PROVIDER)
 const ACCOUNT = await SIGNER.getAddress()
+```
+Note that in your project, you most likely will not hardcode the private key at any time. You would be using libraries like [web3react](https://github.com/Uniswap/web3-react) or [wagmi](https://wagmi.sh/) to connect to a wallet, sign messages, interact with contracts, and get the above constants.
 
+```js
 // initialize tokens
 const WAVAX = _WAVAX[CHAIN_ID] // Token instance of WAVAX
 const USDC = new Token(
@@ -56,7 +59,7 @@ const inputToken = USDC
 // the expected output token in the trade
 const outputToken = WAVAX
 
-// specify whether user gives an exact inputToken or outputToken value for the trade
+// specify whether user gave an exact inputToken or outputToken value for the trade
 const isExactIn = true
 
 // user string input; in this case representing 20 USDC
@@ -98,8 +101,8 @@ const allRoutes = RouteV2.createAllRoutes(
 
 ### 5. Generate TradeV2 instances and get the best trade
 ```js
-const isAvaxIn = false
-const isAvaxOut = true // set to 'true' if swapping for AVAX; otherwise, 'false'
+const isAvaxIn = false // set to 'true' if swapping from AVAX; otherwise, 'false'
+const isAvaxOut = true // set to 'true' if swapping to AVAX; otherwise, 'false'
 
 // generates all possible TradeV2 instances
 const trades = await TradeV2.getTradesExactIn(
@@ -116,7 +119,7 @@ const trades = await TradeV2.getTradesExactIn(
 const bestTrade = TradeV2.chooseBestTrade(trades, isExactIn)
 ```
 
-### 6. Check the trade information
+### 6. Check trade information
 ```js
 // print useful information about the trade, such as the quote, executionPrice, fees, etc
 console.log(bestTrade.toLog())

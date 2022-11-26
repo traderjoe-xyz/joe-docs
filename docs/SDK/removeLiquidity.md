@@ -15,8 +15,9 @@ import {
   LB_ROUTER_ADDRESS,
   LBRouterABI,
   LBPairABI,
+  PairV2
 } from '@traderjoe-xyz/sdk-v2'
-import { Token } from '@traderjoe-xyz/sdk'
+import { Token, JSBI, Percent } from '@traderjoe-xyz/sdk'
 import { Wallet } from 'ethers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
@@ -58,7 +59,7 @@ const BIN_STEP = "2"
 
 ## 2. Fetch all data neccesary to compute the pooled token amounts
 
-The following data needs to be fetched to compute the amount of USDC and USDC.e currently deposited in the USDC/USDC.e/2bps LBPair. This is because the the pooled token amounts will constantly change depending on the current active bin, and the bins' reserveX/Y and totalSupply. 
+The following data needs to be fetched to compute the user's amount of USDC and USDC.e currently deposited in the USDC/USDC.e/2bps LBPair. This is because the pooled token amounts will constantly change depending on the current active bin, and the bins' `reserveX`/`reserveY` and `totalSupply`. 
 
 Please note that this step will be significantly simplified in the future with the support of the **LiquidityAmounts** periphery contract in SDK-V2.  
 
@@ -113,10 +114,9 @@ const userPositionIds: string[] = userBinLiquidities.map(bl => bl.binId)
 
 ### Bins' reserveX and reserveY
 
-We need the reserveX and reserveY for each `userPositionIds`. You can get this either by using the subgraph or interfacing directly with the contract through Ethers.js
+We need the reserveX and reserveY for each `userPositionIds`. You can get this either by using the subgraph or interfacing directly with the contract through Ethers.js as shown below:
 
 ```js
-
 // init LBPair contract
 const lbPairContract = new Contract(
   lbPairAddr,
@@ -144,11 +144,27 @@ const totalSupplies: BigNumber[] = await Promise.all(
 )
 ```
 
-## 3. Prepare removeLiquidity parameters
+## 3. Grant LBRouter access to your LBTokens
+ 
+```js
+const spender = LB_ROUTER_ADDRESS[CHAIN_ID]
 
-### Set `liquidityToRemove` 
+const estimatedGas = await pairContract.estimateGas.setApprovalForAll(
+  spender,
+  true
+)
 
-Now we specify how much liquidity in each bin you'd like to remove. Let's say we want to remove 50% of the liquidity across all bins:
+await pairContract.setApprovalForAll(
+  spender,
+  true,
+  { gasLimit: calculateGasMargin(estimatedGas) }
+)
+```
+## 4. Prepare removeLiquidity parameters
+
+### Get `liquidityToRemove` 
+
+Now we specify how much liquidity in each bin we'd like to remove. Let's say we want to remove 50% of the liquidity across all bins:
 
 ```js
 const liquidityToRemove: string[] = userBinLiquidities.map((bl) => {
@@ -164,7 +180,7 @@ const liquidityToRemove: string[] = userBinLiquidities.map((bl) => {
 
 ### Set amount slippage tolerance and get minimum amounts to remove
 
-When removing liquidity, we can specify the minimum token amounts we expect to withdraw. This is because there could be amount slippages as the bins' reserveX, reserveY and totalLiquidity continue changing.
+When removing liquidity, we can specify the minimum token amounts we expect to withdraw. This is because there could be amount slippages as the bins' `reserveX`, `reserveY` and `totalLiquidity` continue changing.
 
 ```js
 // set amounts slippage tolerance; 0.5% in this example 
@@ -194,7 +210,7 @@ const {
 )
 ```
 
-## 4. Set removeLiquidity parameters and execute contract call
+## 5. Set removeLiquidity parameters
 ```js
 // set transaction deadline
 const currenTimeInSec =  Math.floor((new Date().getTime()) / 1000)
@@ -212,7 +228,12 @@ const removeLiquidityParams = [
   ACCOUNT,
   deadline.toHexString()
 ]
+```
 
+Note that `removeLiquidityParams` will look different for the `removeLiquidityAVAX` method. Please refer to this [link](https://docs.traderjoexyz.com/guides/manage-a-liquidity-position#removing-liquidity) for specific details.
+
+## 6. Execute removeLiquidity contract call
+```js
 // init router contract
 const routerContract = new Contract(
   LB_ROUTER_ADDRESS[CHAIN_ID],
@@ -230,5 +251,3 @@ await method(...removeLiquidityParams, {
   gasLimit: calculateGasMargin(estimatedGasLimit)
 })
 ``` 
-
-Note that `removeLiquidityParams` will look different for the `removeLiquidityAVAX` method. Please refer to this [link](https://docs.traderjoexyz.com/guides/manage-a-liquidity-position#removing-liquidity) for specific details.

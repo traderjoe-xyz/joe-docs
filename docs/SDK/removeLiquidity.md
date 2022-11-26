@@ -22,7 +22,6 @@ import { Wallet } from 'ethers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcProvider } from '@ethersproject/providers'
-
 ```
 ### Constants: chain and wallet
 ```js
@@ -34,7 +33,7 @@ const SIGNER = new Wallet(WALLET_PK, PROVIDER)
 const ACCOUNT = await SIGNER.getAddress()
 ```
 
-Note that in your project, you most likely will not hardcode the private key at any time. You would be using libraries like [web3react](https://github.com/Uniswap/web3-react) or [wagmi](https://wagmi.sh/) to connect to a wallet, sign messages, interact with contracts, and get the values for PROVIDER, SIGNER and ACCOUNT
+Note that in your project, you most likely will not hardcode the private key at any time. You would be using libraries like [web3react](https://github.com/Uniswap/web3-react) or [wagmi](https://wagmi.sh/) to connect to a wallet, sign messages, interact with contracts, and get the values for `PROVIDER`, `SIGNER` and `ACCOUNT`
 
 ### Constants: tokens and LBPair bin step
 ```js
@@ -59,9 +58,9 @@ const BIN_STEP = "2"
 
 ## 2. Fetch all data neccesary to compute the pooled token amounts
 
-The following data needs to be fetched to compute the user's amount of USDC and USDC.e currently deposited in the USDC/USDC.e/2bps LBPair. This is because the pooled token amounts will constantly change depending on the current active bin, and the bins' `reserveX`/`reserveY` and `totalSupply`. 
+The following data needs to be fetched to compute the user's USDC and USDC.e amounts currently deposited in the USDC/USDC.e/2bps pool. This is because the pooled token amounts will constantly change depending on the current active bin, and the bins' `reserveX`/`reserveY` and `totalSupply`. 
 
-Please note that this step will be significantly simplified in the future with the support of the **LiquidityAmounts** periphery contract in SDK-V2.  
+Please note that this step will be significantly simplified in the future with the support of the **LiquidityAmounts** periphery contract and our own DEX API.  
 
 ### LBPair and active bin
 
@@ -78,7 +77,7 @@ const activeBinId = lbPairData.activeId.toNumber()
 
 ### Liquidity positions 
 
-Use the [subgraph](https://docs.traderjoexyz.com/subgraphs/avalanche) to fetch your positions. You need all the `binId`s where you have liquidity and the amount of `liquidity` in each bin. Below is an example of a GraphQL query to the subgraph's `LiquidityPositions` entity.
+Use the [subgraph](../subgraphs/avalanche) to fetch your positions. You need all the `binId`s where you have liquidity and the amount of `liquidity` in each bin. Below is an example of a GraphQL query to the subgraph's `LiquidityPositions` entity.
 ```graphql
 
 {
@@ -98,7 +97,7 @@ Use the [subgraph](https://docs.traderjoexyz.com/subgraphs/avalanche) to fetch y
 }
 ```
 
-We'll assume you have fetched your positions from the subgraph, resulting in `UserBinPosition[]` as the following:
+We'll assume you have fetched your positions from the subgraph, resulting in `UserBinPosition[]`. We can then get the `userPositionIds`.
 
 ```js
 interface UserBinPosition {
@@ -112,9 +111,9 @@ let userBinLiquidities: UserBinPosition[]
 const userPositionIds: string[] = userBinLiquidities.map(bl => bl.binId)
 ```
 
-### Bins' reserveX and reserveY
+### Bins' `reserveX` and `reserveY`
 
-We need the reserveX and reserveY for each `userPositionIds`. You can get this either by using the subgraph or interfacing directly with the contract through Ethers.js as shown below:
+We need the `reserveX` and `reserveY` for each bin in `userPositionIds`. You can get this either by using the subgraph or interfacing directly with the contract through Ethers.js as shown below:
 
 ```js
 // init LBPair contract
@@ -136,7 +135,7 @@ const binsReserves: BinReserves[] = await Promise.all(
 
 ### LBToken totalSupply for each bin
 
-Finally we need the LBToken totalSupply for each bin. Again, either through the subgraph or Ethers.js
+Finally we need the LBToken `totalSupply` for each bin. Again, either through the subgraph or Ethers.js
 
 ```js
 const totalSupplies: BigNumber[] = await Promise.all(
@@ -167,12 +166,15 @@ await pairContract.setApprovalForAll(
 Now we specify how much liquidity in each bin we'd like to remove. Let's say we want to remove 50% of the liquidity across all bins:
 
 ```js
+// 50%
+const frac = new Fraction( 
+  JSBI.BigInt(50),
+  JSBI.BigInt(100)
+)
+
+// compute liquidityToRemove
 const liquidityToRemove: string[] = userBinLiquidities.map((bl) => {
   const liq = JSBI.BigInt(bl.liquidity)
-  const frac = new Fraction( // 50%
-    JSBI.BigInt(50),
-    JSBI.BigInt(100)
-  )
   const liqToRemove = frac.multiply(liq)
   return liqToRemove.quotient.toString()
 })
@@ -180,7 +182,7 @@ const liquidityToRemove: string[] = userBinLiquidities.map((bl) => {
 
 ### Set amount slippage tolerance and get minimum amounts to remove
 
-When removing liquidity, we can specify the minimum token amounts we expect to withdraw. This is because there could be amount slippages as the bins' `reserveX`, `reserveY` and `totalLiquidity` continue changing.
+When removing liquidity, we can specify the minimum token amounts we expect to withdraw. This is because there could be amount slippages as the bins' `reserveX`, `reserveY` and `totalLiquidity` are constantly changing as others users swap or add/remove liquidity.
 
 ```js
 // set amounts slippage tolerance; 0.5% in this example 
@@ -191,9 +193,9 @@ const userSlippageTolerance = new Percent(
 
 // get the amounts to remove
 const {
-  amountX, // amount of USDC to remove
-  amountY, // amount of USDCe to remove
-  amountXMin, // min amount of USDC to remove
+  amountX, // amount of USDC expecting to remove
+  amountY, // amount of USDCe expecting to remove
+  amountXMin, // min amount of USDC to remove, calculated based on 'userSlippageTolerance'
   amountYMin // min amount of USDCe to remove
 }:{
   amountX: JSBI
@@ -209,6 +211,8 @@ const {
   userSlippageTolerance
 )
 ```
+
+Note that you can set `userSlippageTolerance` to 0% if you don't want tolerate any slippage. 
 
 ## 5. Set removeLiquidity parameters
 ```js
@@ -230,7 +234,7 @@ const removeLiquidityParams = [
 ]
 ```
 
-Note that `removeLiquidityParams` will look different for the `removeLiquidityAVAX` method. Please refer to this [link](https://docs.traderjoexyz.com/guides/manage-a-liquidity-position#removing-liquidity) for specific details.
+Note that `removeLiquidityParams` will look different for the `removeLiquidityAVAX` method. Please refer to this [link](../guides/manage-a-liquidity-position#removing-liquidity) for specific details.
 
 ## 6. Execute removeLiquidity contract call
 ```js

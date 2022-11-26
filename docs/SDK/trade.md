@@ -19,9 +19,9 @@ import { JsonRpcProvider } from '@ethersproject/providers'
 
 ## 2. Declare required constants
 ```js
-const FUJI_URL = 'https://api.avax-test.network/ext/bc/C/rpc'
-const CHAIN_ID = ChainId.FUJI
-const PROVIDER = new JsonRpcProvider(FUJI_URL)
+const AVAX_URL = 'https://api.avax.network/ext/bc/C/rpc'
+const CHAIN_ID = ChainId.AVAX
+const PROVIDER = new JsonRpcProvider(AVAX_URL)
 const WALLET_PK = "{WALLET_PRIVATE_KEY}"
 const SIGNER = new Wallet(WALLET_PK, PROVIDER)
 const ACCOUNT = await SIGNER.getAddress()
@@ -33,16 +33,16 @@ Note that in your project, you most likely will not hardcode the private key at 
 const WAVAX = _WAVAX[CHAIN_ID] // Token instance of WAVAX
 const USDC = new Token(
     CHAIN_ID,
-    '0xB6076C93701D6a07266c31066B298AeC6dd65c2d',
+    '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
     6,
     'USDC',
     'USD Coin'
 )
 const USDT = new Token(
     CHAIN_ID,
-    '0xAb231A5744C8E6c45481754928cCfFFFD4aa0732',
+    '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7',
     6,
-    'USDT.e',
+    'USDT',
     'Tether USD'
 )
 
@@ -115,7 +115,7 @@ const trades = await TradeV2.getTradesExactIn(
 ) 
 
 // chooses the best trade 
-const bestTrade = TradeV2.chooseBestTrade(trades, isExactIn)
+const bestTrade: TradeV2 = TradeV2.chooseBestTrade(trades, isExactIn)
 ```
 
 ## 6. Check trade information

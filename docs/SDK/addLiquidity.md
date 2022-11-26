@@ -12,9 +12,9 @@ This guide shows how to add liquidity into a LBPair using the SDKs and Ethers.js
 ### imports
 ```js
 import { 
-  PairV2,
   LB_ROUTER_ADDRESS, 
   LBRouterABI,
+  PairV2,
   Bin, 
   LiquidityDistribution, 
   getLiquidityConfig, 
@@ -71,7 +71,7 @@ await tokenContract.approve(
   { gasLimit: calculateGasMargin(estimatedGas) } 
 )
 ```
-Note that the above requires you to have initialized a `tokenContract: Contract` using the token address and the ERC20 ABI. Repeat this procedure twice: once for USDC and once for USDC.e
+Note that the above requires you to have initialized `tokenContract: Contract` using the token address and the ERC20 ABI. Repeat this procedure twice: once for USDC and once for USDC.e
 
 ## 3. Initialize user inputs
 ```js
@@ -122,7 +122,7 @@ const idSlippage = Bin.getIdSlippageFromPriceSlippage(
   Number(BIN_STEP)
 )
 
-// Example 1: getting distribution parameters for one of the default shapes 
+// Example 1: getting distribution parameters for one of the default 'LiquidityDistribution' shapes 
 const { deltaIds, distributionX, distributionY } = getLiquidityConfig(LiquidityDistribution.NORMAL)
 
 // Example 2: getting distribution parameters for uniform distribution given a price range
@@ -158,7 +158,7 @@ const addLiquidityInput = {
   deadline 
 }
 ```
-For additional details about the parameters, refer to this [link](https://docs.traderjoexyz.com/guides/manage-a-liquidity-position#liquidity-parameters). 
+For additional details about the parameters, refer to this [link](../guides/manage-a-liquidity-position#liquidity-parameters). 
 
 
 ## 6. Execute addLiquidity contract call

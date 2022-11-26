@@ -1,9 +1,9 @@
 ---
 sidebar_position: 4
-sidebar_label: Claim Fees
+sidebar_label: Claiming Fees
 ---
 
-# Claim Fees
+# Claiming Fees
 
 This guide shows how to claim the rewards from your V2 liquidity pool using the SDKs, Subgraph, and Ethers.js. 
 

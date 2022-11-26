@@ -158,14 +158,15 @@ const router = new Contract(
 )
 
 // estimate gas
-const options = !value || isZero(value) ? {} : { value }
+const gasOptions = value && !isZero(value) ? { value } : {} 
 const gasEstimate = await router.estimateGas[methodName](...args, options)
 
 // execute swap
+const options = value && !isZero(value) 
+  ? { value, from: ACCOUNT }
+  : { from: ACCOUNT }
 await router[methodName](...args, {
   gasLimit: calculateGasMargin(gasEstimate),
-  ...(value && !isZero(value) 
-    ? { value, from: ACCOUNT }
-    : { from: ACCOUNT }
-)})
+  ...options
+})
 ```

@@ -105,7 +105,7 @@ const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, PROVIDER)
 const activeBinId = lbPairData.activeId.toNumber()
 ```
 
-### 5. Get parameters for LBRouter.addLiquidity
+### 5. Get parameters for LBRouter.addLiquidity / LBRouter.addLiquidity
 ```js
 // get idSlippage
 const idSlippage = Bin.getIdSlippageFromPriceSlippage(
@@ -164,8 +164,10 @@ const router = new Contract(
 const estimate = router.estimateGas.addLiquidity // 'addLiquidityAVAX' if one of the tokens is AVAX
 const method = router.addLiquidity
 
+// set AVAX amount, such as tokenAmountAVAX.raw.toString(), when one of the tokens is AVAX; otherwise, set to null
+const value = null 
+
 // call methods
-const value = null // set AVAX amount, such as tokenAmountAVAX.raw.toString(), when one of the tokens is AVAX
 const estimatedGasLimit = await estimate(
   addLiquidityInput,
   value ? { value } : {}

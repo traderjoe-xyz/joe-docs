@@ -11,7 +11,7 @@ All the Joe V2 contracts have been deployed on the Avalanche Mainnet:
 | :-------: | :-------------------------------------------------------------------------------------------------------------------: |
 | LBFactory | [0x6E77932A92582f504FF6c4BdbCef7Da6c198aEEf](https://snowtrace.io/address/0x6E77932A92582f504FF6c4BdbCef7Da6c198aEEf) |
 | LBRouter  | [0xE3Ffc583dC176575eEA7FD9dF2A7c65F7E23f4C3](https://snowtrace.io/address/0xE3Ffc583dC176575eEA7FD9dF2A7c65F7E23f4C3) |
-| LBQuoter  | [0x51409fD32C15E9857eeF9F28275FA0842C3C4545](https://snowtrace.io/address/0x51409fD32C15E9857eeF9F28275FA0842C3C4545) |
+| LBQuoter  | [0x9dbf1706577636941ab5f443d2aebe251ccd1648](https://snowtrace.io/address/0x9dbf1706577636941ab5f443d2aebe251ccd1648) |
 
 You can also find Joe V1 contracts:
 

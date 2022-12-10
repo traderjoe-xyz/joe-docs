@@ -8,3 +8,4 @@ phases:
     commands:
       - aws s3 rm s3://$DEPLOYMENT_BUCKET/ --recursive --exclude "404.html" --exclude "index.html" --exclude "sitemap.xml"
       - aws s3 cp s3://$BUILD_BUCKET_ARTIFACTS/$GIT_TAG s3://$DEPLOYMENT_BUCKET --recursive
+      - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --invalidation-batch file://cache-invalidation.json

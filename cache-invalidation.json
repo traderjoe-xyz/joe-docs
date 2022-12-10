@@ -2,8 +2,8 @@
     "Paths": {
         "Quantity": 3,
         "Items": [
-            "/404.html"
-            "/index.html"
+            "/404.html",
+            "/index.html",
             "/sitemap.xml"
         ]
     },

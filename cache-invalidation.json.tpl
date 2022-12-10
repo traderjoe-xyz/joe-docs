@@ -7,5 +7,5 @@
             "/sitemap.xml"
         ]
     },
-    "CallerReference": "buildspec-deploy.yml"
+    "CallerReference": "%CODEBUILD_WEBHOOK_TRIGGER%"
 }

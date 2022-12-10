@@ -1,0 +1,11 @@
+{
+    "Paths": {
+        "Quantity": 3,
+        "Items": [
+            "/404.html",
+            "/index.html",
+            "/sitemap.xml"
+        ]
+    },
+    "CallerReference": "buildspec-deploy.yml"
+}

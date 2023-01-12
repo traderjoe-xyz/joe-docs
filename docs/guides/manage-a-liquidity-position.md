@@ -89,7 +89,7 @@ The number of parameters are quite extensive. Here are a few pointers to underst
 - `distributionX` (or `distributionY`) is the percentages of `amountX` (or `amountY`) you want to add to each bin.
   - Sum of all values should be less than or equal to 1. If less than, the remaining is refunded back to the user.
   - Trying to add X to a bin below the active bin or Y to a bin above the active bin will cause a revert.
-- Maximum number of bins, that can be populated at the same time is around `51` due to Avalanche C-chain block gas limit (`8M`). Multiple transactions can be used to add liquidity to more bins.
+- Maximum number of bins, that can be populated at the same time is around `80` on Avalanche C-chain due to block gas limit (`8M`). Multiple transactions can be used to add liquidity to more bins.
 
 ### Code Example
 

@@ -1,6 +1,6 @@
 ---
-sidebar_position: 0
-sidebar_label: Fuji
+sidebar_position: 1
+sidebar_label: Fuji Testnet
 ---
 
 # Fuji
@@ -23,10 +23,6 @@ You can also find Joe V1 contracts:
 ## Faucets
 
 [AVAX Faucet](https://faucet.avax.network/) is official faucet by Avalanche Foundation. (Please note that their USDC, USDT tokens are not compatible with Trader Joe testnet.)
-
-You may also request testnet tokens (AVAX, USDC, USDT) from our faucet - head to Trader Joe Discord [here](https://discord.gg/traderjoe), and use command `!faucet <your-address>` on channel `#lb-testnet`. Please note: You can fund your address only once per 24h (command has a 60 second global delay).
-
-Using our faucet directly on-chain is disabled.
 
 ## ERC20 Tokens
 

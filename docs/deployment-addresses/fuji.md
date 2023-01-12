@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-sidebar_label: Fuji
+sidebar_label: Fuji Testnet
 ---
 
 # Fuji

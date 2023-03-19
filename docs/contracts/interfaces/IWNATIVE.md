@@ -1,6 +1,6 @@
 ---
 sidebar_position: 10
-sidebar_label: IWAVAX
+sidebar_label: IWNATIVE
 ---
 
 ## IWAVAX
@@ -18,4 +18,3 @@ function deposit() external payable
 ```solidity
 function withdraw(uint256) external
 ```
-

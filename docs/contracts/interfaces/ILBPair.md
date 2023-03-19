@@ -1,249 +1,263 @@
----
-sidebar_position: 2
-sidebar_label: ILBPair
----
-
 ## ILBPair
 
 Required interface of LBPair contract
 
-### Bin
+### DepositedToBins
 
 ```solidity
-struct Bin {
-  uint112 reserveX;
-  uint112 reserveY;
-  uint256 accTokenXPerShare;
-  uint256 accTokenYPerShare;
-}
+event DepositedToBins(address indexed sender, address indexed to, uint256[] ids, bytes32[] amounts)
 ```
 
-### PairInformation
+### WithdrawnFromBins
 
 ```solidity
-struct PairInformation {
-  uint24 activeId;
-  uint136 reserveX;
-  uint136 reserveY;
-  uint16 oracleSampleLifetime;
-  uint16 oracleSize;
-  uint16 oracleActiveSize;
-  uint40 oracleLastTimestamp;
-  uint16 oracleId;
-  struct FeeHelper.FeesDistribution feesX;
-  struct FeeHelper.FeesDistribution feesY;
-}
+event WithdrawnFromBins(address indexed sender, address indexed to, uint256[] ids, bytes32[] amounts)
 ```
 
-### Debts
+### CompositionFees
 
 ```solidity
-struct Debts {
-  uint256 debtX;
-  uint256 debtY;
-}
+event CompositionFees(address indexed sender, uint24 id, bytes32 totalFees, bytes32 protocolFees)
 ```
 
-### Fees
+### CollectedProtocolFees
 
 ```solidity
-struct Fees {
-  uint128 tokenX;
-  uint128 tokenY;
-}
-```
-
-### MintInfo
-
-```solidity
-struct MintInfo {
-  uint256 amountXIn;
-  uint256 amountYIn;
-  uint256 amountXAddedToPair;
-  uint256 amountYAddedToPair;
-  uint256 activeFeeX;
-  uint256 activeFeeY;
-  uint256 totalDistributionX;
-  uint256 totalDistributionY;
-  uint256 id;
-  uint256 amountX;
-  uint256 amountY;
-  uint256 distributionX;
-  uint256 distributionY;
-}
+event CollectedProtocolFees(address indexed feeRecipient, bytes32 protocolFees)
 ```
 
 ### Swap
 
 ```solidity
-event Swap(address sender, address recipient, uint24 id, uint256 amountXIn, uint256 amountYIn, uint256 amountXOut, uint256 amountYOut, uint256 volatilityAccumulated, uint256 feesX, uint256 feesY)
+event Swap(
+    address indexed sender,
+    address indexed to,
+    uint24 id,
+    bytes32 amountsIn,
+    bytes32 amountsOut,
+    uint24 volatilityAccumulator,
+    bytes32 totalFees,
+    bytes32 protocolFees
+    )
+```
+
+### StaticFeeParametersSet
+
+```solidity
+event StaticFeeParametersSet(
+    address indexed sender,
+    uint16 baseFactor,
+    uint16 filterPeriod,
+    uint16 decayPeriod,
+    uint16 reductionFactor,
+    uint24 variableFeeControl,
+    uint16 protocolShare,
+    uint24 maxVolatilityAccumulator
+    )
 ```
 
 ### FlashLoan
 
 ```solidity
-event FlashLoan(address sender, address recipient, uint256 amountX, uint256 amountY, uint256 feesX, uint256 feesY)
+event FlashLoan(
+    address indexed sender,
+    ILBFlashLoanCallback indexed receiver,
+    uint24 activeId,
+    bytes32 amounts,
+    bytes32 totalFees,
+    bytes32 protocolFees
+    )
 ```
 
-### LiquidityAdded
+### OracleLengthIncreased
 
 ```solidity
-event LiquidityAdded(address sender, address recipient, uint256 id, uint256 minted, uint256 amountX, uint256 amountY, uint256 distributionX, uint256 distributionY)
+event OracleLengthIncreased(address indexed sender, uint16 oracleLength)
 ```
 
-### CompositionFee
+### ForcedDecay
 
 ```solidity
-event CompositionFee(address sender, address recipient, uint256 id, uint256 feesX, uint256 feesY)
-```
-
-### LiquidityRemoved
-
-```solidity
-event LiquidityRemoved(address sender, address recipient, uint256 id, uint256 burned, uint256 amountX, uint256 amountY)
-```
-
-### FeesCollected
-
-```solidity
-event FeesCollected(address sender, address recipient, uint256 amountX, uint256 amountY)
-```
-
-### ProtocolFeesCollected
-
-```solidity
-event ProtocolFeesCollected(address sender, address recipient, uint256 amountX, uint256 amountY)
-```
-
-### OracleSizeIncreased
-
-```solidity
-event OracleSizeIncreased(uint256 previousSize, uint256 newSize)
-```
-
-### tokenX
-
-```solidity
-function tokenX() external view returns (contract IERC20)
-```
-
-### tokenY
-
-```solidity
-function tokenY() external view returns (contract IERC20)
-```
-
-### factory
-
-```solidity
-function factory() external view returns (contract ILBFactory)
-```
-
-### getReservesAndId
-
-```solidity
-function getReservesAndId() external view returns (uint256 reserveX, uint256 reserveY, uint256 activeId)
-```
-
-### getGlobalFees
-
-```solidity
-function getGlobalFees() external view returns (uint256 feesXTotal, uint256 feesYTotal, uint256 feesXProtocol, uint256 feesYProtocol)
-```
-
-### getOracleParameters
-
-```solidity
-function getOracleParameters() external view returns (uint256 oracleSampleLifetime, uint256 oracleSize, uint256 oracleActiveSize, uint256 oracleLastTimestamp, uint256 oracleId, uint256 min, uint256 max)
-```
-
-### getOracleSampleFrom
-
-```solidity
-function getOracleSampleFrom(uint256 timeDelta) external view returns (uint256 cumulativeId, uint256 cumulativeAccumulator, uint256 cumulativeBinCrossed)
-```
-
-### feeParameters
-
-```solidity
-function feeParameters() external view returns (struct FeeHelper.FeeParameters)
-```
-
-### findFirstNonEmptyBinId
-
-```solidity
-function findFirstNonEmptyBinId(uint24 id_, bool sentTokenY) external view returns (uint24 id)
-```
-
-### getBin
-
-```solidity
-function getBin(uint24 id) external view returns (uint256 reserveX, uint256 reserveY)
-```
-
-### pendingFees
-
-```solidity
-function pendingFees(address account, uint256[] ids) external view returns (uint256 amountX, uint256 amountY)
-```
-
-### swap
-
-```solidity
-function swap(bool sentTokenY, address to) external returns (uint256 amountXOut, uint256 amountYOut)
-```
-
-### flashLoan
-
-```solidity
-function flashLoan(address to, uint256 amountXOut, uint256 amountYOut, bytes data) external
-```
-
-### mint
-
-```solidity
-function mint(uint256[] ids, uint256[] distributionX, uint256[] distributionY, address to) external returns (uint256 amountXAddedToPair, uint256 amountYAddedToPair, uint256[] liquidityMinted)
-```
-
-### burn
-
-```solidity
-function burn(uint256[] ids, uint256[] amounts, address to) external returns (uint256 amountX, uint256 amountY)
-```
-
-### increaseOracleLength
-
-```solidity
-function increaseOracleLength(uint16 newSize) external
-```
-
-### collectFees
-
-```solidity
-function collectFees(address account, uint256[] ids) external returns (uint256 amountX, uint256 amountY)
-```
-
-### collectProtocolFees
-
-```solidity
-function collectProtocolFees() external returns (uint256 amountX, uint256 amountY)
-```
-
-### setFeesParameters
-
-```solidity
-function setFeesParameters(bytes32 packedFeeParameters) external
-```
-
-### forceDecay
-
-```solidity
-function forceDecay() external
+event ForcedDecay(address indexed sender, uint24 idReference, uint24 volatilityReference)
 ```
 
 ### initialize
 
 ```solidity
-function initialize(contract IERC20 tokenX, contract IERC20 tokenY, uint24 activeId, uint16 sampleLifetime, bytes32 packedFeeParameters) external
+function initialize(
+    uint16 baseFactor,
+    uint16 filterPeriod,
+    uint16 decayPeriod,
+    uint16 reductionFactor,
+    uint24 variableFeeControl,
+    uint16 protocolShare,
+    uint24 maxVolatilityAccumulator,
+    uint24 activeId
+) external override onlyFactory
 ```
 
+
+### getFactory
+
+```solidity
+function getFactory() external view override returns (ILBFactory factory)
+```
+
+### getTokenX
+
+```solidity
+function getTokenX() external pure override returns (IERC20 tokenX)
+```
+
+### getTokenY
+
+```solidity
+function getTokenY() external pure override returns (IERC20 tokenY)
+```
+
+### getBinStep
+
+```solidity
+function getBinStep() external pure override returns (uint16)
+```
+
+### getReserves
+
+```solidity
+function getReserves() external view override returns (uint128 reserveX, uint128 reserveY)
+```
+
+### getActiveId
+
+```solidity
+function getActiveId() external view override returns (uint24 activeId)
+```
+
+### getBin
+
+```solidity
+function getBin(uint24 id) external view override returns (uint128 binReserveX, uint128 binReserveY)
+```
+
+### getNextNonEmptyBin
+
+```solidity
+function getNextNonEmptyBin(bool swapForY, uint24 id) external view override returns (uint24 nextId)
+```
+
+### getProtocolFees
+
+```solidity
+function getProtocolFees() external view returns (uint128 protocolFeeX, uint128 protocolFeeY)
+```
+
+### getStaticFeeParameters
+
+```solidity
+function getStaticFeeParameters() external view returns (uint16 baseFactor, uint16 filterPeriod, uint16 decayPeriod, uint16 reductionFactor, uint24 variableFeeControl, uint16 protocolShare, uint24 maxVolatilityAccumulator)
+```
+
+
+### getVariableFeeParameters
+
+```solidity
+function getVariableFeeParameters() external view returns (uint24 volatilityAccumulator, uint24 volatilityReference, uint24 idReference, uint40 timeOfLastUpdate)
+```
+
+
+### getOracleParameters
+
+```solidity
+function getOracleParameters() external view returns (uint8 sampleLifetime, uint16 size, uint16 activeSize, uint40 lastUpdated, uint40 firstTimestamp)
+```
+
+### getOracleSampleAt
+
+```solidity
+function getOracleSampleAt(uint40 lookupTimestamp) external view returns (uint64 cumulativeId, uint64 cumulativeVolatility, uint64 cumulativeBinCrossed)
+```
+
+
+### getPriceFromId
+
+```solidity
+function getPriceFromId(uint24 id) external pure returns (uint256 price)
+```
+
+### getIdFromPrice
+
+```solidity
+function getIdFromPrice(uint256 price) external pure returns (uint24 id)
+```
+
+
+### getSwapIn
+
+```solidity
+function getSwapIn(uint128 amountOut, bool swapForY) external view returns (uint128 amountIn, uint128 amountOutLeft, uint128 fee)
+```
+
+### getSwapOut
+
+```solidity
+function getSwapOut(uint128 amountIn, bool swapForY) external view override returns (uint128 amountInLeft, uint128 amountOut, uint128 fee)
+```
+
+### swap
+
+```solidity
+function swap(bool swapForY, address to) external override nonReentrant returns (bytes32 amountsOut)
+```
+
+### flashLoan
+
+```solidity
+function flashLoan(ILBFlashLoanCallback receiver, bytes32 amounts, bytes calldata data) external override nonReentrant
+```
+
+### mint
+
+```solidity
+function mint(address to, bytes32[] calldata liquidityConfigs, address refundTo) external override nonReentrant returns (bytes32 amountsReceived, bytes32 amountsLeft, uint256[] memory liquidityMinted)
+```
+
+### burn
+
+```solidity
+function burn(address from, address to, uint256[] calldata ids, uint256[] calldata amountsToBurn) external override nonReentrant checkApproval(from, msg.sender) returns (bytes32[] memory amounts)
+```
+
+
+### collectProtocolFees
+
+```solidity
+function collectProtocolFees() external override nonReentrant onlyProtocolFeeRecipient returns (bytes32 collectedProtocolFees)
+```
+
+
+### increaseOracleLength
+
+```solidity
+function increaseOracleLength(uint16 newLength) external override
+```
+
+### setStaticFeeParameters
+
+```solidity
+function setStaticFeeParameters(
+    uint16 baseFactor,
+    uint16 filterPeriod,
+    uint16 decayPeriod,
+    uint16 reductionFactor,
+    uint24 variableFeeControl,
+    uint16 protocolShare,
+    uint24 maxVolatilityAccumulator
+) external override onlyFactory
+```
+
+
+### forceDecay
+
+```solidity
+function forceDecay() external override onlyFactory
+```

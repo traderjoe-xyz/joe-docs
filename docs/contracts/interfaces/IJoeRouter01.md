@@ -120,4 +120,3 @@ function getAmountsOut(uint256 amountIn, address[] path) external view returns (
 ```solidity
 function getAmountsIn(uint256 amountOut, address[] path) external view returns (uint256[] amounts)
 ```
-

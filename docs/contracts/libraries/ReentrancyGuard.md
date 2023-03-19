@@ -1,11 +1,5 @@
----
-sidebar_position: 0
-sidebar_label: ReentrancyGuardUpgradeable
----
-
-## ReentrancyGuardUpgradeable
-
-Contract module that helps prevent reentrant calls to a function
+## Reentrancy Guard
+This library contains functions to prevent reentrant calls to a function
 
 ### __ReentrancyGuard_init
 
@@ -13,9 +7,12 @@ Contract module that helps prevent reentrant calls to a function
 function __ReentrancyGuard_init() internal
 ```
 
+Initializes the `_status` variable.
+
 ### __ReentrancyGuard_init_unchained
 
 ```solidity
 function __ReentrancyGuard_init_unchained() internal
 ```
 
+Initializes the `_status` variable.

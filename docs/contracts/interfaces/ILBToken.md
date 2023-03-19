@@ -1,93 +1,74 @@
----
-sidebar_position: 1
-sidebar_label: ILBToken
----
-
 ## ILBToken
 
 Required interface of LBToken contract
 
-### TransferSingle
-
-```solidity
-event TransferSingle(address sender, address from, address to, uint256 id, uint256 amount)
-```
-
 ### TransferBatch
 
 ```solidity
-event TransferBatch(address sender, address from, address to, uint256[] ids, uint256[] amounts)
+event TransferBatch(
+    address indexed sender, 
+    address indexed from, 
+    address indexed to, 
+    uint256[] ids, 
+    uint256[] amounts
+    )
 ```
 
 ### ApprovalForAll
 
 ```solidity
-event ApprovalForAll(address account, address sender, bool approved)
+event ApprovalForAll(
+    address indexed account, 
+    address indexed sender, 
+    bool approved
+    )
 ```
 
 ### name
 
 ```solidity
-function name() external view returns (string)
+function name() public view virtual override returns (string memory)
 ```
 
 ### symbol
 
 ```solidity
-function symbol() external view returns (string)
+function symbol() public view virtual override returns (string memory)
+```
+
+
+### totalSupply
+
+```solidity
+function totalSupply(uint256 id) public view virtual override returns (uint256)
 ```
 
 ### balanceOf
 
 ```solidity
-function balanceOf(address account, uint256 id) external view returns (uint256)
+function balanceOf(address account, uint256 id) public view virtual override returns (uint256)
 ```
 
 ### balanceOfBatch
 
 ```solidity
-function balanceOfBatch(address[] accounts, uint256[] ids) external view returns (uint256[] batchBalances)
-```
-
-### userPositionAtIndex
-
-```solidity
-function userPositionAtIndex(address account, uint256 index) external view returns (uint256)
-```
-
-### userPositionNumber
-
-```solidity
-function userPositionNumber(address account) external view returns (uint256)
-```
-
-### totalSupply
-
-```solidity
-function totalSupply(uint256 id) external view returns (uint256)
+function balanceOfBatch(address[] memory accounts, uint256[] memory ids) public view virtual override checkLength(accounts.length, ids.length) returns (uint256[] memory batchBalances)
 ```
 
 ### isApprovedForAll
 
 ```solidity
-function isApprovedForAll(address owner, address spender) external view returns (bool)
+function isApprovedForAll(address owner, address spender) public view virtual override returns (bool)
 ```
 
-### setApprovalForAll
+### approveForAll
 
 ```solidity
-function setApprovalForAll(address sender, bool approved) external
+function approveForAll(address spender, bool approved) public virtual override
 ```
 
-### safeTransferFrom
+### batchTransferFrom
 
 ```solidity
-function safeTransferFrom(address from, address to, uint256 id, uint256 amount) external
+function batchTransferFrom(address from, address to, uint256[] memory ids, uint256[] memory amounts) public virtual override checkApproval(from, msg.sender)
 ```
-
-### safeBatchTransferFrom
-
-```solidity
-function safeBatchTransferFrom(address from, address to, uint256[] id, uint256[] amount) external
-```
-

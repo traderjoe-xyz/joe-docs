@@ -3,13 +3,13 @@
 Liquidity Book Sample Math Library
 
 This library contains functions to encode and decode a sample into a single bytes32 and interact with the encoded bytes32
-The sample is encoded as follows: <br>
-0 - 16: oracle length (16 bits) <br>
-16 - 80: cumulative id (64 bits)<br>
-80 - 144: cumulative volatility accumulator (64 bits)<br>
-144 - 208: cumulative bin crossed (64 bits)<br>
-208 - 216: sample lifetime (8 bits)<br>
-216 - 256: sample creation timestamp (40 bits)<br>
+The sample is encoded as follows: <br/>
+0 - 16: oracle length (16 bits) <br/>
+16 - 80: cumulative id (64 bits)<br/>
+80 - 144: cumulative volatility accumulator (64 bits)<br/>
+144 - 208: cumulative bin crossed (64 bits)<br/>
+208 - 216: sample lifetime (8 bits)<br/>
+216 - 256: sample creation timestamp (40 bits)<br/>
 
 ### encode
 
@@ -55,7 +55,7 @@ Gets the oracle length from an encoded sample
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br>[0 - 16[: oracle length (16 bits) <br>[16 - 256[: any (240 bits) |
+| sample | bytes32 | The encoded sample as follows: <br/>[0 - 16[: oracle length (16 bits) <br/>[16 - 256[: any (240 bits) |
 
 #### Return Values
 
@@ -75,7 +75,7 @@ Gets the cumulative id from an encoded sample
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br>[0 - 16[: any (16 bits) <br>[16 - 80[: cumulative id (64 bits) <br>[80 - 256[: any (176 bits) |
+| sample | bytes32 | The encoded sample as follows: <br/>[0 - 16[: any (16 bits) <br/>[16 - 80[: cumulative id (64 bits) <br/>[80 - 256[: any (176 bits) |
 
 #### Return Values
 
@@ -95,7 +95,7 @@ Gets the cumulative volatility accumulator from an encoded sample
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br>[0 - 80[: any (80 bits) <br>[80 - 144[: cumulative volatility accumulator (64 bits) <br>[144 - 256[: any (112 bits) |
+| sample | bytes32 | The encoded sample as follows: <br/>[0 - 80[: any (80 bits) <br/>[80 - 144[: cumulative volatility accumulator (64 bits) <br/>[144 - 256[: any (112 bits) |
 
 #### Return Values
 
@@ -115,7 +115,7 @@ Gets the cumulative bin crossed from an encoded sample
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br>[0 - 144[: any (144 bits) <br>[144 - 208[: cumulative bin crossed (64 bits) <br>[208 - 256[: any (48 bits) |
+| sample | bytes32 | The encoded sample as follows: <br/>[0 - 144[: any (144 bits) <br/>[144 - 208[: cumulative bin crossed (64 bits) <br/>[208 - 256[: any (48 bits) |
 
 #### Return Values
 
@@ -135,7 +135,7 @@ Gets the sample lifetime from an encoded sample
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br>[0 - 208[: any (208 bits) <br>[208 - 216[: sample lifetime (8 bits) <br>[216 - 256[: any (40 bits) |
+| sample | bytes32 | The encoded sample as follows: <br/>[0 - 208[: any (208 bits) <br/>[208 - 216[: sample lifetime (8 bits) <br/>[216 - 256[: any (40 bits) |
 
 #### Return Values
 
@@ -155,7 +155,7 @@ Gets the sample creation timestamp from an encoded sample
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br>[0 - 216[: any (216 bits) <br>[216 - 256[: sample creation timestamp (40 bits) |
+| sample | bytes32 | The encoded sample as follows: <br/>[0 - 216[: any (216 bits) <br/>[216 - 256[: sample creation timestamp (40 bits) |
 
 #### Return Values
 
@@ -175,7 +175,7 @@ Gets the sample last update timestamp from an encoded sample
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br>[0 - 216[: any (216 bits) <br>[216 - 256[: sample creation timestamp (40 bits) |
+| sample | bytes32 | The encoded sample as follows: <br/>[0 - 216[: any (216 bits) <br/>[216 - 256[: sample creation timestamp (40 bits) |
 
 #### Return Values
 

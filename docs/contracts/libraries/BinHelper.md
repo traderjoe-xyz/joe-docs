@@ -178,7 +178,7 @@ Returns the encoded amounts that was transferred to the contract
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amounts | bytes32 | The amounts, encoded as follows:<br>[0 - 128[: amountX<br>[128 - 256[: amountY |
+| amounts | bytes32 | The amounts, encoded as follows:<br/>[0 - 128[: amountX<br/>[128 - 256[: amountY |
 
 ### receivedX
 
@@ -199,7 +199,7 @@ Returns the encoded amounts that was transferred to the contract, only for token
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-|  | bytes32 | The amounts, encoded as follows:<br>[0 - 128[: amountX<br>[128 - 256[: empty |
+|  | bytes32 | The amounts, encoded as follows:<br/>[0 - 128[: amountX<br/>[128 - 256[: empty |
 
 ### receivedY
 
@@ -220,7 +220,7 @@ Returns the encoded amounts that was transferred to the contract, only for token
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-|  | bytes32 | The amounts, encoded as follows:<br>[0 - 128[: empty<br>[128 - 256[: amountY |
+|  | bytes32 | The amounts, encoded as follows:<br/>[0 - 128[: empty<br/>[128 - 256[: amountY |
 
 ### transfer
 
@@ -234,7 +234,7 @@ Transfers the encoded amounts to the recipient
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amounts | bytes32 | The amounts, encoded as follows:<br>[0 - 128[: amountX<br>[128 - 256[: amountY |
+| amounts | bytes32 | The amounts, encoded as follows:<br/>[0 - 128[: amountX<br/>[128 - 256[: amountY |
 | tokenX | IERC20 | The token X |
 | tokenY | IERC20 | The token Y |
 | recipient | address | The recipient |
@@ -251,7 +251,7 @@ Transfers the encoded amounts to the recipient, only for token X
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amounts | bytes32 | The amounts, encoded as follows:<br>[0 - 128[: amountX<br>[128 - 256[: empty |
+| amounts | bytes32 | The amounts, encoded as follows:<br/>[0 - 128[: amountX<br/>[128 - 256[: empty |
 | tokenX | IERC20 | The token X |
 | recipient | address | The recipient |
 
@@ -267,7 +267,7 @@ Transfers the encoded amounts to the recipient, only for token Y
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amounts | bytes32 | The amounts, encoded as follows:<br>[0 - 128[: empty<br>[128 - 256[: amountY |
+| amounts | bytes32 | The amounts, encoded as follows:<br/>[0 - 128[: empty<br/>[128 - 256[: amountY |
 | tokenY | IERC20 | The token Y |
 | recipient | address | The recipient |
 

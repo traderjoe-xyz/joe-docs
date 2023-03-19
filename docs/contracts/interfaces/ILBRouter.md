@@ -11,7 +11,7 @@ enum Version{
     V2_1
 }
 ```
-This enum represents the version of the pair requested: <br>
+This enum represents the version of the pair requested: <br/>
 * V1: Joe V1 pair
 * V2: LB pair V2. Also called legacyPair
 * V2_1: LB pair V2.1 (current version)
@@ -38,7 +38,7 @@ IERC20 tokenX;
 }
 ```
 
-The liquidity parameters, such as: <br>
+The liquidity parameters, such as: <br/>
 * tokenX: The address of token X
 * tokenY: The address of token Y
 * binStep: The bin step of the pair

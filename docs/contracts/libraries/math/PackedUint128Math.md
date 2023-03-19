@@ -21,7 +21,7 @@ Encodes two uint128 into a single bytes32.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br>[0 - 128[: x1<br>[128 - 256[: x2|
+| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: x1<br/>[128 - 256[: x2|
 
 ### encodeFirst
 
@@ -41,7 +41,7 @@ Encodes a uint128 into a single bytes32 as the first uint128.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br>[0 - 128[: x1<br>[128 - 256[: empty|
+| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: x1<br/>[128 - 256[: empty|
 
 ### encodeSecond
 
@@ -61,7 +61,7 @@ Encodes a uint128 into a single bytes32 as the second uint128.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br>[0 - 128[: empty<br>[128 - 256[: x2|
+| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: empty<br/>[128 - 256[: x2|
 
 ### encode
 
@@ -82,7 +82,7 @@ Encodes a uint128 into a single bytes32 as the first or second uint128.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br>if first:<br>[0 - 128[: x<br>[128 - 256[: empty<br>else:<br>[0 - 128[: empty<br>[128 - 256[: x|
+| z | bytes32 | The encoded bytes32 as follows:<br/>if first:<br/>[0 - 128[: x<br/>[128 - 256[: empty<br/>else:<br/>[0 - 128[: empty<br/>[128 - 256[: x|
 
 ### decode
 
@@ -96,7 +96,7 @@ Decodes a bytes32 into two uint128.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br>[0 - 128[: x1<br>[128 - 256[: x2|
+| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: x1<br/>[128 - 256[: x2|
 
 #### Return Values
 
@@ -117,7 +117,7 @@ Decodes a bytes32 into a uint128 as the first uint128.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br>[0 - 128[: x1<br>[128 - 256[: any|
+| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: x1<br/>[128 - 256[: any|
 
 #### Return Values
 
@@ -313,7 +313,7 @@ Multiplies an encoded bytes32 by a uint256 then shifts the result 128 bits to th
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| z | bytes32 | The product of x and multiplier encoded as follows: [0 - 128[: ceil((x1 * multiplier) / 2**128) [128 - 256[: ceil((x2 * multiplier) / 2**128) |
+| z | bytes32 | The product of x and multiplier encoded as follows: [0 - 128[: ceil((x1 * multiplier) / 2^128) [128 - 256[: ceil((x2 * multiplier) / 2^128) |
 
 ### scalarMulDivBasisPointRoundDown
 

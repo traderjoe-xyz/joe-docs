@@ -1,13 +1,13 @@
 ## Oracle Helper
 
-This library contains functions to manage the oracle. The oracle samples are stored in a single bytes32 array. Each sample is encoded as follows: <br>
+This library contains functions to manage the oracle. The oracle samples are stored in a single bytes32 array. Each sample is encoded as follows: <br/>
 
-0 - 16: oracle length (16 bits)<br>
-16 - 80: cumulative id (64 bits)<br>
-80 - 144: cumulative volatility accumulator (64 bits)<br>
-144 - 208: cumulative bin crossed (64 bits)<br>
-208 - 216: sample lifetime (8 bits)<br>
-216 - 256: sample creation timestamp (40 bits)<br>
+0 - 16: oracle length (16 bits)<br/>
+16 - 80: cumulative id (64 bits)<br/>
+80 - 144: cumulative volatility accumulator (64 bits)<br/>
+144 - 208: cumulative bin crossed (64 bits)<br/>
+208 - 216: sample lifetime (8 bits)<br/>
+216 - 256: sample creation timestamp (40 bits)<br/>
 
 ### getSample
 

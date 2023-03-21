@@ -53,7 +53,7 @@ function addLiquidity(LiquidityParameters memory liquidityParameters)
     external
     returns (uint256[] memory depositIds, uint256[] memory liquidityMinted);
 
-function addLiquidityAVAX(LiquidityParameters memory liquidityParameters)
+function addLiquidityNATIVE(LiquidityParameters memory liquidityParameters)
     external
     payable
     returns (uint256[] memory depositIds, uint256[] memory liquidityMinted);
@@ -179,16 +179,16 @@ function removeLiquidity(
     uint256 deadline // Block timestamp cannot be lower than deadline
 ) external returns (uint256 amountX, uint256 amountY);
 
-function removeLiquidityAVAX(
+function removeLiquidityNATIVE(
     IERC20 token,
     uint16 binStep,
     uint256 amountTokenMin,
-    uint256 amountAVAXMin,
+    uint256 amountNATIVEMin,
     uint256[] memory ids,
     uint256[] memory amounts,
     address payable to,
     uint256 deadline
-) external returns (uint256 amountToken, uint256 amountAVAX);
+) external returns (uint256 amountToken, uint256 amountNATIVE);
 ```
 
 Here are some pointer for using these functions:

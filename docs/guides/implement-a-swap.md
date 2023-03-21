@@ -21,26 +21,26 @@ Swap functions can be broadly divided into two categories:
 When the input amount is specified:
 
 - `swapExactTokensForTokens`
-- `swapExactTokensForAVAX`
-- `swapExactAVAXForTokens`
+- `swapExactTokensForNATIVE`
+- `swapExactNATIVEForTokens`
 
 When the desired output amount is specified:
 
 - `swapTokensForExactTokens`
-- `swapTokensForExactAVAX`
-- `swapAVAXForExactTokens`
+- `swapTokensForExactNATIVE`
+- `swapNATIVEForExactTokens`
 
 ### When Input Amount Is Specified
 
 - `swapExactTokensForTokens` - When you specify an exact amount of ERC-20 to swap for another ERC-20. E.g. USDC/USDT and you input USDC; router will then fetch how much USDT to expect as output and perform swap.
-- `swapExactTokensForAVAX` - When you specify an exact amount of ERC-20 to swap for AVAX. E.g AVAX/USDC and you input USDC; router will then fetch how much AVAX to expect as output and perform swap.
-- `swapExactAVAXForTokens` - When you specify an exact amount of AVAX to swap for an ERC-20. E.g AVAX/USDC and you input AVAX; router will then fetch how much USDC to expect as output and perform swap.
+- `swapExactTokensForNATIVE` - When you specify an exact amount of ERC-20 to swap for NATIVE tokens. E.g AVAX/USDC and you input USDC; router will then fetch how much AVAX to expect as output and perform swap.
+- `swapExactNATIVEForTokens` - When you specify an exact amount of NATIVE tokens to swap for an ERC-20. E.g AVAX/USDC and you input AVAX; router will then fetch how much USDC to expect as output and perform swap.
 
 ### When Output Amount Is Specified
 
 - `swapTokensForExactTokens` - When you specify exact amount of ERC-20 that you want to receive. E.g. USDC/USDT and you input USDC; router will then fetch how much USDT to transfer from your wallet and perform swap.
-- `swapTokensForExactAVAX` - When you specify exact amount of AVAX that you want to receive. E.g. AVAX/USDT and you input AVAX; router will then fetch how much USDT to transfer from your wallet and perform swap.
-- `swapAVAXForExactTokens` - When you specify exact amount of ERC-20 that you want to receive. E.g. AVAX/USDT and you input USDT; router will then fetch how much AVAX to transfer from your wallet and perform swap.
+- `swapTokensForExactNATIVE` - When you specify exact amount of NATIVE tokens that you want to receive. E.g. AVAX/USDT and you input AVAX; router will then fetch how much USDT to transfer from your wallet and perform swap.
+- `swapNATIVEForExactTokens` - When you specify exact amount of ERC-20 that you want to receive. E.g. AVAX/USDT and you input USDT; router will then fetch how much AVAX to transfer from your wallet and perform swap.
 
 ## Code Examples
 
@@ -62,7 +62,7 @@ uint256 amountOutWithSlippage = amountOut * 99 / 100 // We allow for 1% slippage
 uint256 amountOutReal = router.swapExactTokensForTokens(amountIn, amountOutWithSlippage, pairBinSteps, tokenPath, receiverAddress, block.timestamp);
 ```
 
-#### 2. Swap 1 AVAX for USDT using `swapExactAVAXForTokens` with no intermediate swap paths:
+#### 2. Swap 1 AVAX for USDT using `swapExactNATIVEForTokens` with no intermediate swap paths:
 
 ```js
 uint256 amountIn = 1e18;
@@ -75,10 +75,10 @@ pairBinSteps[0] = 25;
 
 (uint256 amountOut, ) = router.getSwapOut(pairWavax, amountIn, false);
 uint256 amountOutWithSlippage = amountOut * 99 / 100 // We allow for 1% slippage
-router.swapExactAVAXForTokens{value: amountIn}(amountOutWithSlippage, pairBinSteps, tokenPath, receiverAddress, block.timestamp);
+router.swapExactNATIVEForTokens{value: amountIn}(amountOutWithSlippage, pairBinSteps, tokenPath, receiverAddress, block.timestamp);
 ```
 
-#### 3. Swap USDT to get 10 USDC output using `swapTokensForExactTokens` that routes through WAVAX. In this example, the first swap occurs through USDT/WAVAX V2 pool and the second swap occurs through WAVAX/USDC V1 pool:
+#### 3. Swap USDT to get 10 USDC output using `swapTokensForExactTokens` that routes through WAVAX. In this example, the first swap occurs through USDT/WAVAX V2.1 pool and the second swap occurs through WAVAX/USDC V1 pool:
 
 ```js
 uint256 amountOut = 10e6;

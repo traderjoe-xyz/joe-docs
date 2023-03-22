@@ -1,8 +1,8 @@
 ## Decode Bytes Examples
 
-Some of the new output variables from `functions` and `event` of the new `v2.1 Dex` needs to be decoded. Here are some propositons in order to do so: <br/>
+Some of the new output variables from `functions` and `event` of the new `v2.1 Dex` needs to be decoded. Here are some propositions in order to do so: <br/>
 
-### Decode `amountsOut` from the `swap` function
+### Decode `amountsOut` from the `Swap` event
 
 The following functions return the decoded values (x, y) extracted from the encoded `bytes32` amounts. The functions are returning the results in a `tuple`.
 
@@ -35,6 +35,7 @@ def decodeAmounts(amounts: bytes) -> tuple:
     :param amounts: amounts to decode.
     :return: tuple of ints with the values decoded.
     """
+    amounts = bytes.fromhex(amounts)
     # read the first 128bits of the 256bits
     amountsX = int.from_bytes(random_bytes, byteorder="big") & (2 ** 128 - 1)
     # read the last 128bits of the 256bits
@@ -72,5 +73,6 @@ def decodeFees(fees_bytes: bytes) -> int:
     :param fees_bytes: Bytes containing the encoded value.
     :return: Fee values.
     """
+    fees_bytes = bytes.fromhex(fees_bytes)
     return int.from_bytes(fees_bytes, byteorder="big") & (2 ** 128 - 1)
 ```

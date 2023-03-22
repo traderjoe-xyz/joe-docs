@@ -52,6 +52,7 @@ The liquidity parameters, such as: <br/>
 * distributionX: The distribution of tokenX with sum(distributionX) = 100e18 (100%) or 0 (0%)
 * distributionY: The distribution of tokenY with sum(distributionY) = 100e18 (100%) or 0 (0%)
 * to: The address of the recipient
+* refundTo: The refund address for the X or Y token left
 * deadline: The deadline of the tx
 
 ### Path

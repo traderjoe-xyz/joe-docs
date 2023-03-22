@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+sidebar_label: Decode Examples
+---
+
 ## Decode Bytes Examples
 
 Some of the new output variables from `functions` and `event` of the new `v2.1 Dex` needs to be decoded. Here are some propositions in order to do so: <br/>

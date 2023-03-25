@@ -7,7 +7,7 @@ sidebar_label: Implement A Swap
 
 ## Introduction
 
-Like Joe V1, swaps on Joe V2 can be executed through a router contract called `LBRouter`. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. This is recommended way to use Joe V2 for most users.
+Like Joe V1, swaps on Joe V2.1 can be executed through a router contract called `LBRouter`. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. This is recommended way to use Joe V2.1 for most users.
 
 The rest of the document describes:
 
@@ -47,19 +47,28 @@ When the desired output amount is specified:
 #### 1. Swap 10 USDC for USDT using `swapExactTokensForTokens` with no intermediate swap paths:
 
 ```js
-uint256 amountIn = 10e6;
+uint128 amountIn = 10e6;
 
 USDC.approve(address(router), amountIn);
 
 IERC20[] memory tokenPath = new IERC20[](2);
 tokenPath[0] = USDC;
 tokenPath[1] = USDT;
+
 uint256[] memory pairBinSteps = new uint256[](1); // pairBinSteps[i] refers to the bin step for the market (x, y) where tokenPath[i] = x and tokenPath[i+1] = y
 pairBinSteps[0] = 1;
 
-(uint256 amountOut, ) = router.getSwapOut(pair, amountIn, true);
+ILBRouter.Version[] memory versions = new ILBRouter.Version[](1);
+versions[0] = ILBRouter.Version.V2_1; // add the version of the Dex to perform the swap on
+
+ILBRouter.Path memory path; // instanciate and populate the path to perform the swap.
+path.pairBinSteps = pairBinSteps;
+path.versions = versions;
+path.tokenPath = tokenPath;
+
+(uint128 amountOut, , ) = router.getSwapOut(pair, amountIn, true);
 uint256 amountOutWithSlippage = amountOut * 99 / 100 // We allow for 1% slippage
-uint256 amountOutReal = router.swapExactTokensForTokens(amountIn, amountOutWithSlippage, pairBinSteps, tokenPath, receiverAddress, block.timestamp);
+uint256 amountOutReal = router.swapExactTokensForTokens(amountIn, amountOutWithSlippage, path, to, block.timestamp + 1);
 ```
 
 #### 2. Swap 1 AVAX for USDT using `swapExactNATIVEForTokens` with no intermediate swap paths:
@@ -70,12 +79,21 @@ uint256 amountIn = 1e18;
 IERC20[] memory tokenPath = new IERC20[](2);
 tokenPath[0] = WAVAX;
 tokenPath[1] = USDT;
+
 uint256[] memory pairBinSteps = new uint256[](1);
-pairBinSteps[0] = 25;
+pairBinSteps[0] = 15;
+
+ILBRouter.Version[] memory versions = new ILBRouter.Version[](1);
+versions[0] = ILBRouter.Version.V2_1; // add the version of the Dex to perform the swap on
+
+ILBRouter.Path memory path; // instanciate and populate the path to perform the swap.
+path.pairBinSteps = pairBinSteps;
+path.versions = versions;
+path.tokenPath = tokenPath;
 
 (uint256 amountOut, ) = router.getSwapOut(pairWavax, amountIn, false);
 uint256 amountOutWithSlippage = amountOut * 99 / 100 // We allow for 1% slippage
-router.swapExactNATIVEForTokens{value: amountIn}(amountOutWithSlippage, pairBinSteps, tokenPath, receiverAddress, block.timestamp);
+uint256 amountOutReal = router.swapExactNATIVEForTokens{value: amountIn}(amountOutWithSlippage, path, to, block.timestamp + 1);
 ```
 
 #### 3. Swap USDT to get 10 USDC output using `swapTokensForExactTokens` that routes through WAVAX. In this example, the first swap occurs through USDT/WAVAX V2.1 pool and the second swap occurs through WAVAX/USDC V1 pool:
@@ -85,18 +103,24 @@ uint256 amountOut = 10e6;
 
 USDT.approve(address(router), 11e6);
 
-IERC20[] memory tokenPath;
-uint256[] memory pairBinSteps;
-
-tokenPath = new IERC20[](3);
+IERC20[] memory tokenPath = new IERC20[](3);
 tokenPath[0] = USDT;
 tokenPath[1] = WAVAX;
 tokenPath[2] = USDC;
 
 pairBinSteps = new uint256[](2);
-pairBinSteps[0] = 20;
+pairBinSteps[0] = 15;
 pairBinSteps[1] = 0; // Bin step of 0 points to the Joe V1 pair
 
+ILBRouter.Version[] memory versions = new ILBRouter.Version[](2);
+versions[0] = ILBRouter.Version.V2_1;
+versions[1] = ILBRouter.Version.V1;
+
+ILBRouter.Path memory path;
+path.pairBinSteps = pairBinSteps;
+path.versions = versions;
+path.tokenPath = tokenPath;
+
 // We define amountInMax as an arbitrary amount of 11e6 here
-uint256[] memory amountsIn = router.swapTokensForExactTokens(amountOut, 11e6, pairBinSteps, tokenPath, receiverAddress, block.timestamp);
+uint256[] memory amountsIn = router.swapTokensForExactTokens(amountOut, 11e6, path, to, block.timestamp + 1);
 ```

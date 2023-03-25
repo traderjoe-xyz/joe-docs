@@ -7,7 +7,7 @@ sidebar_label: Manage A Liquidity Position
 
 ## Introduction
 
-Like Joe V1, managing liquidity on Joe V2 can be executed through a router contract called `LBRouter`. This contract will abstract some of the complexity of the liquidity management, perform safety checks and will revert if certain conditions were to not be met. This is recommended way to use Joe V2 for most users.
+Like Joe V1, managing liquidity on Joe V2.1 can be executed through a router contract called `LBRouter`. This contract will abstract some of the complexity of the liquidity management, perform safety checks and will revert if certain conditions were to not be met. This is recommended way to use Joe V2.1 for most users.
 
 In contrast to V1, liquidity can be concentrated in arbitrary shapes and any price range the user desires.
 
@@ -18,8 +18,6 @@ Next sections explain how to:
 - How to remove liquidity
 
 ## Pair Creation
-
-Creating new pools is **not currently permissionless**. However, this can be switched on by the protocol owner via the boolean `creationUnlocked()` in the `LBFactory` contract.
 
 To create a new pair, the `createLBPair` function of the `LBFactory` contract is called.
 
@@ -51,13 +49,26 @@ To add liquidity, the `LiquidityParameters` struct is as input:
 ```js
 function addLiquidity(LiquidityParameters memory liquidityParameters)
     external
-    returns (uint256[] memory depositIds, uint256[] memory liquidityMinted);
+    returns (
+        uint256 amountXAdded,
+        uint256 amountYAdded,
+        uint256 amountXLeft,
+        uint256 amountYLeft,
+        uint256[] memory depositIds,
+        uint256[] memory liquidityMinted
+    );
 
 function addLiquidityNATIVE(LiquidityParameters memory liquidityParameters)
     external
     payable
-    returns (uint256[] memory depositIds, uint256[] memory liquidityMinted);
-
+    returns (
+        uint256 amountXAdded,
+        uint256 amountYAdded,
+        uint256 amountXLeft,
+        uint256 amountYLeft,
+        uint256[] memory depositIds,
+        uint256[] memory liquidityMinted
+    );
 ```
 
 ### Liquidity Parameters
@@ -76,8 +87,8 @@ struct LiquidityParameters {
     int256[] deltaIds; // The bins you want to add liquidity to. Each value is relative to the active bin ID
     uint256[] distributionX; // The percentage of X you want to add to each bin in deltaIds
     uint256[] distributionY; // The percentage of Y you want to add to each bin in deltaIds
-
     address to; // Receiver address
+    address refundTo; // Refund Address
     uint256 deadline; // Block timestamp cannot be lower than deadline
 }
 ```
@@ -143,13 +154,21 @@ ILBRouter.LiquidityParameters memory liquidityParameters = ILBRouter.LiquidityPa
     distributionX,
     distributionY,
     receiverAddress,
+    refundAddress,
     block.timestamp
 );
 
 USDC.approve(address(router), amountX);
 USDT.approve(address(router), amountY);
 
-(uint256[] memory depositIds, uint256[] memory liquidityMinted) = router.addLiquidity(liquidityParameters);
+(
+    uint256 amountXAdded,
+    uint256 amountYAdded,
+    uint256 amountXLeft,
+    uint256 amountYLeft,
+    uint256[] memory depositIds,
+    uint256[] memory liquidityMinted
+) = router.addLiquidity(liquidityParameters);
 ```
 
 ## Removing Liquidity
@@ -201,14 +220,14 @@ Here are some pointer for using these functions:
 
 ```js
 uint256 numberOfBinsToWithdraw = 3;
-uint256 binStep = 25;
+uint16 binStep = 25;
 
 uint256[] memory amounts = new uint256[](numberOfBinsToWithdraw);
 uint256[] memory ids = new uint256[](numberOfBinsToWithdraw);
 ids[0] = 8388608;
 ids[1] = 8388611;
 ids[2] = 8388605;
-uint256 totalXbalanceWithdrawn;
+uint256 totalXBalanceWithdrawn;
 uint256 totalYBalanceWithdrawn;
 
 // To figure out amountXMin and amountYMin, we calculate how much X and Y underlying we have as liquidity
@@ -217,14 +236,14 @@ for (uint256 i; i < numberOfBinsToWithdraw; i++) {
     amounts[i] = LBTokenAmount;
     (uint256 binReserveX, uint256 binReserveY) = pair.getBin(uint24(ids[i]));
 
-    totalXbalanceWithdrawn += LBTokenAmount * binReserveX / pair.totalSupply(ids[i]);
+    totalXBalanceWithdrawn += LBTokenAmount * binReserveX / pair.totalSupply(ids[i]);
     totalYBalanceWithdrawn += LBTokenAmount * binReserveY / pair.totalSupply(ids[i]);
 }
 
 uint256 amountXMin = totalXBalanceWithdrawn * 99 / 100; // Allow 1% slippage
 uint256 amountYMin = totalYBalanceWithdrawn * 99 / 100; // Allow 1% slippage
 
-pair.setApprovalForAll(address(router), true);
+pair.approveForAll(address(router), true);
 
 router.removeLiquidity(
     USDC,

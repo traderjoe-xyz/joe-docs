@@ -70,7 +70,7 @@ struct LiquidityParameters {
     uint256 amountX; // Amount of token X that you want to add to liquidity
     uint256 amountY; // Amount of token Y that you want to add to liquidity
     uint256 amountXMin; // Defines amount slippage for token X
-    uint256 amountYMin; // Defines amount slippage for token X
+    uint256 amountYMin; // Defines amount slippage for token Y
     uint256 activeIdDesired; // The active bin you want. It may change due to slippage
     uint256 idSlippage; // The slippage tolerance in case active bin moves during time it takes to transact
     int256[] deltaIds; // The bins you want to add liquidity to. Each value is relative to the active bin ID

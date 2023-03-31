@@ -2,6 +2,16 @@
 
 Required interface of LBPair contract
 
+### MintArrays
+
+```solidity
+struct MintArrays {
+    uint256[] ids;
+    bytes32[] amounts;
+    uint256[] liquidityMinted;
+}
+```
+
 ### DepositedToBins
 
 ```solidity

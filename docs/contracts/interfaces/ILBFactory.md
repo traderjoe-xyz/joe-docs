@@ -75,6 +75,12 @@ event PresetSet(
 event PresetOpenStateChanged(uint256 indexed binStep, bool indexed isOpen)
 ```
 
+### PresetRemoved
+
+```solidity
+event PresetRemoved(uint256 indexed binStep);
+```
+
 ### QuoteAssetAdded
 
 ```solidity

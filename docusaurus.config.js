@@ -76,12 +76,7 @@ const config = {
             href: "https://github.com/traderjoe-xyz/joe-v2",
             label: "GitHub",
             position: "right",
-          },
-          {
-            label: "Docs V1",
-            position: "right",
-            href: "https://help.traderjoexyz.com/en/security-and-contracts/contracts",
-          },
+          }
         ],
       },
       footer: {

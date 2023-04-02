@@ -1,12 +1,21 @@
 ---
-sidebar_position: 4
+sidebar_position: 1
 sidebar_label: V2.1 Key Changes
 ---
 
-# `Dex v2.1` Key Changes
+# V2.1 Key Changes
 
-This section highlights the key changes introduced in `Dex v2.1`. The changes will be described per contract.
+A summary of key changes in Liquidity Book V2.1: 
+- Factory presets
+- Gas optimization, with swap amount encoding
+- Limit Orders
+- Router and Quoter support across all versions. 
 
+## For indexers
+- `LBFactory.LBPairCreated` event no changes. 
+- `LBPair.Swap` event returns amounts in encoded tuple. See [decode examples](guides/decode-examples) for more.
+
+## Contract changes
 
 ### LBFactory
 

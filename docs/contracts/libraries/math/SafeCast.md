@@ -1,11 +1,6 @@
----
-sidebar_position: 0
-sidebar_label: SafeCast
----
+## Safe Cast
 
-## SafeCast
-
-Helper contract used for converting uint values safely
+This library contains functions to safely cast uint256 to different uint types.
 
 ### safe248
 
@@ -25,7 +20,7 @@ Returns x on uint248 and check that it does not overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| y | uint248 | The value as an uint248 |
+| y | uint248 | Value converted to uint248 |
 
 ### safe240
 
@@ -45,7 +40,7 @@ Returns x on uint240 and check that it does not overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| y | uint240 | The value as an uint240 |
+| y | uint240 | Value converted to uint240 |
 
 ### safe232
 
@@ -65,7 +60,7 @@ Returns x on uint232 and check that it does not overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| y | uint232 | The value as an uint232 |
+| y | uint232 | Value converted to uint232 |
 
 ### safe224
 
@@ -85,7 +80,7 @@ Returns x on uint224 and check that it does not overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| y | uint224 | The value as an uint224 |
+| y | uint224 | Value converted to uint224 |
 
 ### safe216
 
@@ -105,7 +100,7 @@ Returns x on uint216 and check that it does not overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| y | uint216 | The value as an uint216 |
+| y | uint216 | Value converted to uint216 |
 
 ### safe208
 
@@ -125,7 +120,7 @@ Returns x on uint208 and check that it does not overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| y | uint208 | The value as an uint208 |
+| y | uint208 | Value converted to uint208 |
 
 ### safe200
 
@@ -145,7 +140,7 @@ Returns x on uint200 and check that it does not overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| y | uint200 | The value as an uint200 |
+| y | uint200 | Value converted to uint200 |
 
 ### safe192
 
@@ -165,7 +160,7 @@ Returns x on uint192 and check that it does not overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| y | uint192 | The value as an uint192 |
+| y | uint192 | Value converted to uint192 |
 
 ### safe184
 
@@ -185,7 +180,7 @@ Returns x on uint184 and check that it does not overflow
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| y | uint184 | The value as an uint184 |
+| y | uint184 | Value converted to uint184 |
 
 ### safe176
 
@@ -527,26 +522,6 @@ Returns x on uint48 and check that it does not overflow
 | ---- | ---- | ----------- |
 | y | uint48 | The value as an uint48 |
 
-### safe40
-
-```solidity
-function safe40(uint256 x) internal pure returns (uint40 y)
-```
-
-Returns x on uint40 and check that it does not overflow
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | uint256 | The value as an uint256 |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| y | uint40 | The value as an uint40 |
-
 ### safe32
 
 ```solidity
@@ -626,4 +601,3 @@ Returns x on uint8 and check that it does not overflow
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | y | uint8 | The value as an uint8 |
-

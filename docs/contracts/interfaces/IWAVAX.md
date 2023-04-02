@@ -1,11 +1,11 @@
 ---
 sidebar_position: 10
-sidebar_label: IWNATIVE
+sidebar_label: IWAVAX
 ---
 
-## IWNATIVE
+## IWAVAX
 
-Required interface of Wrapped NATIVE contract
+Required interface of Wrapped AVAX contract
 
 ### deposit
 
@@ -18,3 +18,4 @@ function deposit() external payable
 ```solidity
 function withdraw(uint256) external
 ```
+

@@ -1,3 +1,8 @@
+---
+sidebar_position: 0
+sidebar_label: ILBFactory
+---
+
 ## ILBFactory
 
 Required interface of LBFactory contract
@@ -5,30 +10,18 @@ Required interface of LBFactory contract
 ### LBPairInformation
 
 ```solidity
-struct LBPairInformation{
-    uint16 binStep;
-    ILBPair LBPair;
-    bool createdByOwner;
-    bool ignoredForRouting;
+struct LBPairInformation {
+  uint24 binStep;
+  contract ILBPair LBPair;
+  bool createdByOwner;
+  bool ignoredForRouting;
 }
 ```
-
-Structure to store the LBPair information, such as:
-* binStep: The bin step of the LBPair
-* LBPair: The address of the LBPair
-* createdByOwner: Whether the pair was created by the owner of the factory
-* ignoredForRouting: Whether the pair is ignored for routing or not. An ignored pair will not be explored during routes finding
 
 ### LBPairCreated
 
 ```solidity
-event LBPairCreated(
-    IERC20 indexed tokenX, 
-    IERC20 indexed tokenY, 
-    uint256 indexed binStep, 
-    ILBPair LBPair, 
-    uint256 pid
-    )
+event LBPairCreated(contract IERC20 tokenX, contract IERC20 tokenY, uint256 binStep, contract ILBPair LBPair, uint256 pid)
 ```
 
 ### FeeRecipientSet
@@ -43,6 +36,18 @@ event FeeRecipientSet(address oldRecipient, address newRecipient)
 event FlashLoanFeeSet(uint256 oldFlashLoanFee, uint256 newFlashLoanFee)
 ```
 
+### FeeParametersSet
+
+```solidity
+event FeeParametersSet(address sender, contract ILBPair LBPair, uint256 binStep, uint256 baseFactor, uint256 filterPeriod, uint256 decayPeriod, uint256 reductionFactor, uint256 variableFeeControl, uint256 protocolShare, uint256 maxVolatilityAccumulated)
+```
+
+### FactoryLockedStatusUpdated
+
+```solidity
+event FactoryLockedStatusUpdated(bool unlocked)
+```
+
 ### LBPairImplementationSet
 
 ```solidity
@@ -52,211 +57,204 @@ event LBPairImplementationSet(address oldLBPairImplementation, address LBPairImp
 ### LBPairIgnoredStateChanged
 
 ```solidity
-event LBPairIgnoredStateChanged(ILBPair indexed LBPair, bool ignored)
+event LBPairIgnoredStateChanged(contract ILBPair LBPair, bool ignored)
 ```
 
 ### PresetSet
 
 ```solidity
-event PresetSet(
-    uint256 indexed binStep,
-    uint256 baseFactor,
-    uint256 filterPeriod,
-    uint256 decayPeriod,
-    uint256 reductionFactor,
-    uint256 variableFeeControl,
-    uint256 protocolShare,
-    uint256 maxVolatilityAccumulator
-)
-```
-### PresetOpenStateChanged
-
-```solidity
-event PresetOpenStateChanged(uint256 indexed binStep, bool indexed isOpen)
+event PresetSet(uint256 binStep, uint256 baseFactor, uint256 filterPeriod, uint256 decayPeriod, uint256 reductionFactor, uint256 variableFeeControl, uint256 protocolShare, uint256 maxVolatilityAccumulated, uint256 sampleLifetime)
 ```
 
 ### PresetRemoved
 
 ```solidity
-event PresetRemoved(uint256 indexed binStep);
+event PresetRemoved(uint256 binStep)
 ```
 
 ### QuoteAssetAdded
 
 ```solidity
-event QuoteAssetAdded(IERC20 indexed quoteAsset)
+event QuoteAssetAdded(contract IERC20 quoteAsset)
 ```
 
 ### QuoteAssetRemoved
 
 ```solidity
-event QuoteAssetRemoved(IERC20 indexed quoteAsset)
+event QuoteAssetRemoved(contract IERC20 quoteAsset)
 ```
 
-### getMinBinStep
+### MAX_FEE
 
 ```solidity
-function getMinBinStep() external pure override returns (uint256 minBinStep)
+function MAX_FEE() external pure returns (uint256)
 ```
 
-### getFeeRecipient
+### MIN_BIN_STEP
 
 ```solidity
-function getFeeRecipient() external view override returns (address feeRecipient)
+function MIN_BIN_STEP() external pure returns (uint256)
 ```
 
-### getMaxFlashLoanFee
+### MAX_BIN_STEP
 
 ```solidity
-function getMaxFlashLoanFee() external pure override returns (uint256 maxFee)
+function MAX_BIN_STEP() external pure returns (uint256)
 ```
 
-### getFlashLoanFee
+### MAX_PROTOCOL_SHARE
 
 ```solidity
-function getFlashLoanFee() external view override returns (uint256 flashloanFee)
+function MAX_PROTOCOL_SHARE() external pure returns (uint256)
 ```
 
-### getLBPairImplementation
+### LBPairImplementation
 
 ```solidity
-function getLBPairImplementation() external view override returns (address lbPairImplementation)
-```
-
-### getNumberOfLBPairs
-
-```solidity
-function getNumberOfLBPairs() external view override returns (uint256 lbPairNumber)
-```
-
-### getLBPairAtIndex
-
-```solidity
-function getLBPairAtIndex(uint256 index) external view override returns (ILBPair lbPair)
+function LBPairImplementation() external view returns (address)
 ```
 
 ### getNumberOfQuoteAssets
 
 ```solidity
-function getNumberOfQuoteAssets() external view override returns (uint256 numberOfQuoteAssets)
+function getNumberOfQuoteAssets() external view returns (uint256)
 ```
 
-### getQuoteAssetAtIndex
+### getQuoteAsset
 
 ```solidity
-function getQuoteAssetAtIndex(uint256 index) external view override returns (IERC20 asset)
+function getQuoteAsset(uint256 index) external view returns (contract IERC20)
 ```
 
 ### isQuoteAsset
 
 ```solidity
-function isQuoteAsset(IERC20 token) external view override returns (bool isQuote)
+function isQuoteAsset(contract IERC20 token) external view returns (bool)
+```
+
+### feeRecipient
+
+```solidity
+function feeRecipient() external view returns (address)
+```
+
+### flashLoanFee
+
+```solidity
+function flashLoanFee() external view returns (uint256)
+```
+
+### creationUnlocked
+
+```solidity
+function creationUnlocked() external view returns (bool)
+```
+
+### allLBPairs
+
+```solidity
+function allLBPairs(uint256 id) external returns (contract ILBPair)
+```
+
+### getNumberOfLBPairs
+
+```solidity
+function getNumberOfLBPairs() external view returns (uint256)
 ```
 
 ### getLBPairInformation
 
 ```solidity
-function getLBPairInformation(IERC20 tokenA, IERC20 tokenB, uint256 binStep) external view override returns (LBPairInformation memory lbPairInformation)
+function getLBPairInformation(contract IERC20 tokenA, contract IERC20 tokenB, uint256 binStep) external view returns (struct ILBFactory.LBPairInformation)
 ```
 
 ### getPreset
 
 ```solidity
-function getPreset(uint256 binStep) external view override returns (uint256 baseFactor, uint256 filterPeriod, uint256 decayPeriod, uint256 reductionFactor, uint256 variableFeeControl, uint256 protocolShare, uint256 maxVolatilityAccumulator, bool isOpen)
+function getPreset(uint16 binStep) external view returns (uint256 baseFactor, uint256 filterPeriod, uint256 decayPeriod, uint256 reductionFactor, uint256 variableFeeControl, uint256 protocolShare, uint256 maxAccumulator, uint256 sampleLifetime)
 ```
 
 ### getAllBinSteps
 
 ```solidity
-function getAllBinSteps() external view override returns (uint256[] memory binStepWithPreset)
+function getAllBinSteps() external view returns (uint256[] presetsBinStep)
 ```
 
 ### getAllLBPairs
 
 ```solidity
-function getAllLBPairs(IERC20 tokenX, IERC20 tokenY) external view override returns (LBPairInformation[] memory lbPairsAvailable)
+function getAllLBPairs(contract IERC20 tokenX, contract IERC20 tokenY) external view returns (struct ILBFactory.LBPairInformation[] LBPairsBinStep)
 ```
 
 ### setLBPairImplementation
 
 ```solidity
-function setLBPairImplementation(address newLBPairImplementation) external override onlyOwner
+function setLBPairImplementation(address LBPairImplementation) external
 ```
 
 ### createLBPair
 
 ```solidity
-function createLBPair(IERC20 tokenX, IERC20 tokenY, uint24 activeId, uint16 binStep) external override returns (ILBPair pair)
+function createLBPair(contract IERC20 tokenX, contract IERC20 tokenY, uint24 activeId, uint16 binStep) external returns (contract ILBPair pair)
 ```
 
 ### setLBPairIgnored
 
 ```solidity
-function setLBPairIgnored(IERC20 tokenX, IERC20 tokenY, uint16 binStep, bool ignored) external override onlyOwner
+function setLBPairIgnored(contract IERC20 tokenX, contract IERC20 tokenY, uint256 binStep, bool ignored) external
 ```
 
 ### setPreset
 
 ```solidity
-function setPreset(uint16 binStep, uint16 baseFactor, uint16 filterPeriod, uint16 decayPeriod, uint16 reductionFactor, uint24 variableFeeControl, uint16 protocolShare, uint24 maxVolatilityAccumulator, bool isOpen) external override onlyOwner
-```
-
-### setPresetOpenState
-
-```solidity
-function setPresetOpenState(uint16 binStep, bool isOpen) external override onlyOwner
+function setPreset(uint16 binStep, uint16 baseFactor, uint16 filterPeriod, uint16 decayPeriod, uint16 reductionFactor, uint24 variableFeeControl, uint16 protocolShare, uint24 maxVolatilityAccumulated, uint16 sampleLifetime) external
 ```
 
 ### removePreset
 
 ```solidity
-function removePreset(uint16 binStep) external override onlyOwner
+function removePreset(uint16 binStep) external
 ```
 
 ### setFeesParametersOnPair
 
 ```solidity
-function setFeesParametersOnPair(
-    IERC20 tokenX,
-    IERC20 tokenY,
-    uint16 binStep,
-    uint16 baseFactor,
-    uint16 filterPeriod,
-    uint16 decayPeriod,
-    uint16 reductionFactor,
-    uint24 variableFeeControl,
-    uint16 protocolShare,
-    uint24 maxVolatilityAccumulator
-) external override onlyOwner
+function setFeesParametersOnPair(contract IERC20 tokenX, contract IERC20 tokenY, uint16 binStep, uint16 baseFactor, uint16 filterPeriod, uint16 decayPeriod, uint16 reductionFactor, uint24 variableFeeControl, uint16 protocolShare, uint24 maxVolatilityAccumulated) external
 ```
 
 ### setFeeRecipient
 
 ```solidity
-function setFeeRecipient(address feeRecipient) external override onlyOwner
+function setFeeRecipient(address feeRecipient) external
 ```
 
 ### setFlashLoanFee
 
 ```solidity
-function setFlashLoanFee(uint256 flashLoanFee) external override onlyOwner
+function setFlashLoanFee(uint256 flashLoanFee) external
+```
+
+### setFactoryLockedState
+
+```solidity
+function setFactoryLockedState(bool locked) external
 ```
 
 ### addQuoteAsset
 
 ```solidity
-function addQuoteAsset(IERC20 quoteAsset) external override onlyOwner
+function addQuoteAsset(contract IERC20 quoteAsset) external
 ```
 
 ### removeQuoteAsset
 
 ```solidity
-function removeQuoteAsset(IERC20 quoteAsset) external
+function removeQuoteAsset(contract IERC20 quoteAsset) external
 ```
 
 ### forceDecay
 
 ```solidity
-function forceDecay(ILBPair lbPair) external
+function forceDecay(contract ILBPair LBPair) external
 ```
 

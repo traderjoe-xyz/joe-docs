@@ -1,614 +1,480 @@
+---
+sidebar_position: 2
+sidebar_label: LBPair
+---
+
 ## LBPair
 
-The Liquidity Book Pair contract is the core contract of the Liquidity Book protocol
+The implementation of Liquidity Book Pair that also acts as the receipt token for liquidity positions
+
+### constructor
+
+```solidity
+constructor(contract ILBFactory _factory) public
+```
+
+Set the factory address
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _factory | contract ILBFactory | The address of the factory |
 
 ### initialize
 
 ```solidity
-function initialize(
-    uint16 baseFactor,
-    uint16 filterPeriod,
-    uint16 decayPeriod,
-    uint16 reductionFactor,
-    uint24 variableFeeControl,
-    uint16 protocolShare,
-    uint24 maxVolatilityAccumulator,
-    uint24 activeId
-) external override onlyFactory
+function initialize(contract IERC20 _tokenX, contract IERC20 _tokenY, uint24 _activeId, uint16 _sampleLifetime, bytes32 _packedFeeParameters) external override onlyFactory
 ```
 
-Initialize the Liquidity Book Pair fee parameters and active id. Can only be called by the Liquidity Book Factory.
+Initialize the parameters of the LBPair
+
+_The different parameters needs to be validated very cautiously.
+It is highly recommended to never call this function directly, use the factory
+as it validates the different parameters_
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| baseFactor | uint16 | The base factor for the static fee |
-| filterPeriod | uint16 | The filter period for the static fee |
-| decayPeriod | uint16 | The decay period for the static fee |
-| reductionFactor | uint16 | The reduction factor for the static fee |
-| variableFeeControl | uint24 | The variable fee control for the static fee |
-| protocolShare | uint16 | The protocol share for the static fee |
-| maxVolatilityAccumulator | uint24 | The max volatility accumulator for the static fee |
-| activeId | uint24 | The active id of the Liquidity Book Pair |
+| _tokenX | contract IERC20 | The address of the tokenX. Can't be address 0 |
+| _tokenY | contract IERC20 | The address of the tokenY. Can't be address 0 |
+| _activeId | uint24 | The active id of the pair |
+| _sampleLifetime | uint16 | The lifetime of a sample. It's the min time between 2 oracle's sample |
+| _packedFeeParameters | bytes32 | The fee parameters packed in a single 256 bits slot |
 
-### getFactory
+### getReservesAndId
 
 ```solidity
-function getFactory() external view override returns (ILBFactory factory)
+function getReservesAndId() external view override returns (uint256 reserveX, uint256 reserveY, uint256 activeId)
 ```
 
-Returns the Liquidity Book Factory.
-
-### getTokenX
-
-```solidity
-function getTokenX() external pure override returns (IERC20 tokenX)
-```
-
-Returns the token X of the Liquidity Book Pair.
-
-### getTokenY
-
-```solidity
-function getTokenY() external pure override returns (IERC20 tokenY)
-```
-
-Returns the token Y of the Liquidity Book Pair.
-
-### getBinStep
-
-```solidity
-function getBinStep() external pure override returns (uint16)
-```
-
-Returns the bin step of the Liquidity Book Pair.
+View function to get the reserves and active id
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-|   | uint16 | The bin step of the Liquidity Book Pair, in 10_000th |
+| reserveX | uint256 | The reserve of asset X |
+| reserveY | uint256 | The reserve of asset Y |
+| activeId | uint256 | The active id of the pair |
 
-### getReserves
+### getGlobalFees
 
 ```solidity
-function getReserves() external view override returns (uint128 reserveX, uint128 reserveY)
+function getGlobalFees() external view override returns (uint256 feesXTotal, uint256 feesYTotal, uint256 feesXProtocol, uint256 feesYProtocol)
 ```
 
-Returns the reserves of the Liquidity Book Pair.
+View function to get the global fees information, the total fees and those for protocol
+
+_The fees for users are `total - protocol`_
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| reserveX  | uint128 | The reserve of token X |
-| reserveY  | uint128 | The reserve of token Y |
-
-### getActiveId
-
-```solidity
-function getActiveId() external view override returns (uint24 activeId)
-```
-
-Returns the active id of the Liquidity Book Pair.
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| activeId | uint24 | The active id of the Liquidity Book Pair |
-
-### getBin
-
-```solidity
-function getBin(uint24 id) external view override returns (uint128 binReserveX, uint128 binReserveY)
-```
-
-Returns the reserves of a bin.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| id  | uint24 | The id of the bin |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| binReserveX | uint128 | The reserve of token X in the bin |
-| binReserveY  | uint128 | The reserve of token Y in the bin |
-
-### getNextNonEmptyBin
-
-```solidity
-function getNextNonEmptyBin(bool swapForY, uint24 id) external view override returns (uint24 nextId)
-```
-
-Returns the next non-empty bin.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| swapForY | bool | Whether the swap is for token Y (true) or token X (false) |
-| id | uint24 | The id of the bin |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| nextId | uint24 | The id of the next non-empty bin |
-
-### getProtocolFees
-
-```solidity
-function getProtocolFees() external view returns (uint128 protocolFeeX, uint128 protocolFeeY)
-```
-
-Returns the protocol fees of the Liquidity Book Pair
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| protocolFeeX | uint128 | The protocol fees of token X |
-| protocolFeeY | uint128 | The protocol fees of token Y |
-
-### getStaticFeeParameters
-
-```solidity
-function getStaticFeeParameters() external view returns (uint16 baseFactor, uint16 filterPeriod, uint16 decayPeriod, uint16 reductionFactor, uint24 variableFeeControl, uint16 protocolShare, uint24 maxVolatilityAccumulator)
-```
-
-Returns the static fee parameters of the Liquidity Book Pair
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| baseFactor | uint16 | The base factor for the static fee |
-| filterPeriod | uint16 | The filter period for the static fee |
-| decayPeriod | uint16 | The decay period for the static fee |
-| reductionFactor | uint16 | The reduction factor for the static fee |
-| variableFeeControl | uint24 | The variable fee control for the static fee |
-| protocolShare | uint16 | The protocol share for the static fee |
-| maxVolatilityAccumulator | uint24 | The maximum volatility accumulator for the static fee |
-
-### getVariableFeeParameters
-
-```solidity
-function getVariableFeeParameters() external view returns (uint24 volatilityAccumulator, uint24 volatilityReference, uint24 idReference, uint40 timeOfLastUpdate)
-```
-
-Returns the variable fee parameters of the Liquidity Book Pair
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| volatilityAccumulator | uint24 | The volatility accumulator for the variable fee |
-| volatilityReference | uint24 | The volatility reference for the variable fee |
-| idReference | uint24 | The id reference for the variable fee |
-| timeOfLastUpdate | uint40 | The time of last update for the variable fee |
+| feesXTotal | uint256 | The total fees of asset X |
+| feesYTotal | uint256 | The total fees of asset Y |
+| feesXProtocol | uint256 | The protocol fees of asset X |
+| feesYProtocol | uint256 | The protocol fees of asset Y |
 
 ### getOracleParameters
 
 ```solidity
-function getOracleParameters() external view returns (uint8 sampleLifetime, uint16 size, uint16 activeSize, uint40 lastUpdated, uint40 firstTimestamp)
+function getOracleParameters() external view override returns (uint256 oracleSampleLifetime, uint256 oracleSize, uint256 oracleActiveSize, uint256 oracleLastTimestamp, uint256 oracleId, uint256 min, uint256 max)
 ```
 
-Returns the oracle parameters of the Liquidity Book Pair
+View function to get the oracle parameters
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| sampleLifetime | uint8 | The sample lifetime for the oracle |
-| size | uint16 | The size of the oracle |
-| activeSize | uint16 | The active size of the oracle |
-| lastUpdated | uint40 | The last updated timestamp of the oracle |
-| firstTimestamp | uint40 | The first timestamp of the oracle, i.e. the timestamp of the oldest sample |
+| oracleSampleLifetime | uint256 | The lifetime of a sample, it accumulates information for up to this timestamp |
+| oracleSize | uint256 | The size of the oracle (last ids can be empty) |
+| oracleActiveSize | uint256 | The active size of the oracle (no empty data) |
+| oracleLastTimestamp | uint256 | The timestamp of the creation of the oracle's latest sample |
+| oracleId | uint256 | The index of the oracle's latest sample |
+| min | uint256 | The min delta time of two samples |
+| max | uint256 | The safe max delta time of two samples |
 
-### getOracleSampleAt
+### getOracleSampleFrom
 
 ```solidity
-function getOracleSampleAt(uint40 lookupTimestamp) external view returns (uint64 cumulativeId, uint64 cumulativeVolatility, uint64 cumulativeBinCrossed)
+function getOracleSampleFrom(uint256 _timeDelta) external view override returns (uint256 cumulativeId, uint256 cumulativeVolatilityAccumulated, uint256 cumulativeBinCrossed)
 ```
 
-Returns the cumulative values of the Liquidity Book Pair at a given timestamp
+View function to get the oracle's sample at `_timeDelta` seconds
+
+_Return a linearized sample, the weighted average of 2 neighboring samples_
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| lookupTimestamp | uint40 | The timestamp at which to look up the cumulative values |
+| _timeDelta | uint256 | The number of seconds before the current timestamp |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| cumulativeId | uint64 | The cumulative id of the Liquidity Book Pair at the given timestamp |
-| cumulativeVolatility | uint64 | The cumulative volatility of the Liquidity Book Pair at the given timestamp |
-| cumulativeBinCrossed | uint64 | The cumulative bin crossed of the Liquidity Book Pair at the given timestamp |
+| cumulativeId | uint256 | The weighted average cumulative id |
+| cumulativeVolatilityAccumulated | uint256 | The weighted average cumulative volatility accumulated |
+| cumulativeBinCrossed | uint256 | The weighted average cumulative bin crossed |
 
-### getPriceFromId
+### feeParameters
 
 ```solidity
-function getPriceFromId(uint24 id) external pure returns (uint256 price)
+function feeParameters() external view override returns (struct FeeHelper.FeeParameters)
 ```
 
-Returns the price corresponding to the given id, as a 128.128-binary fixed-point number
+View function to get the fee parameters
+
+#### Return Values
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| [0] | struct FeeHelper.FeeParameters | The fee parameters |
+
+### findFirstNonEmptyBinId
+
+```solidity
+function findFirstNonEmptyBinId(uint24 _id, bool _swapForY) external view override returns (uint24)
+```
+
+View function to get the first bin that isn't empty, will not be `_id` itself
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| id | uint24 | The id of the bin |
+| _id | uint24 | The bin id |
+| _swapForY | bool | Whether you've swapping token X for token Y (true) or token Y for token X (false) |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| price | uint256 | The price corresponding to this id |
+| [0] | uint24 | The id of the non empty bin |
 
-### getIdFromPrice
+### getBin
 
 ```solidity
-function getIdFromPrice(uint256 price) external pure returns (uint24 id)
+function getBin(uint24 _id) external view override returns (uint256 reserveX, uint256 reserveY)
 ```
 
-Returns the id corresponding to the given price
+View function to get the bin at `id`
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| price | uint256 | The price of y per x as a 128.128-binary fixed-point number |
+| _id | uint24 | The bin id |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| id | uint24 | The id of the bin corresponding to this price |
+| reserveX | uint256 | The reserve of tokenX of the bin |
+| reserveY | uint256 | The reserve of tokenY of the bin |
 
-### getSwapIn
+### pendingFees
 
 ```solidity
-function getSwapIn(uint128 amountOut, bool swapForY) external view returns (uint128 amountIn, uint128 amountOutLeft, uint128 fee)
+function pendingFees(address _account, uint256[] _ids) external view override returns (uint256 amountX, uint256 amountY)
 ```
 
-Simulates a swap in.
+View function to get the pending fees of a user
+
+_The array must be strictly increasing to ensure uniqueness_
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amountOut | uint128 | The amount of token X or Y to swap in |
-| swapForY | bool | Whether the swap is for token Y (true) or token X (false) |
+| _account | address | The address of the user |
+| _ids | uint256[] | The list of ids |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amountIn | uint128 | The amount of token X or Y that can be swapped in, including the fee |
-| amountOutLeft | uint128 | The amount of token Y or X that cannot be swapped out |
-| fee | uint128 | The fee of the swap |
-
-### getSwapOut
-
-```solidity
-function getSwapOut(uint128 amountIn, bool swapForY) external view override returns (uint128 amountInLeft, uint128 amountOut, uint128 fee)
-```
-
-Simulates a swap out.
-If `amountInLeft` is greater than zero, the swap out is not possible,
-and the maximum amount that can be swapped is `amountIn - amountInLeft` for `amountOut`.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountIn | uint128 | The amount of token X or Y to swap in |
-| swapForY | bool | Whether the swap is for token Y (true) or token X (false) |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountInLeft | uint128 | The amount of token X or Y that cannot be swapped in |
-| amountOut | uint128 | The amount of token Y or X that can be swapped out |
-| fee | uint128 | The fee of the swap |
+| amountX | uint256 | The amount of tokenX pending |
+| amountY | uint256 | The amount of tokenY pending |
 
 ### swap
 
 ```solidity
-function swap(bool swapForY, address to) external override nonReentrant returns (bytes32 amountsOut)
+function swap(bool _swapForY, address _to) external override nonReentrant returns (uint256 amountXOut, uint256 amountYOut)
 ```
 
-Swap tokens iterating over the bins until the entire amount is swapped.
-Token X will be swapped for token Y if `swapForY` is true, and token Y for token X if `swapForY` is false.
-This function will not transfer the tokens from the caller, it is expected that the tokens have already been
-transferred to this contract through another contract, most likely the router.
-That is why this function shouldn't be called directly, but only through one of the swap functions of a router
-that will also perform safety checks, such as minimum amounts and slippage.
-The variable fee is updated throughout the swap, it increases with the number of bins crossed.
-The oracle is updated at the end of the swap.
+Performs a low level swap, this needs to be called from a contract which performs important safety checks
+
+_Will swap the full amount that this contract received of token X or Y_
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| swapForY | bool | Whether you're swapping token X for token Y (true) or token Y for token X (false) |
-| to | address | The address to send the tokens to |
+| _swapForY | bool | whether the token sent was Y (true) or X (false) |
+| _to | address | The address of the recipient |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amountsOut | bytes32 | The encoded amounts of token X and token Y sent to `to` |
+| amountXOut | uint256 | The amount of token X sent to `_to` |
+| amountYOut | uint256 | The amount of token Y sent to `_to` |
 
 ### flashLoan
 
 ```solidity
-function flashLoan(ILBFlashLoanCallback receiver, bytes32 amounts, bytes calldata data) external override nonReentrant
+function flashLoan(ILBFlashLoanCallback _receiver, IERC20 _token, uint256 _amount, bytes calldata _data) external override nonReentrant
 ```
 
-Flash loan tokens from the pool to a receiver contract and execute a callback function.
-The receiver contract is expected to return the tokens plus a fee to this contract.
-The fee is calculated as a percentage of the amount borrowed, and is the same for both tokens.
+Perform a flashloan on one of the tokens of the pair. The flashloan will call the `_receiver` contract to perform the desired operations. The `_receiver` contract is expected to transfer the `amount + fee` of the token to this contract.
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| receiver | ILBFlashLoanCallback | The contract that will receive the tokens and execute the callback function |
-| amounts | bytes32 | The encoded amounts of token X and token Y to flash loan |
-| data | bytes | Any data that will be passed to the callback function |
+| _receiver | ILBFlashLoanCallback | The contract that will receive the flashloan and execute the callback |
+| _token | IERC20 | The address of the token to flashloan |
+| _amount | uint256 | The amount of token to flashloan |
+| _data | bytes | The call data that will be forwarded to the `_receiver` contract during the callback |
 
 ### mint
 
 ```solidity
-function mint(address to, bytes32[] calldata liquidityConfigs, address refundTo) external override nonReentrant returns (bytes32 amountsReceived, bytes32 amountsLeft, uint256[] memory liquidityMinted)
+function mint(uint256[] _ids, uint256[] _distributionX, uint256[] _distributionY, address _to) external override nonReentrant returns (uint256, uint256, uint256[] liquidityMinted)
 ```
 
-Mint liquidity tokens by depositing tokens into the pool.
-It will mint Liquidity Book (LB) tokens for each bin where the user adds liquidity.
-This function will not transfer the tokens from the caller, it is expected that the tokens have already been
-transferred to this contract through another contract, most likely the router.
-That is why this function shouldn't be called directly, but through one of the add liquidity functions of a
-router that will also perform safety checks.
-Any excess amount of token will be sent to the `to` address.
+Performs a low level add, this needs to be called from a contract which performs important safety checks.
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| to | address | The address that will receive the LB tokens |
-| liquidityConfigs | bytes32[] | The encoded liquidity configurations, each one containing the id of the bin and the percentage of token X and token Y to add to the bin. |
-| refundTo | address | The address that will receive the excess amount of tokens |
+| _ids | uint256[] | The list of ids to add liquidity |
+| _distributionX | uint256[] | The distribution of tokenX with sum(_distributionX) = 1e18 (100%) or 0 (0%) |
+| _distributionY | uint256[] | The distribution of tokenY with sum(_distributionY) = 1e18 (100%) or 0 (0%) |
+| _to | address | The address of the recipient |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amountsReceived | bytes32 | The amounts of token X and token Y received by the pool |
-| amountsLeft | bytes32 | The amounts of token X and token Y that were not added to the pool and were sent to `to` |
-| liquidityMinted | uint256[] | The amounts of LB tokens minted for each bin |
+| [0] | uint256 | The amount of token X that was added to the pair |
+| [1] | uint256 | The amount of token Y that was added to the pair |
+| liquidityMinted | uint256[] | Amount of LBToken minted |
 
 ### burn
 
 ```solidity
-function burn(address from, address to, uint256[] calldata ids, uint256[] calldata amountsToBurn) external override nonReentrant checkApproval(from, msg.sender) returns (bytes32[] memory amounts)
+function burn(uint256[] _ids, uint256[] _amounts, address _to) external override nonReentrant returns (uint256 amountX, uint256 amountY)
 ```
 
-Burn Liquidity Book (LB) tokens and withdraw tokens from the pool. This function will burn the tokens directly from the caller
+Performs a low level remove, this needs to be called from a contract which performs important safety checks
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| from | address | The address that will burn the LB tokens |
-| to | address | The address that will receive the tokens |
-| ids | uint256[] | The ids of the bins from which to withdraw |
-| amountsToBurn | uint256[] | The amounts of LB tokens to burn for each bin |
+| _ids | uint256[] | The ids the user want to remove its liquidity |
+| _amounts | uint256[] | The amount of token to burn |
+| _to | address | The address of the recipient |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amounts | bytes32[] | The amounts of token X and token Y received by the user |
-
-### collectProtocolFees
-
-```solidity
-function collectProtocolFees() external override nonReentrant onlyProtocolFeeRecipient returns (bytes32 collectedProtocolFees)
-```
-
-Collect the protocol fees from the pool.
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| collectedProtocolFees | bytes32 | The amount of protocol fees collected |
+| amountX | uint256 | The amount of token X sent to `_to` |
+| amountY | uint256 | The amount of token Y sent to `_to` |
 
 ### increaseOracleLength
 
 ```solidity
-function increaseOracleLength(uint16 newLength) external override
+function increaseOracleLength(uint16 _newSize) external override
 ```
 
-Increase the length of the oracle used by the pool
+Increase the length of the oracle
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| newLength | uint16 | The new length of the oracle |
+| _newSize | uint16 | The new size of the oracle. Needs to be bigger than current one |
 
-### setStaticFeeParameters
+### collectFees
 
 ```solidity
-function setStaticFeeParameters(
-    uint16 baseFactor,
-    uint16 filterPeriod,
-    uint16 decayPeriod,
-    uint16 reductionFactor,
-    uint24 variableFeeControl,
-    uint16 protocolShare,
-    uint24 maxVolatilityAccumulator
-) external override onlyFactory
+function collectFees(address _account, uint256[] _ids) external override nonReentrant returns (uint256 amountX, uint256 amountY)
 ```
 
-Sets the static fee parameters of the pool
+Collect fees of an user
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| baseFactor | uint16 | The base factor of the static fee |
-| filterPeriod | uint16 | The filter period of the static fee |
-| decayPeriod | uint16 | The decay period of the static fee |
-| reductionFactor | uint16 | The reduction factor of the static fee |
-| variableFeeControl | uint24 | The variable fee control of the static fee |
-| protocolShare | uint16 | The protocol share of the static fee |
-| maxVolatilityAccumulator | uint24 | The max volatility accumulator of the static fee |
+| _account | address | The address of the user |
+| _ids | uint256[] | The list of bin ids to collect fees in |
+
+#### Return Values
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| amountX | uint256 | The amount of tokenX claimed |
+| amountY | uint256 | The amount of tokenY claimed |
+
+### collectProtocolFees
+
+```solidity
+function collectProtocolFees() external override nonReentrant returns (uint256 amountX, uint256 amountY)
+```
+
+Collect the protocol fees and send them to the feeRecipient
+
+_The balances are not zeroed to save gas by not resetting the storage slot
+Only callable by the fee recipient_
+
+#### Return Values
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| amountX | uint256 | The amount of tokenX claimed |
+| amountY | uint256 | The amount of tokenY claimed |
+
+### setFeesParameters
+
+```solidity
+function setFeesParameters(bytes32 _packedFeeParameters) external override onlyFactory 
+```
+
+Set the fees parameters
+
+_Needs to be called by the factory that will validate the values
+The bin step will not change
+Only callable by the factory_
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _packedFeeParameters | bytes32 | The packed fee parameters |
 
 ### forceDecay
 
 ```solidity
-function forceDecay() external override onlyFactory
+function forceDecay() external override onlyFactory 
 ```
 
-Forces the decay of the volatility reference variables
-
-### _tokenX
+### _beforeTokenTransfer
 
 ```solidity
-function _tokenX() internal pure returns (IERC20)
+function _beforeTokenTransfer(address _from, address _to, uint256 _id, uint256 _amount) internal orverride(LBToken)
 ```
 
-Returns the address of the token X
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | IERC20 | The address of the token X |
-
-### _tokenY
-
-```solidity
-function _tokenY() internal pure returns (IERC20)
-```
-
-Returns the address of the token Y
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | IERC20 | The address of the token Y |
-
-### _binStep
-
-```solidity
-function _binStep() internal pure returns (uint16)
-```
-
-Returns the bin step of the pool, in basis points
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | uint16 | The bin step of the pool |
-
-### _getNextNonEmptyBin
-
-```solidity
-function _getNextNonEmptyBin(bool swapForY, uint24 id) internal view returns (uint24)
-```
-
-Returns next non-empty bin
+Collect and update fees before any token transfer, mint or burn
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| swapForY | bool | Whether the swap is for Y |
-| id | uint24 | The id of the bin |
+| _from | address | The address of the owner of the token |
+| _to | address | The address of the recipient of the  token |
+| _id | uint256 | The id of the token |
+| _amount | uint256 | The amount of token of type `id` |
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | uint24 | The id of the next non-empty bin |
-
-### _getFlashLoanFees
+### _setFeesParameters
 
 ```solidity
-function _getFlashLoanFees(bytes32 amounts) private view returns (bytes32)
+function _setFeesParameters(bytes32 _packedFeeParameters) internal
 ```
 
-Returns the encoded fees amounts for a flash loan
+Internal function to set the fee parameters of the pair
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amounts | bytes32 | The amounts of the flash loan |
+| _packedFeeParameters | bytes32 | The packed fee parameters |
+
+### _getReservesAndId
+
+```solidity
+function _getReservesAndId() internal view returns (uint256 reserveX, uint256 reserveY, uint256 activeId)
+```
+
+Internal view function to get the reserves and active id
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-|  | bytes32 | The encoded fees amounts |
+| reserveX | uint256 | The reserve of asset X |
+| reserveY | uint256 | The reserve of asset Y |
+| activeId | uint256 | The active id of the pair |
 
-### _setStaticFeeParameters
+### _getBin
 
 ```solidity
-function _setStaticFeeParameters(bytes32 parameters, uint16 baseFactor, uint16 filterPeriod, uint16 decayPeriod, uint16 reductionFactor, uint24 variableFeeControl, uint16 protocolShare, uint24 maxVolatilityAccumulator) internal
+function _getBin(uint24 _id) internal view returns (uint256 reserveX, uint256 reserveY)
 ```
 
-Sets the static fee parameters of the pair
+Internal view function to get the bin at `id`
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| parameters | bytes32 | The current parameters of the pair |
-| baseFactor | uint16 | The base factor of the static fee |
-| filterPeriod | uint16 | The filter period of the static fee |
-| decayPeriod | uint16 | The decay period of the static fee |
-| reductionFactor | uint16 | The reduction factor of the static fee |
-| variableFeeControl | uint24 | The variable fee control of the static fee |
-| protocolShare | uint16 | The protocol share of the static fee |
-| maxVolatilityAccumulator | uint24 | The max volatility accumulator of the static fee |
-
-### _mintBin
-
-```solidity
-function _mintBin(uint24 activeId, uint24 id, bytes32 maxAmountsInToBin, bytes32 parameters) internal returns (uint256 shares, bytes32 amountsIn, bytes32 amountsInToBin)
-```
-
-Helper function to mint liquidity in a bin
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| activeId | uint24 | The id of the active bin |
-| id | uint24 | The id of the bin |
-| maxAmountsInToBin | bytes32 | The maximum amounts in to the bin |
-| parameters | bytes32 | The parameters of the pair |
+| _id | uint24 | The bin id |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| shares | uint256 | The amount of shares minted |
-| amountsIn | bytes32 | The amounts in |
-| amountsInToBin | bytes32 | The amounts in to the bin |
+| reserveX | uint256 | The reserve of tokenX of the bin |
+| reserveY | uint256 | The reserve of tokenY of the bin |
+
+### _getGlobalFees
+
+```solidity
+function _getGlobalFees() internal view returns (uint256 feesXTotal, uint256 feesYTotal, uint256 feesXProtocol, uint256 feesYProtocol)
+```
+
+Internal view function to get the global fees information, the total fees and those for protocol
+
+_The fees for users are `total - protocol`_
+
+#### Return Values
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| feesXTotal | uint256 | The total fees of asset X |
+| feesYTotal | uint256 | The total fees of asset Y |
+| feesXProtocol | uint256 | The protocol fees of asset X |
+| feesYProtocol | uint256 | The protocol fees of asset Y |
+
+### _getFlashLoanFee
+
+```solidity
+function _getFlashLoanFee(uint256 _amount, uint256 _fee) internal pure returns (uint256)
+```
+
+Internal pure function to return the flashloan fee amount
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _amount | uint256 | The amount to flashloan |
+| _fee | uint256 | the fee percentage, in basis point |
+
+#### Return Values
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| [0] | uint256 | The fee amount |
+

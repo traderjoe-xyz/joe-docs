@@ -72,3 +72,4 @@ function setFeeToSetter(address) external
 ```solidity
 function setMigrator(address) external
 ```
+

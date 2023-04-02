@@ -1,81 +1,33 @@
+---
+sidebar_position: 0
+sidebar_label: LBFactory
+---
+
 ## LBFactory
 
-Contract used to deploy and register new LBPairs. Enables setting fee parameters, flashloan fees and LBPair implementation. Unless the `isOpen` is `true`, only the owner of the factory can create pairs.
+Contract used to deploy and register new LBPairs.
+Enables setting fee parameters, flashloan fees and LBPair implementation.
+Unless the `creationUnlocked` is `true`, only the owner of the factory can create pairs.
 
-### getMinBinStep
+### constructor
 
 ```solidity
-function getMinBinStep() external pure override returns (uint256 minBinStep)
+constructor(address _feeRecipient, uint256 _flashLoanFee) public
 ```
 
-Get the minimum bin step a pair can have
+Constructor
 
-#### Return Values
+#### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| minBinStep | uint256 | Returns the minimum bin step a pair can have |
-
-### getFeeRecipient
-
-```solidity
-function getFeeRecipient() external view override returns (address feeRecipient)
-```
-
-Get the protocol fee recipient
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| feeRecipient | address | Returns the protocol fee recipient |
-
-### getMaxFlashLoanFee
-
-```solidity
-function getMaxFlashLoanFee() external pure override returns (uint256 maxFee)
-```
-
-Get the maximum fee percentage for flashLoans
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| maxFee | uint256 | Returns the maximum fee percentage for flashLoans |
-
-### getFlashLoanFee
-
-```solidity
-function getFlashLoanFee() external view override returns (uint256 flashloanFee)
-```
-
-Get the fee for flash loans
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| flashloanFee | uint256 | Returns the fee for flash loans |
-
-### getLBPairImplementation
-
-```solidity
-function getLBPairImplementation() external view override returns (address lbPairImplementation)
-```
-
-Get the address of the LBPair implementation
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| lbPairImplementation | address | Returns the address of the LBPair implementation |
+| _feeRecipient | address | The address of the fee recipient |
+| _flashLoanFee | uint256 | The value of the fee for flash loan |
 
 ### getNumberOfLBPairs
 
 ```solidity
-function getNumberOfLBPairs() external view override returns (uint256 lbPairNumber)
+function getNumberOfLBPairs() external view override returns (uint256)
 ```
 
 View function to return the number of LBPairs created
@@ -84,32 +36,12 @@ View function to return the number of LBPairs created
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| lbPairNumber | uint256 | Returns the number of LBPairs created |
-
-### getLBPairAtIndex
-
-```solidity
-function getLBPairAtIndex(uint256 index) external view override returns (ILBPair lbPair)
-```
-
-View function to return the LBPair created at index `index`
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| index | uint256 | The index |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| lbPair | ILBPair | The address of the LBPair at index `index` |
+| [0] | uint256 | The number of LBPair |
 
 ### getNumberOfQuoteAssets
 
 ```solidity
-function getNumberOfQuoteAssets() external view override returns (uint256 numberOfQuoteAssets)
+function getNumberOfQuoteAssets() external view override returns (uint256)
 ```
 
 View function to return the number of quote assets whitelisted
@@ -118,12 +50,12 @@ View function to return the number of quote assets whitelisted
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| numberOfQuoteAssets | uint256 | The number of quote assets |
+| [0] | uint256 | The number of quote assets |
 
-### getQuoteAssetAtIndex
+### getQuoteAsset
 
 ```solidity
-function getQuoteAssetAtIndex(uint256 index) external view override returns (IERC20 asset)
+function getQuoteAsset(uint256 _index) external view override returns (contract IERC20)
 ```
 
 View function to return the quote asset whitelisted at index `index`
@@ -132,18 +64,18 @@ View function to return the quote asset whitelisted at index `index`
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| index | uint256 | The index |
+| _index | uint256 | The index |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| asset | IERC20 | The address of the quoteAsset at index `index` |
+| [0] | contract IERC20 | The address of the _quoteAsset at index `index` |
 
 ### isQuoteAsset
 
 ```solidity
-function isQuoteAsset(IERC20 token) external view override returns (bool isQuote)
+function isQuoteAsset(contract IERC20 _token) external view override returns (bool)
 ```
 
 View function to return whether a token is a quotedAsset (true) or not (false)
@@ -152,49 +84,50 @@ View function to return whether a token is a quotedAsset (true) or not (false)
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| token | IERC20 | The address of the asset |
+| _token | contract IERC20 | The address of the asset |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| isQuote | bool | Whether the token is a quote asset or not |
+| [0] | bool | Whether the token is a quote asset or not |
 
 ### getLBPairInformation
 
 ```solidity
-function getLBPairInformation(IERC20 tokenA, IERC20 tokenB, uint256 binStep) external view override returns (LBPairInformation memory lbPairInformation)
+function getLBPairInformation(contract IERC20 _tokenA, contract IERC20 _tokenB, uint256 _binStep) external view override returns (struct ILBFactory.LBPairInformation)
 ```
 
-View function to return the LBPairInformation if it exists, if not, then the address 0 is returned. The order doesn't matter
+Returns the LBPairInformation if it exists,
+if not, then the address 0 is returned. The order doesn't matter
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| tokenA | IERC20 | The address of the first token of the pair |
-| tokenB | IERC20 | The address of the second token of the pair |
-| binStep | uint256 | The bin step of the LBPair |
+| _tokenA | contract IERC20 | The address of the first token of the pair |
+| _tokenB | contract IERC20 | The address of the second token of the pair |
+| _binStep | uint256 | The bin step of the LBPair |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| lbPairInformation | LBPairInformation | The LBPairInformation |
+| [0] | struct ILBFactory.LBPairInformation | The LBPairInformation |
 
 ### getPreset
 
 ```solidity
-function getPreset(uint256 binStep) external view override returns (uint256 baseFactor, uint256 filterPeriod, uint256 decayPeriod, uint256 reductionFactor, uint256 variableFeeControl, uint256 protocolShare, uint256 maxVolatilityAccumulator, bool isOpen)
+function getPreset(uint16 _binStep) external view override returns (uint256 baseFactor, uint256 filterPeriod, uint256 decayPeriod, uint256 reductionFactor, uint256 variableFeeControl, uint256 protocolShare, uint256 maxVolatilityAccumulated, uint256 sampleLifetime)
 ```
 
-View function to return the different parameters of the preset. Will revert if the preset doesn't exist
+View function to return the different parameters of the preset
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| binStep | uint256 | The bin step of the preset |
+| _binStep | uint16 | The bin step of the preset |
 
 #### Return Values
 
@@ -206,13 +139,13 @@ View function to return the different parameters of the preset. Will revert if t
 | reductionFactor | uint256 | The reduction factor of the preset |
 | variableFeeControl | uint256 | The variable fee control of the preset |
 | protocolShare | uint256 | The protocol share of the preset |
-| maxVolatilityAccumulator | uint256 | The max volatility accumulator of the preset |
-| isOpen | bool | Whether the preset is open or not |
+| maxVolatilityAccumulated | uint256 | The max volatility accumulated of the preset |
+| sampleLifetime | uint256 | The sample lifetime of the preset |
 
 ### getAllBinSteps
 
 ```solidity
-function getAllBinSteps() external view override returns (uint256[] memory binStepWithPreset)
+function getAllBinSteps() external view override returns (uint256[] presetsBinStep)
 ```
 
 View function to return the list of available binStep with a preset
@@ -221,12 +154,12 @@ View function to return the list of available binStep with a preset
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| binStepWithPreset | uint256[] | The list of binStep |
+| presetsBinStep | uint256[] | The list of binStep |
 
 ### getAllLBPairs
 
 ```solidity
-function getAllLBPairs(IERC20 tokenX, IERC20 tokenY) external view override returns (LBPairInformation[] memory lbPairsAvailable)
+function getAllLBPairs(contract IERC20 _tokenX, contract IERC20 _tokenY) external view override returns (struct ILBFactory.LBPairInformation[] LBPairsAvailable)
 ```
 
 View function to return all the LBPair of a pair of tokens
@@ -235,56 +168,58 @@ View function to return all the LBPair of a pair of tokens
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| tokenX | IERC20 | The first token of the pair |
-| tokenY | IERC20 | The second token of the pair |
+| _tokenX | contract IERC20 | The first token of the pair |
+| _tokenY | contract IERC20 | The second token of the pair |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| lbPairsAvailable | LBPairInformation[] | The list of available LBPairs |
+| LBPairsAvailable | struct ILBFactory.LBPairInformation[] | The list of available LBPairs |
 
 ### setLBPairImplementation
 
 ```solidity
-function setLBPairImplementation(address newLBPairImplementation) external override onlyOwner
+function setLBPairImplementation(address _LBPairImplementation) external override onlyOwner
 ```
 
 Set the LBPair implementation address
 
+_Needs to be called by the owner_
+
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| newLBPairImplementation | address | The address of the implementation |
+| _LBPairImplementation | address | The address of the implementation |
 
 ### createLBPair
 
 ```solidity
-function createLBPair(IERC20 tokenX, IERC20 tokenY, uint24 activeId, uint16 binStep) external override returns (ILBPair pair)
+function createLBPair(contract IERC20 _tokenX, contract IERC20 _tokenY, uint24 _activeId, uint16 _binStep) external override returns (contract ILBPair _LBPair)
 ```
 
-Create a liquidity bin LBPair for tokenX and tokenY
+Create a liquidity bin LBPair for _tokenX and _tokenY
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| tokenX | IERC20 | The address of the first token |
-| tokenY | IERC20 | The address of the second token |
-| activeId | uint24 | The active id of the pair |
-| binStep | uint16 | The bin step in basis point, used to calculate log(1 + binStep / 10_000) |
+| _tokenX | contract IERC20 | The address of the first token |
+| _tokenY | contract IERC20 | The address of the second token |
+| _activeId | uint24 | The active id of the pair |
+| _binStep | uint16 | The bin step in basis point, used to calculate log(1 + binStep) |
 
 #### Return Values
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| pair | ILBPair | The address of the newly created LBPair |
+| _LBPair | contract ILBPair | The address of the newly created LBPair |
 
 ### setLBPairIgnored
 
 ```solidity
-function setLBPairIgnored(IERC20 tokenX, IERC20 tokenY, uint16 binStep, bool ignored) external override onlyOwner
+function setLBPairIgnored(contract IERC20 _tokenX, contract IERC20 _tokenY, uint256 _binStep, bool _ignored) external override onlyOwner 
 ```
 
 Function to set whether the pair is ignored or not for routing, it will make the pair unusable by the router
@@ -293,15 +228,15 @@ Function to set whether the pair is ignored or not for routing, it will make the
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| tokenX | IERC20 | The address of the first token of the pair |
-| tokenY | IERC20 | The address of the second token of the pair |
-| binStep | uint16 | The bin step in basis point of the pair |
-| ignored | bool | Whether to ignore (true) or not (false) the pair for routing |
+| _tokenX | contract IERC20 | The address of the first token of the pair |
+| _tokenY | contract IERC20 | The address of the second token of the pair |
+| _binStep | uint256 | The bin step in basis point of the pair |
+| _ignored | bool | Whether to ignore (true) or not (false) the pair for routing |
 
 ### setPreset
 
 ```solidity
-function setPreset(uint16 binStep, uint16 baseFactor, uint16 filterPeriod, uint16 decayPeriod, uint16 reductionFactor, uint24 variableFeeControl, uint16 protocolShare, uint24 maxVolatilityAccumulator, bool isOpen) external override onlyOwner
+function setPreset(uint16 _binStep, uint16 _baseFactor, uint16 _filterPeriod, uint16 _decayPeriod, uint16 _reductionFactor, uint24 _variableFeeControl, uint16 _protocolShare, uint24 _maxVolatilityAccumulated, uint16 _sampleLifetime) external override onlyOwner
 ```
 
 Sets the preset parameters of a bin step
@@ -310,35 +245,20 @@ Sets the preset parameters of a bin step
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| binStep | uint16 | The bin step in basis point, used to calculate the price |
-| baseFactor | uint16 | The base factor, used to calculate the base fee, baseFee = baseFactor * binStep |
-| filterPeriod | uint16 | The period where the accumulator value is untouched, prevent spam |
-| decayPeriod | uint16 | The period where the accumulator value is halved |
-| reductionFactor | uint16 | The reduction factor, used to calculate the reduction of the accumulator |
-| variableFeeControl | uint24 | The variable fee control, used to control the variable fee, can be 0 to disable it |
-| protocolShare | uint16 | The share of the fees received by the protocol |
-| maxVolatilityAccumulator | uint24 | The max value of the volatility accumulator |
-| isOpen | bool | Whether the preset is open or not |
-
-### setPresetOpenState
-
-```solidity
-function setPresetOpenState(uint16 binStep, bool isOpen) external override onlyOwner
-```
-
-Sets if the preset is open or not to be used by users
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| binStep | uint16 | The bin step in basis point, used to calculate the price |
-| isOpen | bool | Whether the preset is open or not |
+| _binStep | uint16 | The bin step in basis point, used to calculate log(1 + binStep) |
+| _baseFactor | uint16 | The base factor, used to calculate the base fee, baseFee = baseFactor * binStep |
+| _filterPeriod | uint16 | The period where the accumulator value is untouched, prevent spam |
+| _decayPeriod | uint16 | The period where the accumulator value is halved |
+| _reductionFactor | uint16 | The reduction factor, used to calculate the reduction of the accumulator |
+| _variableFeeControl | uint24 | The variable fee control, used to control the variable fee, can be 0 to disable them |
+| _protocolShare | uint16 | The share of the fees received by the protocol |
+| _maxVolatilityAccumulated | uint24 | The max value of the volatility accumulated |
+| _sampleLifetime | uint16 | The lifetime of an oracle's sample |
 
 ### removePreset
 
 ```solidity
-function removePreset(uint16 binStep) external override onlyOwner
+function removePreset(uint16 _binStep) external override onlyOwner
 ```
 
 Remove the preset linked to a binStep
@@ -347,153 +267,117 @@ Remove the preset linked to a binStep
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| binStep | uint16 | The bin step to remove |
+| _binStep | uint16 | The bin step to remove |
 
 ### setFeesParametersOnPair
 
 ```solidity
-function setFeesParametersOnPair(
-    IERC20 tokenX,
-    IERC20 tokenY,
-    uint16 binStep,
-    uint16 baseFactor,
-    uint16 filterPeriod,
-    uint16 decayPeriod,
-    uint16 reductionFactor,
-    uint24 variableFeeControl,
-    uint16 protocolShare,
-    uint24 maxVolatilityAccumulator
-) external override onlyOwner
+function setFeesParametersOnPair(contract IERC20 _tokenX, contract IERC20 _tokenY, uint16 _binStep, uint16 _baseFactor, uint16 _filterPeriod, uint16 _decayPeriod, uint16 _reductionFactor, uint24 _variableFeeControl, uint16 _protocolShare, uint24 _maxVolatilityAccumulated) external override onlyOwner
 ```
 
-Function to set the fee parameter of a LBPair.
+Function to set the fee parameter of a LBPair
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| tokenX | IERC20 | The address of the first token |
-| tokenY | IERC20 | The address of the second token |
-| binStep | uint16 | The bin step in basis point, used to calculate the price |
-| baseFactor | uint16 | The base factor, used to calculate the base fee, baseFee = baseFactor * binStep |
-| filterPeriod | uint16 | The period where the accumulator value is untouched, prevent spam |
-| decayPeriod | uint16 | The period where the accumulator value is halved |
-| reductionFactor | uint16 | The reduction factor, used to calculate the reduction of the accumulator |
-| variableFeeControl | uint24 | The variable fee control, used to control the variable fee, can be 0 to disable it |
-| protocolShare | uint16 | The share of the fees received by the protocol |
-| maxVolatilityAccumulator | uint24 | The max value of volatility accumulator |
+| _tokenX | contract IERC20 | The address of the first token |
+| _tokenY | contract IERC20 | The address of the second token |
+| _binStep | uint16 | The bin step in basis point, used to calculate log(1 + binStep) |
+| _baseFactor | uint16 | The base factor, used to calculate the base fee, baseFee = baseFactor * binStep |
+| _filterPeriod | uint16 | The period where the accumulator value is untouched, prevent spam |
+| _decayPeriod | uint16 | The period where the accumulator value is halved |
+| _reductionFactor | uint16 | The reduction factor, used to calculate the reduction of the accumulator |
+| _variableFeeControl | uint24 | The variable fee control, used to control the variable fee, can be 0 to disable them |
+| _protocolShare | uint16 | The share of the fees received by the protocol |
+| _maxVolatilityAccumulated | uint24 | The max value of volatility accumulated |
 
 ### setFeeRecipient
 
 ```solidity
-function setFeeRecipient(address feeRecipient) external override onlyOwner
+function setFeeRecipient(address _feeRecipient) external override onlyOwner
 ```
 
-Function to set the recipient of the fees. This address needs to be able to receive ERC20s.
+Function to set the recipient of the fees. This address needs to be able to receive ERC20s
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| feeRecipient | address | The address of the recipient |
+| _feeRecipient | address | The address of the recipient |
 
 ### setFlashLoanFee
 
 ```solidity
-function setFlashLoanFee(uint256 flashLoanFee) external override onlyOwner
+function setFlashLoanFee(uint256 _flashLoanFee) external override onlyOwner
 ```
 
-Function to set the flash loan fee.
+Function to set the flash loan fee
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| flashLoanFee | uint256 | The value of the fee for flash loan |
+| _flashLoanFee | uint256 | The value of the fee for flash loan |
+
+### setFactoryLockedState
+
+```solidity
+function setFactoryLockedState(bool _locked) external override onlyOwner
+```
+
+Function to set the creation restriction of the Factory
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _locked | bool | If the creation is restricted (true) or not (false) |
 
 ### addQuoteAsset
 
 ```solidity
-function addQuoteAsset(IERC20 quoteAsset) external override onlyOwner
+function addQuoteAsset(contract IERC20 _quoteAsset) external override onlyOwner
 ```
 
-Function to add an asset to the whitelist of quote assets.
+Function to add an asset to the whitelist of quote assets
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| quoteAsset | IERC20 | The quote asset (e.g: NATIVE, USDC...) |
+| _quoteAsset | contract IERC20 | The quote asset (e.g: AVAX, USDC...) |
 
 ### removeQuoteAsset
 
 ```solidity
-function removeQuoteAsset(IERC20 quoteAsset) external override onlyOwner
+function removeQuoteAsset(contract IERC20 _quoteAsset) external override onlyOwner
 ```
 
-Function to remove an asset from the whitelist of quote assets.
+Function to remove an asset to the whitelist of quote assets
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| quoteAsset | IERC20 | The quote asset (e.g: NATIVE, USDC...) |
-
-### forceDecay
-
-```solidity
-function forceDecay(ILBPair pair) external override onlyOwner
-```
-
-Force Decay.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pair | ILBPair | The address of the LBPairs |
+| _quoteAsset | contract IERC20 | The quote asset (e.g: AVAX, USDC...) |
 
 ### _setFeeRecipient
 
 ```solidity
-function _setFeeRecipient(address feeRecipient) internal
+function _setFeeRecipient(address _feeRecipient) internal
 ```
 
-Internal function to set the recipient of the fee.
+Internal function to set the recipient of the fee
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| feeRecipient | address | The address of the recipient |
+| _feeRecipient | address | The address of the recipient |
 
-### _getLBPairInformation
+### forceDecay
 
 ```solidity
-function _getLBPairInformation(IERC20 tokenA, IERC20 tokenB, uint256 binStep) internal view returns (LBPairInformation memory)
+function forceDecay(contract ILBPair _LBPair) external override onlyOwner
 ```
-
-Returns the LBPairInformation if it exists, if not, then the address 0 is returned. The order doesn't matter.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tokenA | IERC20 | The address of the first token of the pair |
-| tokenB | IERC20 | The address of the second token of the pair |
-| binStep | uint256 | The bin step of the LBPair |
-
-### _sortTokens
-
-```solidity
-function _sortTokens(IERC20 tokenA, IERC20 tokenB) private pure returns (IERC20, IERC20)
-```
-
-Private view function to sort 2 tokens in ascending order.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tokenA | IERC20 | The first token |
-| tokenB | IERC20 | The second token |

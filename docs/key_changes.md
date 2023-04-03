@@ -6,52 +6,48 @@ sidebar_label: V2.1 Key Changes
 # V2.1 Key Changes
 
 A summary of key changes in Liquidity Book V2.1: 
-- Factory presets
-- Gas optimization, with swap amount encoding
-- Limit Orders
-- Router and Quoter support across all versions. 
+- `LBPair` presets.
+- Gas optimization with swap amount encoding.
+- Limit orders.
+- Router and quoter support across all versions.
 
-## For indexers
-- `LBFactory.LBPairCreated` event no changes. 
-- `LBPair.Swap` event returns amounts in encoded tuple. See [decode examples](guides/decode-examples) for more.
+## For Indexers
+- `LBFactory.LBPairCreated` event remains unchanged. 
+- `LBPair.Swap` event returns `amountsIn` and `amountsOut` encoded `bytes32` instead of `uint256`. See [decode examples](guides/decode-examples) for more.
 
 ## Contract changes
 
 ### LBFactory
 
-In this contract the changes are mainly linked to Preset updates:
-- The `uint256 sampleLifetime` is being removed from the `PresetSet` event.
-- The `getPreset()` function now return an additional variable `bool isOpen` that track if the change of Preset is open or not. The `sampleLifetime` variable is being removed.
-- Whenever the state of the open state of the preset is updated a new `PresetOpenStateChanged` is being emmited.
-- Additionally the `MAX_FEE()`, `MIN_BIN_STEP()`, `MAX_BIN_STEP()` and `MAX_PROTOCOL_SHARE()` are removed.
-- New functions are implemeted: `getMinBinStep()`, `getFeeRecipient()`, `getMaxFlashLoanFee()`, `getFlashLoanFee()` and `getLBPairImplementation()`.
+In this contract the changes are mainly linked to preset updates:
+- The `uint256 sampleLifetime` parameter has been removed from the `PresetSet` event.
+- The `getPreset()` function now return an additional parameter, `bool isOpen`, that tracks if the change of preset is open or not. The `sampleLifetime` variable has been removed.
+- When `isOpen` is updated, a new event, 'PresetOpenStateChanged', is emitted.
+- Additionally, the `MAX_FEE()`, `MIN_BIN_STEP()`, `MAX_BIN_STEP()` and `MAX_PROTOCOL_SHARE()` functions have been removed.
+- The following new functions have been added: `getMinBinStep()`, `getFeeRecipient()`, `getMaxFlashLoanFee()`, `getFlashLoanFee()` and `getLBPairImplementation()`.
 
 ### LBPair 
 
-The main changes in this contract are the output variables type:
-- Event `StaticFeeParametersSet` now at a pair level.
-- Events `DepositedToBins`, `WithdrawnFromBins`, `CompositionFees`, `CollectedProtocolFees`, `Swap` and `FlashLoan` now emit encoded `bytes32` amounts that can be decoded using the provided functions (decode examples in the Guides section).
-- Functions `swap()`, `flashLoan()`, `mint()`, `burn()`, and `collectProtocolFees()` now returns encoded `bytes32` amounts.
-- The `getReservesAndId` function is depricated and replaced by 2 new functions: `getReserves()` and `getActiveId()`.
-- New functions being introduced: `getNextNonEmptyBin()`, `getProtocolFees()`, `getStaticFeeParameters()` and `getVariableFeeParameters()`
+- The event `FeeParametersSet` has been removed from `LBFactory` and a new event `StaticFeeParametersSet` has been added to LBPair instead.
+- Several parameters from the following events have been changed from `uint256` to `bytes32`: `DepositedToBins`, `WithdrawnFromBins`, `CompositionFees`, `CollectedProtocolFees`, `Swap` and `FlashLoan`. To decode, see [decode examples](guides/decode-examples).
+- Several parameters from the following functions have been changed from `uint256` to `bytes32`: `swap()`, `flashLoan()`, `mint()`, `burn()` and `collectProtocolFees()`. To decode, see [decode examples](guides/decode-examples).
+-The `getReservesAndId()` function has been deprecated and replaced by two new functions: `getReserves()` and `getActiveId()`.
+- The following new functions have been added: `getNextNonEmptyBin()`, `getProtocolFees()`, `getStaticFeeParameters()` and `getVariableFeeParameters()`.
 
 ### LBRouter 
 
-The LBRouter now support quotes from `JoeV1`, v2 Legacy `LB Pairs` and v2.1 `LB Pairs`.
-- `enum Version` is tracking the version of a pair.
-- New `Path` struct that represent the tokens path to go through to complete a swap (keep track of `versions` of the `DEX` and the `pairBinSteps` associated to the pair if applicable).
-- A new `refundTo` address is being added to the `LiquidityParameters` struct.
-- `AVAX` keywords in the swaps, add and remove liquidity functions changed to `NATIVE`:
-    - i.e. swapExactTokensForAVAX() now is `swapExactTokensForNATIVE()`.
-- The swaps, add and remove liquidity functions use now the new `Path` struct as input (examples in the Guides section).
+The router now support quotes for V1, V2 and V2.1 pairs.
+- An enum, `Version`, has been added to specify the version of the pair that the route will be swapped through.
+- A new struct, `Path`, has been added that represents the pairs that route passes through, where each pair is uniquely identified by `(tokenX, tokenY, version, pairBinStep)` (`pairBinStep` for V1 pairs is 0).
+- A new parameter, `refundTo`, has been added to the `LiquidityParameters` struct that specifies which address to refund excess tokens to when new liquidity positions are minted.
+- All naming references of `AVAX` have been replaced with `NATIVE`.
+    - E.g. `swapExactTokensForAVAX()` is now `swapExactTokensForNATIVE()`.
+- Swap, add and remove liquidity functions now use new Path struct as input.
 
 ### LBToken
 
-Update on the transfers functions:
-- Functions `safeTransferFrom()` and `safeBatchTransferFrom()` are removed.
-- Replaced by `batchTransferFrom()` function.
+- The functions `safeTransferFrom()` and `safeBatchTransferFrom()` have been replaced by `batchTransferFrom()`.
 
 ### LBQuoter
 
-The new LBQuoter now support quotes from all the Joe pairs/pools:
-- Functions `findBestPathFromAmountOut()` and `findBestPathFromAmountIn()` get the best path over `JoeV1` pools, `v2` and `v2.1` pairs.
+The new quoter now support quotes from all pair versions.

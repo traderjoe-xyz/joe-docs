@@ -19,7 +19,7 @@ We track the user balances in `LBPairs` by parsing these events.
 - Liquidity is deposited/withdrawn into multiple `Bins`, for which the `Bin Ids` are returned in array `uint256[] ids`. 
 - Token amounts deposited/withdrawn are tracked by `amounts`, which is a of tuple `[amountX, amountY]` encoded into `byte32`. 
 - The arrays `amounts[]` and `ids[]` correspond to the token amounts and `Bin Ids` of each corresponding `Bin`. 
-- See [Decode Example](./decode-examples.md) for more details. 
+- See [Byte32 Decoding](./byte-32-decoding.md) for more details. 
 
 
 ## DepositedToBins

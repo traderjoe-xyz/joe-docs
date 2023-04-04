@@ -1,13 +1,13 @@
 ---
-sidebar_position: 2
-sidebar_label: Decode Examples
+sidebar_position: 7
+sidebar_label: Byte32 Decoding
 ---
 
-# How To Decode Bytes Parameters
+# Byte32 Decoding
 
-Some of the new function and event variables are packed and encoded in `bytes32`. To read them, they will need to be decoded. Below we explain how.
+In v2.1 we introduced `byte32` encoding for function and event variables (to save storage and gas costs). We provide examples to decode them. 
 
-## Decode `amountsIn` or `amountsOut` from the `Swap` event
+### Decode `amountsIn` or `amountsOut` from the `Swap` event
 
 The parameter `amountsIn` is packed with the amounts in for both tokens X and Y and encoded into `bytes32`. Below is an example of how to decode them. The same is true for `amountsOut`.
 

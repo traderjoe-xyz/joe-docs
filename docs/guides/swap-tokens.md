@@ -1,13 +1,13 @@
 ---
 sidebar_position: 0
-sidebar_label: Implement A Swap
+sidebar_label: Swap Tokens
 ---
 
-# Implement A Swap
+# Swap Tokens
 
 ## Introduction
 
-Like Joe V1, swaps on Joe V2.1 can be executed through a router contract called `LBRouter`. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. This is recommended way to use Joe V2.1 for most users.
+Token swaps can be executed through the `LBRrouter` contract. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. The `LBRouter` in V2.1 is able to perform swaps through `LBPair` V2.1, V2.0 and pair contracts from V1. 
 
 The rest of the document describes:
 

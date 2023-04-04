@@ -11,12 +11,6 @@ A summary of key changes in Liquidity Book V2.1:
 - Limit orders.
 - Router and quoter support across all versions.
 
-## For Indexers
-- `LBFactory.LBPairCreated` event remains unchanged. 
-- `LBPair.Swap` event returns `amountsIn` and `amountsOut` encoded `bytes32` instead of `uint256`. See [decode examples](guides/decode-examples) for more.
-
-## Contract changes
-
 ### LBFactory
 
 In this contract the changes are mainly linked to preset updates:

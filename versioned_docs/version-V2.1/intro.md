@@ -11,7 +11,7 @@ slug: /
 User Manual has been moved to https://help.traderjoexyz.com
 :::
 
-Joe V2 is a decentralized exchange based on Liquidity Book, a novel AMM protocol. 
+Joe V2.1 is a decentralized exchange based on Liquidity Book, a novel AMM protocol. The major changes from the V2 are listed [here](key_changes).
 
 It has the following improvements from the Joe V1 Dex: 
 - Zero 0% slippage for swaps between ticks

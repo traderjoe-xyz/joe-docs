@@ -36,4 +36,3 @@ function swapExactAVAXForTokensSupportingFeeOnTransferTokens(uint256 amountOutMi
 ```solidity
 function swapExactTokensForAVAXSupportingFeeOnTransferTokens(uint256 amountIn, uint256 amountOutMin, address[] path, address to, uint256 deadline) external
 ```
-

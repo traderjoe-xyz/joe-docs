@@ -7,13 +7,15 @@ sidebar_label: Fees
 
 ## Introduction
 
-In this section we discuss fees. Fees on the Liquidity Book differ from the usual fixed rate fee from Joe V1, as here they depends on the volatility.
+Liquidity Book introduce dynamic fees to allow for surge pricing during high market volatility. 
 
-The swap fee is paid to liquidity providers for the trading activity that occurs. The total swap fee ($f_s$) will have two components: a **base fee** ($f_b$) and a **variable fee** ($f_v$), which is a function of instantaneous price volatility. The fee rate will be applied to the swap amount in each liquidity bin and distributed proportionally to the liquidity providers in that bin. Fees will be held separate from liquidity and claimable by liquidity providers.
+Traders pay a swap fee to liquidity providers when performing a swap. The total swap fee ($f_s$) will have two components: a **base fee** ($f_b$) and a **variable fee** ($f_v$), which is a function of instantaneous price volatility. The fee rate will be applied to the swap amount in each liquidity bin and distributed proportionally to the liquidity providers in that bin. 
+- In V2.0, Fees will be held separate from liquidity and claimable by liquidity providers.
+- In V2.1, Fees are added to existing positions and held in reserve. Liquidity providers may claim them when withdrawing from liquidity pools. 
 
 ## Base Fee
 
-The base fee is similar to the Joe V1 0.3% fee. The exact percentage is set by the protocol owner using the **base factor** ($B$) and the **bin step** ($s$):
+The base fee of a market is configured by protocol owner and determined by the **base factor** ($B$) and the **bin step** ($s$):
 
 $$
 f_b = B \cdot s

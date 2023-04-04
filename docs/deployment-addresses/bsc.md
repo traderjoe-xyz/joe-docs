@@ -5,7 +5,7 @@ sidebar_label: BSC
 
 # Binance Smart Chain
 
-All the Joe V2 contracts have been deployed on the Binance Smart Chain:
+### V2.0
 
 | Contract  |                                                       Address                                                        |
 | :-------: | :------------------------------------------------------------------------------------------------------------------: |
@@ -13,7 +13,7 @@ All the Joe V2 contracts have been deployed on the Binance Smart Chain:
 | LBRouter  | [0xb66A2704a0dabC1660941628BE987B4418f7a9E8](https://bscscan.com/address/0xb66A2704a0dabC1660941628BE987B4418f7a9E8) |
 | LBQuoter  | [0x89c71F2065aA505956a86FCadAE4a625A5b5e842](https://bscscan.com/address/0x89c71F2065aA505956a86FCadAE4a625A5b5e842) |
 
-You can also find Joe V1 contracts:
+### V1
 
 |  Contract  |                                                       Address                                                        |
 | :--------: | :------------------------------------------------------------------------------------------------------------------: |

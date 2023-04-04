@@ -5,7 +5,7 @@ sidebar_label: BSC Testnet
 
 # Binance Smart Chain Testnet
 
-All the Joe V2 contracts have been deployed on the Binance Smart Chain Testnet (Chapel):
+### V2.1
 
 | Contract  |                                                           Address                                                            |
 | :-------: | :--------------------------------------------------------------------------------------------------------------------------: |
@@ -13,7 +13,15 @@ All the Joe V2 contracts have been deployed on the Binance Smart Chain Testnet (
 | LBRouter  | [0xf7C6d73336f333b63144644944176072D94128F5](https://testnet.bscscan.com/address/0xf7C6d73336f333b63144644944176072D94128F5) |
 | LBQuoter  | [0x0996216AE051fE4B1d3258fE75b682E75d66E4C0](https://testnet.bscscan.com/address/0x0996216AE051fE4B1d3258fE75b682E75d66E4C0) |
 
-You can also find Joe V1 contracts:
+### V2.0
+
+| Contract  |                                                           Address                                                            |
+| :-------: | :--------------------------------------------------------------------------------------------------------------------------: |
+| LBFactory | [0xE082a032Fa1cE68b24594bee0fC57DfE819D107c](https://testnet.bscscan.com/address/0xE082a032Fa1cE68b24594bee0fC57DfE819D107c) |
+| LBRouter  | [0xf7C6d73336f333b63144644944176072D94128F5](https://testnet.bscscan.com/address/0xf7C6d73336f333b63144644944176072D94128F5) |
+| LBQuoter  | [0x0996216AE051fE4B1d3258fE75b682E75d66E4C0](https://testnet.bscscan.com/address/0x0996216AE051fE4B1d3258fE75b682E75d66E4C0) |
+
+### V1
 
 |  Contract  |                                                           Address                                                            |
 | :--------: | :--------------------------------------------------------------------------------------------------------------------------: |

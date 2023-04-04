@@ -5,7 +5,7 @@ sidebar_label: Arbitrum One
 
 # Arbitrum One
 
-All the Joe V2 contracts have been deployed on the Arbitrum One:
+### V2.0
 
 | Contract  |                                                       Address                                                        |
 | :-------: | :------------------------------------------------------------------------------------------------------------------: |
@@ -13,7 +13,7 @@ All the Joe V2 contracts have been deployed on the Arbitrum One:
 | LBRouter  | [0x7BFd7192E76D950832c77BB412aaE841049D8D9B](https://arbiscan.io/address/0x7BFd7192E76D950832c77BB412aaE841049D8D9B) |
 | LBQuoter  | [0x7f281f22eDB332807A039073a7F34A4A215bE89e](https://arbiscan.io/address/0x7f281f22eDB332807A039073a7F34A4A215bE89e) |
 
-You can also find Joe V1 contracts:
+### V1
 
 |  Contract  |                                                       Address                                                        |
 | :--------: | :------------------------------------------------------------------------------------------------------------------: |

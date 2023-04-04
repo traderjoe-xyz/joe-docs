@@ -5,15 +5,15 @@ sidebar_label: Fuji Testnet
 
 # Fuji
 
-Joe V2.1 contracts deployed on the Fuji testnet:
+### V2.1
 
 | Contract  |                                                            Address                                                            |
 | :-------: | :---------------------------------------------------------------------------------------------------------------------------: |
-| LBFactory | [0x58c38481Cef567FE4d8D568308f40d43fa12Db23](https://testnet.snowtrace.io/address/0x58c38481Cef567FE4d8D568308f40d43fa12Db23) |
-| LBRouter  | [0x502722Ef70908b1Cbf153c4cacf82fd2479E40fe](https://testnet.snowtrace.io/address/0x502722Ef70908b1Cbf153c4cacf82fd2479E40fe) |
-| LBQuoter  | [0x86Dd2A03dD16FAA01F83d78c803EfD952ac4EECa](https://testnet.snowtrace.io/address/0x86Dd2A03dD16FAA01F83d78c803EfD952ac4EECa) |
+| LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://testnet.snowtrace.io/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
+| LBRouter  | [0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30](https://testnet.snowtrace.io/address/0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30) |
+| LBQuoter  | [0x3660268Ed43583a2cdd09e3fC7079ff07DBD4Caa](https://testnet.snowtrace.io/address/0x3660268Ed43583a2cdd09e3fC7079ff07DBD4Caa) |
 
-Joe Legacy V2 contracts deployed on the Fuji testnet:
+### V2.0
 
 | Contract  |                                                            Address                                                            |
 | :-------: | :---------------------------------------------------------------------------------------------------------------------------: |
@@ -21,7 +21,7 @@ Joe Legacy V2 contracts deployed on the Fuji testnet:
 | LBLegacyRouter  | [0x7b50046cEC8252ca835b148b1eDD997319120a12](https://testnet.snowtrace.io/address/0x7b50046cEC8252ca835b148b1eDD997319120a12) |
 | LBLegacyQuoter  | [0x2644fE413b8Fe94D69c4706455108368fa36354F](https://testnet.snowtrace.io/address/0x2644fE413b8Fe94D69c4706455108368fa36354F) |
 
-You can also find Joe V1 contracts:
+### V1
 
 |  Contract  |                                                            Address                                                            |
 | :--------: | :---------------------------------------------------------------------------------------------------------------------------: |
@@ -46,7 +46,6 @@ You can also find Joe V1 contracts:
 | USDC-USDT 1bps  | [0x5091b52d5a2f2dFd5b29B103481d6cAc1Be1eB07](https://testnet.snowtrace.io/address/0x5091b52d5a2f2dFd5b29B103481d6cAc1Be1eB07) |
 | AVAX-USDT 15bps | [0x0c1289b6D5335aae075E8Db2AF43E60E1eB2897E](https://testnet.snowtrace.io/address/0x0c1289b6D5335aae075E8Db2AF43E60E1eB2897E) |
 | AVAX-USDC 20bps | [0x099deb72844417148E8ee4aA6752d138BedE0c39](https://testnet.snowtrace.io/address/0x099deb72844417148E8ee4aA6752d138BedE0c39) |
-
 
 
 ## Test V2 LBPair Markets

@@ -5,7 +5,15 @@ sidebar_label: Arbitrum Goerli
 
 # Arbitrum Goerli
 
-All the Joe V2 contracts have been deployed on the Arbitrum Goerli:
+### V2.1
+
+| Contract  |                                                           Address                                                           |
+| :-------: | :-------------------------------------------------------------------------------------------------------------------------: |
+| LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://goerli.arbiscan.io/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
+| LBRouter  | [0x095EEe81B0eC73797424d67e24adab20D5A5D307](https://goerli.arbiscan.io/address/0x095EEe81B0eC73797424d67e24adab20D5A5D307) |
+| LBQuoter  | [0xce8aFc7cDfbAaa3B2d0053505575472853687AFd](https://goerli.arbiscan.io/address/0xce8aFc7cDfbAaa3B2d0053505575472853687AFd) |
+
+### V2.0
 
 | Contract  |                                                           Address                                                           |
 | :-------: | :-------------------------------------------------------------------------------------------------------------------------: |
@@ -13,7 +21,7 @@ All the Joe V2 contracts have been deployed on the Arbitrum Goerli:
 | LBRouter  | [0x6E9603f925FB5A74f7321f51499d9633c1252893](https://goerli.arbiscan.io/address/0x6E9603f925FB5A74f7321f51499d9633c1252893) |
 | LBQuoter  | [0x42B0D9a10ee9B96a599C98a618205d0288636762](https://goerli.arbiscan.io/address/0x42B0D9a10ee9B96a599C98a618205d0288636762) |
 
-You can also find Joe V1 contracts:
+### V1
 
 |  Contract  |                                                           Address                                                           |
 | :--------: | :-------------------------------------------------------------------------------------------------------------------------: |

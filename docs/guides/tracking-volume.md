@@ -55,7 +55,7 @@ function handleLBPairCreated(event: LBPairCreated): void {
 The `Swap` event is emitted by `LBPairs` when tokens are swapped.  
 - Volume traded is tracked by `amountsIn`, `amountsOut`, which are tuple `[amountX, amountY]` encoded into `byte32`. 
 - Fees paid by Traders to Liquidity Providers are tracked in `totalFees`, while fees paid by Liquidity Providers to Protocol are tracked in `protocolFees`. They are tuple `[feeX, feeY]` encoded into `byte32`. 
-- See [Decode Example](./decode-examples.md) for more details. 
+- See [Byte32 Decoding](./byte-32-decoding.md) for more details. 
 - The active bin when the swap has finished is tracked by `id`, which is the Bin ID in integer. 
 
 

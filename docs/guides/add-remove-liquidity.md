@@ -1,46 +1,20 @@
 ---
 sidebar_position: 1
-sidebar_label: Manage A Liquidity Position
+sidebar_label: Add/Remove Liquidity
 ---
 
-# Manage A Liquidity Position
+# Add/Remove Liquidity
 
 ## Introduction
 
-Like Joe V1, managing liquidity on Joe V2.1 can be executed through a router contract called `LBRouter`. This contract will abstract some of the complexity of the liquidity management, perform safety checks and will revert if certain conditions were to not be met. This is recommended way to use Joe V2.1 for most users.
+Liquidity management is performed through `LBRouter` contract. This contract will abstract some of the complexity of the liquidity management, perform safety checks and will revert if certain conditions were to not be met. 
+- Liquidity is added or removed to `LBPairs`.
+- Liquidity may be distributed to specific `Bins`, with different amounts per `Bin`. 
 
-In contrast to V1, liquidity can be concentrated in arbitrary shapes and any price range the user desires.
-
-Next sections explain how to:
-
-- How are new pairs created
-- How to add liquidity
-- How to remove liquidity
-
-## Pair Creation
-
-To create a new pair, the `createLBPair` function of the `LBFactory` contract is called.
-
-```js
-function createLBPair(
-    IERC20 tokenX,
-    IERC20 tokenY,
-    uint24 activeId,
-    uint16 binStep
-) external returns (ILBPair pair);
-```
-
-The pair creator sets the initial price via the `activeId` argument.
-
-It is important to note that there can be multiple markets of the same pair, but only differing in their bin step.
-
-Pools are therefore uniquely identified by the tuple `(tokenX, tokenY, binStep)`.
-
-After pair creation tokens can be added to any desired bin provided that:
-
-- Above bin `activeId` only `tokenX` can be added
-- Below bin `activeId` only `tokenY` can be added
-- Both `tokenX` and `tokenY` liquidity can be added to bin `activeId`
+:::note
+- The v2.1 `LBRouter` is not backwards compatible with v2.0 `LBPairs`. 
+- The v2.0 `LBRouter` must be used to remove liquidity from v2.0 `LBPairs`. 
+:::
 
 ## Adding Liquidity
 

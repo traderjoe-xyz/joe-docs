@@ -8,7 +8,6 @@ sidebar_label: V2.1 Key Changes
 A summary of key changes in Liquidity Book V2.1: 
 - `LBPair` presets.
 - Gas optimization with swap amount encoding.
-- Limit orders.
 - Router and quoter support across all versions.
 
 ### LBFactory

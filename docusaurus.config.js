@@ -8,8 +8,8 @@ const katex = require("rehype-katex");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Joe: Documentation",
-  tagline: "Documentation for Joe",
+  title: "Liquidity Book Docs",
+  tagline: "Liquidity Book is a novel, highly capital efficient AMM.",
   url: "https://docs.traderjoexyz.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -57,7 +57,7 @@ const config = {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/traderjoe-xyz",
+          // editUrl: "https://github.com/traderjoe-xyz",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -70,7 +70,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "Joe Documentation",
+        title: "Liquidity Book Docs",
         logo: {
           alt: "Trader Joe logo",
           src: "img/joe_logo.svg",

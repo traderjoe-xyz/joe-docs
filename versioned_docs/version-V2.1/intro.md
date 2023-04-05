@@ -8,14 +8,14 @@ slug: /
 # Introduction
 
 :::info
-V2.1 adds Gas Optimization, Factory Presets and new Router and Quoter support. See [Key Changes](./key-changes.md) for details. 
+V2.1 adds Gas Optimization, Factory Presets and new Router and Quoter support. See [Key Changes](/versioned_docs/version-V2.1/key-changes.md) for details.
 :::
 
 Liquidity Book is a novel, highly-capital efficient Automated Market Maker (AMM) protocol. Its features include:
 - **Zero Slippage:** Traders can swap tokens with zero slippage within bins. 
 - **Surge Pricing:** Liquidity Providers earn additional dynamic fees during high market volatility. 
 - **High Capital Efficency:** Liquidity Book can support high volume trading with low liquidity requirements. 
-- **Flexibile Liquidity:** Liquidity Providers can build flexible liquidity distributions according to their  strategy. 
+- **Flexibile Liquidity:** Liquidity Providers can build flexible liquidity distributions according to their strategy. 
 
 
 ### Liquidity Book vs Uniswap V3

@@ -22,8 +22,8 @@ In this contract the changes are mainly linked to preset updates:
 ### LBPair 
 
 - The event `FeeParametersSet` has been removed from `LBFactory` and a new event `StaticFeeParametersSet` has been added to LBPair instead.
-- Several parameters from the following events have been changed from `uint256` to `bytes32`: `DepositedToBins`, `WithdrawnFromBins`, `CompositionFees`, `CollectedProtocolFees`, `Swap` and `FlashLoan`. To decode, see [decode examples](guides/decode-examples).
-- Several parameters from the following functions have been changed from `uint256` to `bytes32`: `swap()`, `flashLoan()`, `mint()`, `burn()` and `collectProtocolFees()`. To decode, see [decode examples](guides/decode-examples).
+- Several parameters from the following events have been changed from `uint256` to `bytes32`: `DepositedToBins`, `WithdrawnFromBins`, `CompositionFees`, `CollectedProtocolFees`, `Swap` and `FlashLoan`. To decode, see [Byte32 Decoding](/versioned_docs/version-V2.1/guides/byte-32-decoding.md).
+- Several parameters from the following functions have been changed from `uint256` to `bytes32`: `swap()`, `flashLoan()`, `mint()`, `burn()` and `collectProtocolFees()`. To decode, see [Byte32 Decoding](/versioned_docs/version-V2.1/guides/byte-32-decoding.md).
 -The `getReservesAndId()` function has been deprecated and replaced by two new functions: `getReserves()` and `getActiveId()`.
 - The following new functions have been added: `getNextNonEmptyBin()`, `getProtocolFees()`, `getStaticFeeParameters()` and `getVariableFeeParameters()`.
 

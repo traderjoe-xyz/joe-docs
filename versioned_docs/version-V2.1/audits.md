@@ -7,4 +7,4 @@ sidebar_label: Audits
 
 Trader Joe V2.1: Liquidity Book received the following audits:
 
-- [Paladin](TODO)
+- [Paladin] (To be published soon)

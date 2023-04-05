@@ -9,7 +9,7 @@ Trader Joe V2: Liquidity Book received the following audits:
 
 ### V2.1
 
-- [Paladin](TODO)
+- Paladin (To be published soon)
 
 ### V2.0
 

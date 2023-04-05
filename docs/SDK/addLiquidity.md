@@ -158,7 +158,7 @@ const addLiquidityInput = {
   deadline 
 }
 ```
-For additional details about the parameters, refer to this [link](../guides/manage-a-liquidity-position#liquidity-parameters). 
+For additional details about the parameters, refer to this [link](/guides/add-remove-liquidity.md#liquidity-parameters).
 
 
 ## 6. Execute addLiquidity contract call

@@ -41,11 +41,11 @@ const lbPairContract = new Contract(
 )
 ```
 
-Please refer [here](./removeLiquidity#lbpair-and-active-bin) for instructions on how to get the `lbPairAddr` of a LBPair.
+Please refer [here](./removeLiquidity.md#lbpair-and-active-bin) for instructions on how to get the `lbPairAddr` of a LBPair.
 
 ## 2. Get `userBinIds` from subgraph
 
-Use the [subgraph](../subgraphs/avalanche) to fetch the binIds that the user holds or has ever held some liquidity. Below is an example of a GraphQL query to the subgraph's `LiquidityPositions` entity.
+Use the [subgraph](subgraphs.md#avalanche) to fetch the binIds that the user holds or has ever held some liquidity. Below is an example of a GraphQL query to the subgraph's `LiquidityPositions` entity.
 
 ```graphql
 

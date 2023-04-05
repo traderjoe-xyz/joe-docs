@@ -9,7 +9,7 @@ sidebar_label: Tracking Volume
 :::note
 #### Key Changes in V2.1
 - `LBFactory.LBPairCreated` event has additional `pid` pool Id which is unique for a single pool in a factory. 
-- `LBPair.Swap` event returns `amountsIn` and `amountsOut` encoded `bytes32` instead of `uint256`. See [decode examples](guides/decode-examples) for more.
+- `LBPair.Swap` event returns `amountsIn` and `amountsOut` encoded `bytes32` instead of `uint256`. See [Byte32 Decoding](/guides/byte-32-decoding.md) for more.
 :::
 
 Each market has its own `LBPair` contract with its own address. These are created by the `LBFactory` contract. 

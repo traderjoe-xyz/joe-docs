@@ -9,9 +9,9 @@ sidebar_label: BSC Testnet
 
 | Contract  |                                                           Address                                                            |
 | :-------: | :--------------------------------------------------------------------------------------------------------------------------: |
-| LBFactory | [0xE082a032Fa1cE68b24594bee0fC57DfE819D107c](https://testnet.bscscan.com/address/0xE082a032Fa1cE68b24594bee0fC57DfE819D107c) |
-| LBRouter  | [0xf7C6d73336f333b63144644944176072D94128F5](https://testnet.bscscan.com/address/0xf7C6d73336f333b63144644944176072D94128F5) |
-| LBQuoter  | [0x0996216AE051fE4B1d3258fE75b682E75d66E4C0](https://testnet.bscscan.com/address/0x0996216AE051fE4B1d3258fE75b682E75d66E4C0) |
+| LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://testnet.bscscan.com/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
+| LBRouter  | [0x8FABE13D95F28f7478Dc655d8D4BA99935D50e02](https://testnet.bscscan.com/address/0x8FABE13D95F28f7478Dc655d8D4BA99935D50e02) |
+| LBQuoter  | [0xCccB0F287A009A319EEaE090ED3F4C2768fFC570](https://testnet.bscscan.com/address/0xCccB0F287A009A319EEaE090ED3F4C2768fFC570) |
 
 ### V2.0
 

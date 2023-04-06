@@ -17,9 +17,9 @@ sidebar_label: Fuji Testnet
 
 | Contract  |                                                            Address                                                            |
 | :-------: | :---------------------------------------------------------------------------------------------------------------------------: |
-| LBLegacyFactory | [0x6B8E020098cd1B3Ec9f811024bc24e51C660F768](https://testnet.snowtrace.io/address/0x6B8E020098cd1B3Ec9f811024bc24e51C660F768) |
-| LBLegacyRouter  | [0x7b50046cEC8252ca835b148b1eDD997319120a12](https://testnet.snowtrace.io/address/0x7b50046cEC8252ca835b148b1eDD997319120a12) |
-| LBLegacyQuoter  | [0x2644fE413b8Fe94D69c4706455108368fa36354F](https://testnet.snowtrace.io/address/0x2644fE413b8Fe94D69c4706455108368fa36354F) |
+| LBFactory | [0x6B8E020098cd1B3Ec9f811024bc24e51C660F768](https://testnet.snowtrace.io/address/0x6B8E020098cd1B3Ec9f811024bc24e51C660F768) |
+| LBRouter  | [0x7b50046cEC8252ca835b148b1eDD997319120a12](https://testnet.snowtrace.io/address/0x7b50046cEC8252ca835b148b1eDD997319120a12) |
+| LBQuoter  | [0x2644fE413b8Fe94D69c4706455108368fa36354F](https://testnet.snowtrace.io/address/0x2644fE413b8Fe94D69c4706455108368fa36354F) |
 
 ### V1
 

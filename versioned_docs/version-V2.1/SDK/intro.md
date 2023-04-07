@@ -5,7 +5,7 @@ sidebar_label: Introduction
 
 # Introduction
 
-SDK-V2 is an open source library created to help builders interact with the V2 contracts from their JS/TS projects. Please note that SDK-V2 is built on top of SDK-V1 so both libraries must be installed together. 
+SDK-V2 is an open source library created to help builders interact with the V2 and V2.1 contracts from their JS/TS projects. Please note that SDK-V2 is built on top of SDK-V1 so both libraries must be installed together. 
 
 This guide endeavors to show examples of how builders can use the SDKs, together with [Ethers.js](https://docs.ethers.io/v5/), to perform a trade, add/remove liquidity, and claim fees.
 

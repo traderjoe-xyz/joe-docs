@@ -11,7 +11,7 @@ sidebar_label: Fuji Testnet
 | :-------: | :---------------------------------------------------------------------------------------------------------------------------: |
 | LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://testnet.snowtrace.io/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
 | LBRouter  | [0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30](https://testnet.snowtrace.io/address/0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30) |
-| LBQuoter  | [0x3660268Ed43583a2cdd09e3fC7079ff07DBD4Caa](https://testnet.snowtrace.io/address/0x3660268Ed43583a2cdd09e3fC7079ff07DBD4Caa) |
+| LBQuoter  | [0x64b57F4249aA99a812212cee7DAEFEDC40B203cD](https://testnet.snowtrace.io/address/0x64b57F4249aA99a812212cee7DAEFEDC40B203cD) |
 
 ### V2.0
 
@@ -46,7 +46,6 @@ sidebar_label: Fuji Testnet
 | USDC-USDT 1bps  | [0x5091b52d5a2f2dFd5b29B103481d6cAc1Be1eB07](https://testnet.snowtrace.io/address/0x5091b52d5a2f2dFd5b29B103481d6cAc1Be1eB07) |
 | AVAX-USDT 15bps | [0x0c1289b6D5335aae075E8Db2AF43E60E1eB2897E](https://testnet.snowtrace.io/address/0x0c1289b6D5335aae075E8Db2AF43E60E1eB2897E) |
 | AVAX-USDC 20bps | [0x099deb72844417148E8ee4aA6752d138BedE0c39](https://testnet.snowtrace.io/address/0x099deb72844417148E8ee4aA6752d138BedE0c39) |
-
 
 ## Test V2 LBPair Markets
 

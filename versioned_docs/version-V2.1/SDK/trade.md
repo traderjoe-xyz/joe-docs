@@ -9,8 +9,8 @@ This guide demonstrates how to execute a swap. In this example, we will be swapp
 
 ## 1. Required imports for this guide
 ```js
-import { PairV2, RouteV2, TradeV2, LB_ROUTER_ADDRESS, LBRouterABI } from '@traderjoe-xyz/sdk-v2'
-import { Token, ChainId, WAVAX: _WAVAX, TokenAmount, JSBI, Percent} from '@traderjoe-xyz/sdk'
+import { PairV2, RouteV2, TradeV2, LB_ROUTER_V21_ADDRESS, LBRouterV21ABI } from '@traderjoe-xyz/sdk-v2'
+import { Token, ChainId, WNATIVE, TokenAmount, JSBI, Percent} from '@traderjoe-xyz/sdk'
 import { Wallet } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
 import { parseUnits } from '@ethersproject/units'
@@ -20,7 +20,7 @@ import { JsonRpcProvider } from '@ethersproject/providers'
 ## 2. Declare required constants
 ```js
 const AVAX_URL = 'https://api.avax.network/ext/bc/C/rpc'
-const CHAIN_ID = ChainId.AVAX
+const CHAIN_ID = ChainId.AVALANCHE
 const PROVIDER = new JsonRpcProvider(AVAX_URL)
 const WALLET_PK = "{WALLET_PRIVATE_KEY}"
 const SIGNER = new Wallet(WALLET_PK, PROVIDER)
@@ -30,7 +30,7 @@ Note that in your project, you most likely will not hardcode the private key at 
 
 ```js
 // initialize tokens
-const WAVAX = _WAVAX[CHAIN_ID] // Token instance of WAVAX
+const WAVAX = WNATIVE[CHAIN_ID] // Token instance of WAVAX
 const USDC = new Token(
     CHAIN_ID,
     '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
@@ -158,8 +158,8 @@ const {
 ```js
 // init router contract
 const router = new Contract(
-  LB_ROUTER_ADDRESS[CHAIN_ID],
-  LBRouterABI,
+  LB_ROUTER_V21_ADDRESS[CHAIN_ID],
+  LBRouterV21ABI,
   SIGNER
 )
 

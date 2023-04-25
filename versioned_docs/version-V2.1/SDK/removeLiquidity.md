@@ -12,8 +12,9 @@ This guide shows how to remove liquidity from a V2 pool using the SDKs, Subgraph
 ### Imports
 ```js
 import { 
-  LB_ROUTER_ADDRESS,
-  LBRouterABI,
+  LB_ROUTER_V21_ADDRESS,
+  LBRouterV21ABI,
+  LBPairV21ABI,
   LBPairABI,
   PairV2
 } from '@traderjoe-xyz/sdk-v2'
@@ -67,17 +68,17 @@ Please note that this step will be significantly simplified in the future with t
 ```js
 const pair = new PairV2(USDC, USDC_E)
 const binStep = Number(BIN_STEP)
-
-const lbPair = await pair.fetchLBPair(binStep, PROVIDER, CHAIN_ID)
+const isV21 = true // set to true if it's a V2.1 pair.
+const lbPair = await pair.fetchLBPair(binStep, isV21, PROVIDER, CHAIN_ID)
 const lbPairAddr = lbPair.LBPair
 
-const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, PROVIDER)
+const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, isV21, PROVIDER)
 const activeBinId = lbPairData.activeId.toNumber()
 ```
 
 ### Liquidity positions 
 
-Use the [subgraph](/versioned_docs/version-V2.1/subgraphs.md#avalanche) to fetch your positions. You need all the `binId`s where you have liquidity and the amount of `liquidity` in each bin. Below is an example of a GraphQL query to the subgraph's `LiquidityPositions` entity.
+Use the [subgraph](/versioned_docs/version-V2.1/subgraphs.md#avalanche) to fetch your positions (Only applicable to `V2` pairs). You need all the `binId`s where you have liquidity and the amount of `liquidity` in each bin. Below is an example of a GraphQL query to the subgraph's `LiquidityPositions` entity.
 ```graphql
 
 {
@@ -119,7 +120,7 @@ We need the `reserveX` and `reserveY` for each bin in `userPositionIds`. You can
 // init LBPair contract
 const lbPairContract = new Contract(
   lbPairAddr,
-  LBPairABI,
+  LBPairV21ABI, // LBPairABI if it's a V2 pair
   PROVIDER
 )
 
@@ -129,7 +130,7 @@ interface BinReserves {
   reserveY: BigNumber;
 }
 const binsReserves: BinReserves[] = await Promise.all(
-  userPositionIds.map((binId) => pairContract.getBin(binId))
+  userPositionIds.map((binId) => lbPairContract.getBin(binId))
 )
 ```
 
@@ -139,21 +140,21 @@ Finally we need the LBToken `totalSupply` for each bin. Again, either through th
 
 ```js
 const totalSupplies: BigNumber[] = await Promise.all(
-  userPositionIds.map((binId) => pairContract.totalSupply(binId))
+  userPositionIds.map((binId) => lbPairContract.totalSupply(binId))
 )
 ```
 
 ## 3. Grant LBRouter access to your LBTokens
  
 ```js
-const spender = LB_ROUTER_ADDRESS[CHAIN_ID]
+const spender = LB_ROUTER_V21_ADDRESS[CHAIN_ID]
 
-const estimatedGas = await pairContract.estimateGas.setApprovalForAll(
+const estimatedGas = await lbPairContract.estimateGas.setApprovalForAll(
   spender,
   true
 )
 
-await pairContract.setApprovalForAll(
+await lbPairContract.setApprovalForAll(
   spender,
   true,
   { gasLimit: calculateGasMargin(estimatedGas) }
@@ -202,7 +203,7 @@ const {
   amountY: JSBI
   amountXMin: JSBI
   amountYMin: JSBI
-} = pair.calculateAmountsToRemove(
+} = lbPairContract.calculateAmountsToRemove(
   userPositionIds,
   activeBinId,
   binsReserves,

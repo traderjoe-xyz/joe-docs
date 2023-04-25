@@ -12,8 +12,8 @@ This guide shows how to add liquidity into a LBPair using the SDKs and Ethers.js
 ### imports
 ```js
 import { 
-  LB_ROUTER_ADDRESS, 
-  LBRouterABI,
+  LB_ROUTER_V21_ADDRESS, 
+  LBRouterV21ABI,
   PairV2,
   Bin, 
   LiquidityDistribution, 
@@ -63,7 +63,7 @@ const BIN_STEP = "2"
 
 ## 2. Approve the LBRouter to use your USDC and USDC.e tokens
 ```js
-const spender = LB_ROUTER_ADDRESS[CHAIN_ID]
+const spender = LB_ROUTER_V21_ADDRESS[CHAIN_ID]
 const estimatedGas = await tokenContract.estimateGas.approve(spender, MaxUint256)
 await tokenContract.approve(
   spender, 
@@ -109,9 +109,10 @@ const daedline = currenTimeInSec + 3600
 ```js
 const pair = new PairV2(USDC, USDC_E)
 const binStep = Number(BIN_STEP)
-const lbPair = await pair.fetchLBPair(binStep, PROVIDER, CHAIN_ID)
-const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, PROVIDER)
-const activeBinId = lbPairData.activeId.toNumber()
+const isV21 = true // set to true if it's a V2.1 pair
+const lbPair = await pair.fetchLBPair(binStep, isV21, PROVIDER, CHAIN_ID)
+const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, isV21, PROVIDER)
+const activeBinId = lbPairData.activeId
 ```
 
 ## 5. Get addLiquidity parameters
@@ -155,6 +156,7 @@ const addLiquidityInput = {
   distributionX,
   distributionY,
   to: ACCOUNT,
+  refundTo: ACCOUNT,
   deadline 
 }
 ```
@@ -165,8 +167,8 @@ For additional details about the parameters, refer to this [link](/versioned_doc
 ```js
 // init router contract
 const router = new Contract(
-  LB_ROUTER_ADDRESS[CHAIN_ID],
-  LBRouterABI,
+  LB_ROUTER_V21_ADDRESS[CHAIN_ID],
+  LBRouterV21ABI,
   SIGNER
 )
 

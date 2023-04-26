@@ -91,7 +91,7 @@ path.pairBinSteps = pairBinSteps;
 path.versions = versions;
 path.tokenPath = tokenPath;
 
-(uint256 amountOut, ) = router.getSwapOut(pairWavax, amountIn, false);
+(, uint256 amountOut, ) = router.getSwapOut(pairWavax, amountIn, false);
 uint256 amountOutWithSlippage = amountOut * 99 / 100 // We allow for 1% slippage
 uint256 amountOutReal = router.swapExactNATIVEForTokens{value: amountIn}(amountOutWithSlippage, path, to, block.timestamp + 1);
 ```

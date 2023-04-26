@@ -11,7 +11,7 @@ sidebar_label: BSC Testnet
 | :-------: | :--------------------------------------------------------------------------------------------------------------------------: |
 | LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://testnet.bscscan.com/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
 | LBRouter  | [0x8FABE13D95F28f7478Dc655d8D4BA99935D50e02](https://testnet.bscscan.com/address/0x8FABE13D95F28f7478Dc655d8D4BA99935D50e02) |
-| LBQuoter  | [0xCccB0F287A009A319EEaE090ED3F4C2768fFC570](https://testnet.bscscan.com/address/0xCccB0F287A009A319EEaE090ED3F4C2768fFC570) |
+| LBQuoter  | [0x64b57F4249aA99a812212cee7DAEFEDC40B203cD](https://testnet.bscscan.com/address/0x64b57F4249aA99a812212cee7DAEFEDC40B203cD) |
 
 ### V2.0
 

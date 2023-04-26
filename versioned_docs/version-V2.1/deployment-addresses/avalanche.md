@@ -11,7 +11,7 @@ sidebar_label: Avalanche Mainnet
 | :-------: | :-------------------------------------------------------------------------------------------------------------------: |
 | LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://snowtrace.io/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
 | LBRouter  | [0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30](https://snowtrace.io/address/0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30) |
-| LBQuoter  | [0x3660268Ed43583a2cdd09e3fC7079ff07DBD4Caa](https://snowtrace.io/address/0x3660268Ed43583a2cdd09e3fC7079ff07DBD4Caa) |
+| LBQuoter  | [0x64b57F4249aA99a812212cee7DAEFEDC40B203cD](https://snowtrace.io/address/0x64b57F4249aA99a812212cee7DAEFEDC40B203cD) |
 
 ### V2.0
 
@@ -27,4 +27,3 @@ sidebar_label: Avalanche Mainnet
 | :--------: | :-------------------------------------------------------------------------------------------------------------------: |
 | Factory V1 | [0x9Ad6C38BE94206cA50bb0d90783181662f0Cfa10](https://snowtrace.io/address/0x9Ad6C38BE94206cA50bb0d90783181662f0Cfa10) |
 | Router V1  | [0x60aE616a2155Ee3d9A68541Ba4544862310933d4](https://snowtrace.io/address/0x60aE616a2155Ee3d9A68541Ba4544862310933d4) |
-

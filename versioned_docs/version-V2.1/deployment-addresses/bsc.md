@@ -7,11 +7,11 @@ sidebar_label: BSC
 
 ### V2.1
 
-| Contract  |                                                    Address                                                           |
+| Contract  |                                                       Address                                                        |
 | :-------: | :------------------------------------------------------------------------------------------------------------------: |
 | LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://bscscan.com/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
 | LBRouter  | [0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30](https://bscscan.com/address/0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30) |
-| LBQuoter  | [0x3660268Ed43583a2cdd09e3fC7079ff07DBD4Caa](https://bscscan.com/address/0x3660268Ed43583a2cdd09e3fC7079ff07DBD4Caa) |
+| LBQuoter  | [0x64b57F4249aA99a812212cee7DAEFEDC40B203cD](https://bscscan.com/address/0x64b57F4249aA99a812212cee7DAEFEDC40B203cD) |
 
 ### V2.0
 

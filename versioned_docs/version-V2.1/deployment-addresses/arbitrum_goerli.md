@@ -11,7 +11,7 @@ sidebar_label: Arbitrum Goerli
 | :-------: | :-------------------------------------------------------------------------------------------------------------------------: |
 | LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://goerli.arbiscan.io/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
 | LBRouter  | [0x095EEe81B0eC73797424d67e24adab20D5A5D307](https://goerli.arbiscan.io/address/0x095EEe81B0eC73797424d67e24adab20D5A5D307) |
-| LBQuoter  | [0xce8aFc7cDfbAaa3B2d0053505575472853687AFd](https://goerli.arbiscan.io/address/0xce8aFc7cDfbAaa3B2d0053505575472853687AFd) |
+| LBQuoter  | [0x64b57F4249aA99a812212cee7DAEFEDC40B203cD](https://goerli.arbiscan.io/address/0x64b57F4249aA99a812212cee7DAEFEDC40B203cD) |
 
 ### V2.0
 

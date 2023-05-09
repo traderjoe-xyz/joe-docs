@@ -7,13 +7,13 @@ sidebar_label: Add/Remove Liquidity
 
 ## Introduction
 
-Liquidity management is performed through `LBRouter` contract. This contract will abstract some of the complexity of the liquidity management, perform safety checks and will revert if certain conditions were to not be met. 
+Liquidity management is performed through `LBRouter` contract. This contract will abstract some of the complexity of the liquidity management, perform safety checks and will revert if certain conditions were to not be met.
 - Liquidity is added or removed to `LBPairs`.
-- Liquidity may be distributed to specific `Bins`, with different amounts per `Bin`. 
+- Liquidity may be distributed to specific `Bins`, with different amounts per `Bin`.
 
 :::note
-- The v2.1 `LBRouter` is not backwards compatible with v2.0 `LBPairs`. 
-- The v2.0 `LBRouter` must be used to remove liquidity from v2.0 `LBPairs`. 
+- The v2.1 `LBRouter` is not backwards compatible with v2.0 `LBPairs`.
+- The v2.0 `LBRouter` must be used to remove liquidity from v2.0 `LBPairs`.
 :::
 
 ## Adding Liquidity
@@ -189,6 +189,13 @@ Here are some pointer for using these functions:
 1. Lengths of `ids` and `amounts` must be the same.
 2. Values in `amounts` are `LBToken` amounts.
 3. Maximum number of bins that can be withdrawn at the same time is around `51` due to Avalanche C-chain block gas limit (`8M`). In this case, multiple transactions can be used to remove more liquidity.
+
+:::note
+For tax tokens, removing liquidity with `removeLiquidityNATIVE()` is not possible, due to double tax accrual.
+This can be circumvented in two ways, depending on tax token implementation:
+1. Whitelisting LBRouter and/or LBPair.
+2. Removing native liquidity with `removeLiquidity()` function. This will return wrapped native token to user, instead of just native token.
+:::
 
 ### Code Example
 

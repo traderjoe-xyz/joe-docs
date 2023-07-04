@@ -7,15 +7,16 @@ sidebar_label: Fees
 
 ## Introduction
 
-Liquidity Book introduce dynamic fees to allow for surge pricing during high market volatility. 
+Liquidity Book introduces dynamic fees to allow for surge pricing during high market volatility.
 
-Traders pay a swap fee to liquidity providers when performing a swap. The total swap fee ($f_s$) will have two components: a **base fee** ($f_b$) and a **variable fee** ($f_v$), which is a function of instantaneous price volatility. The fee rate will be applied to the swap amount in each liquidity bin and distributed proportionally to the liquidity providers in that bin. 
-- In V2.0, Fees will be held separate from liquidity and claimable by liquidity providers.
-- In V2.1, Fees are added to existing positions and held in reserve. Liquidity providers may claim them when withdrawing from liquidity pools. 
+Traders pay a swap fee to liquidity providers when performing a swap. The total swap fee ($f_s$) will have two components: a **base fee** ($f_b$) and a **variable fee** ($f_v$), which is a function of instantaneous price volatility. The fee rate will be applied to the swap amount in each liquidity bin and distributed proportionally to the liquidity providers in that bin.
+
+- In V2.0, fees will be held separate from liquidity and claimable by liquidity providers.
+- In V2.1, fees are added to existing positions and held in reserve. Liquidity providers may claim them when withdrawing from liquidity pools.
 
 ## Base Fee
 
-The base fee of a market is configured by protocol owner and determined by the **base factor** ($B$) and the **bin step** ($s$):
+The base fee of a market is configured by the protocol owner and determined by the **base factor** ($B$) and the **bin step** ($s$):
 
 $$
 f_b = B \cdot s
@@ -67,7 +68,7 @@ $$
 
 This means that high frequency trades will stack up volatility, while low frequency trades will slowly reduce the volatility, or even reset it after a long moment has passed without any trade.
 
-Now that the **volatility reference** is calculated, it is time to calculate the volatility introduced by the trade. Another varriable, the **index reference** ($i_r$), is introduced. In most cases, $i_r$ will simply be the ID of the active bin before the swap is made. But in times of high frequency transactions, $i_r$ will keep its old value instead. This is to prevent people from manipulating fees by making small lots of small transactions that increase and decrease price.
+Now that the **volatility reference** is calculated, it is time to calculate the volatility introduced by the trade. Another variable, the **index reference** ($i_r$), is introduced. In most cases, $i_r$ will simply be the ID of the active bin before the swap is made. But in times of high frequency transactions, $i_r$ will keep its old value instead. This is to prevent people from manipulating fees by making small lots of small transactions that increase and decrease price.
 
 $$
 i_r = \begin{cases}

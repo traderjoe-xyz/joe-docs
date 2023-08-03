@@ -11,7 +11,7 @@ sidebar_label: BSC
 | :-------: | :------------------------------------------------------------------------------------------------------------------: |
 | LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://bscscan.com/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
 | LBRouter  | [0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30](https://bscscan.com/address/0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30) |
-| LBQuoter  | [0x64b57F4249aA99a812212cee7DAEFEDC40B203cD](https://bscscan.com/address/0x64b57F4249aA99a812212cee7DAEFEDC40B203cD) |
+| LBQuoter  | [0xd76019A16606FDa4651f636D9751f500Ed776250](https://bscscan.com/address/0xd76019A16606FDa4651f636D9751f500Ed776250) |
 
 ### V2.0
 

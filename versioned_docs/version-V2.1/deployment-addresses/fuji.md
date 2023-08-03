@@ -7,11 +7,12 @@ sidebar_label: Fuji Testnet
 
 ### V2.1
 
-| Contract  |                                                            Address                                                            |
-| :-------: | :---------------------------------------------------------------------------------------------------------------------------: |
-| LBFactory | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://testnet.snowtrace.io/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
-| LBRouter  | [0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30](https://testnet.snowtrace.io/address/0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30) |
-| LBQuoter  | [0xd76019A16606FDa4651f636D9751f500Ed776250](https://testnet.snowtrace.io/address/0xd76019A16606FDa4651f636D9751f500Ed776250) |
+|     Contract      |                                                            Address                                                            |
+| :---------------: | :---------------------------------------------------------------------------------------------------------------------------: |
+|     LBFactory     | [0x8e42f2F4101563bF679975178e880FD87d3eFd4e](https://testnet.snowtrace.io/address/0x8e42f2F4101563bF679975178e880FD87d3eFd4e) |
+|     LBRouter      | [0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30](https://testnet.snowtrace.io/address/0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30) |
+|     LBQuoter      | [0xd76019A16606FDa4651f636D9751f500Ed776250](https://testnet.snowtrace.io/address/0xd76019A16606FDa4651f636D9751f500Ed776250) |
+| LimitOrderManager | [0x46bA84780f9a7b34C8B0E24Df07a260Fa952195D](https://testnet.snowtrace.io/address/0x46bA84780f9a7b34C8B0E24Df07a260Fa952195D) |
 
 ### V2.0
 

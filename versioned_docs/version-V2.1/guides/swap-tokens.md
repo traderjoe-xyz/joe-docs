@@ -7,7 +7,7 @@ sidebar_label: Swap Tokens
 
 ## Introduction
 
-Token swaps can be executed through the `LBRrouter` contract. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. The `LBRouter` in V2.1 is able to perform swaps through `LBPair` V2.1, V2.0 and pair contracts from V1. 
+Token swaps can be executed through the `LBRrouter` contract. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. The `LBRouter` in V2.1 is able to perform swaps through `LBPair` V2.1, V2.0 and pair contracts from V1.
 
 The rest of the document describes:
 
@@ -66,7 +66,7 @@ path.pairBinSteps = pairBinSteps;
 path.versions = versions;
 path.tokenPath = tokenPath;
 
-(uint128 amountOut, , ) = router.getSwapOut(pair, amountIn, true);
+(, uint128 amountOut, ) = router.getSwapOut(pair, amountIn, true);
 uint256 amountOutWithSlippage = amountOut * 99 / 100 // We allow for 1% slippage
 uint256 amountOutReal = router.swapExactTokensForTokens(amountIn, amountOutWithSlippage, path, to, block.timestamp + 1);
 ```

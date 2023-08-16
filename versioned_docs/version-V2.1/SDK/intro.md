@@ -7,7 +7,7 @@ sidebar_label: Introduction
 
 SDK-V2 is an open source library created to help builders interact with the V2 and V2.1 contracts from their JS/TS projects. Please note that SDK-V2 is built on top of SDK-V1 so both libraries must be installed together. 
 
-This guide endeavors to show examples of how builders can use the SDKs, together with [Ethers.js](https://docs.ethers.io/v5/), to perform a trade, add/remove liquidity, and claim fees.
+This guide endeavors to show examples of how builders can use the SDKs, together with [Viem](https://viem.sh/docs/getting-started.html), to perform a trade and add/remove liquidity.
 
 ## Installation
 
@@ -15,12 +15,12 @@ Run one of the following commands to add the required dependencies to your proje
 
 ### NPM
 ```
-npm install @traderjoe-xyz/sdk @traderjoe-xyz/sdk-v2 ethers
+npm install @traderjoe-xyz/sdk @traderjoe-xyz/sdk-v2 @traderjoe-xyz/sdk-core viem
 ```
 
 ### Yarn
 ```
-yarn add @traderjoe-xyz/sdk @traderjoe-xyz/sdk-v2 ethers
+yarn add @traderjoe-xyz/sdk @traderjoe-xyz/sdk-v2 @traderjoe-xyz/sdk-core viem
 ```
 
 ## Classes
@@ -36,6 +36,5 @@ SDK-V2 uses Github to track issues and feature requests. Please open an issue if
 
 | Repo | Github URL |  NPM URL |
 | :-------: | :----: | :----: |
-| V1 | https://github.com/traderjoe-xyz/joe-sdk | https://www.npmjs.com/package/@traderjoe-xyz/sdk |
-| V2 | https://github.com/traderjoe-xyz/joe-sdk-v2 |  https://www.npmjs.com/package/@traderjoe-xyz/sdk-v2 |
+| V2 | https://github.com/traderjoe-xyz/joe-sdks |  https://www.npmjs.com/package/@traderjoe-xyz/sdk-v2 |
 

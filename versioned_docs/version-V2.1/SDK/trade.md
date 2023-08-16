@@ -9,22 +9,22 @@ This guide demonstrates how to execute a swap. In this example, we will be swapp
 
 ## 1. Required imports for this guide
 ```js
-import { PairV2, RouteV2, TradeV2, LB_ROUTER_V21_ADDRESS, LBRouterV21ABI } from '@traderjoe-xyz/sdk-v2'
-import { Token, ChainId, WNATIVE, TokenAmount, JSBI, Percent} from '@traderjoe-xyz/sdk'
-import { Wallet } from 'ethers'
-import { Contract } from '@ethersproject/contracts'
-import { parseUnits } from '@ethersproject/units'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { ChainId, WNATIVE, Token, TokenAmount, Percent } from "@traderjoe-xyz/sdk-core";
+import { PairV2, RouteV2, TradeV2, TradeOptions, LB_ROUTER_V21_ADDRESS, jsonAbis,} from "@traderjoe-xyz/sdk-v2";
+import { createPublicClient, createWalletClient, http, parseUnits, BaseError, ContractFunctionRevertedError } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { avalanche } from "viem/chains";
+import { config } from "dotenv";
 ```
 
 ## 2. Declare required constants
 ```js
-const AVAX_URL = 'https://api.avax.network/ext/bc/C/rpc'
-const CHAIN_ID = ChainId.AVALANCHE
-const PROVIDER = new JsonRpcProvider(AVAX_URL)
-const WALLET_PK = "{WALLET_PRIVATE_KEY}"
-const SIGNER = new Wallet(WALLET_PK, PROVIDER)
-const ACCOUNT = await SIGNER.getAddress()
+config();
+const privateKey = process.env.PRIVATE_KEY;
+const { LBRouterV21ABI } = jsonAbis;
+const CHAIN_ID = ChainId.AVALANCHE;
+const router = LB_ROUTER_V21_ADDRESS[CHAIN_ID];
+const account = privateKeyToAccount(`0x${privateKey}`);
 ```
 Note that in your project, you most likely will not hardcode the private key at any time. You would be using libraries like [web3react](https://github.com/Uniswap/web3-react) or [wagmi](https://wagmi.sh/) to connect to a wallet, sign messages, interact with contracts, and get the above constants.
 
@@ -50,7 +50,22 @@ const USDT = new Token(
 const BASES = [WAVAX, USDC, USDT] 
 ```
 
-## 3. Declare user inputs and initialize `TokenAmount`
+## 3. Create Viem clients
+```js
+const publicClient = createPublicClient({
+    chain: avalanche,
+    transport: http()
+})
+
+const walletClient = createWalletClient({
+    account,
+    chain: avalanche,
+    transport: http()
+})
+```
+
+
+## 4. Declare user inputs and initialize `TokenAmount`
 ```js
 // the input token in the trade
 const inputToken = USDC
@@ -65,114 +80,94 @@ const isExactIn = true
 const typedValueIn = '20' 
 
 // parse user input into inputToken's decimal precision, which is 6 for USDC
-const typedValueInParsed = parseUnits( 
-  typedValueIn, 
+const typedValueInParsed = parseUnits(
+  typedValueIn,
   inputToken.decimals
-).toString() // returns 20000000
+);
 
 // wrap into TokenAmount
-const amountIn = new TokenAmount(
-  inputToken, 
-  JSBI.BigInt(typedValueInParsed)
-) 
+const amountIn = new TokenAmount(inputToken, typedValueInParsed);
 ```
 
-## 4. Use PairV2 and RouteV2 functions to generate all possible routes
+## 5. Use PairV2 and RouteV2 functions to generate all possible routes
 ```js
 // get all [Token, Token] combinations 
 const allTokenPairs = PairV2.createAllTokenPairs(
   inputToken,
   outputToken,
   BASES
-)
+);
 
 // init PairV2 instances for the [Token, Token] pairs
-const allPairs = PairV2.initPairs(allTokenPairs) 
+const allPairs = PairV2.initPairs(allTokenPairs);
 
 // generates all possible routes to consider
-const allRoutes = RouteV2.createAllRoutes(
-  allPairs,
-  inputToken,
-  outputToken,
-  2 // maxHops 
-) 
+const allRoutes = RouteV2.createAllRoutes(allPairs, inputToken, outputToken);
 ```
 
-## 5. Generate TradeV2 instances and get the best trade
+## 6. Generate TradeV2 instances and get the best trade
 ```js
-const isAvaxIn = false // set to 'true' if swapping from AVAX; otherwise, 'false'
-const isAvaxOut = true // set to 'true' if swapping to AVAX; otherwise, 'false'
+const isNativeIn = false // set to 'true' if swapping from Native; otherwise, 'false'
+const isNativeOut = true // set to 'true' if swapping to Native; otherwise, 'false'
 
 // generates all possible TradeV2 instances
 const trades = await TradeV2.getTradesExactIn(
   allRoutes,
   amountIn,
   outputToken,
-  isAvaxIn,
-  isAvaxOut, 
-  provider,
-  chainId
-) 
+  isNativeIn,
+  isNativeOut,
+  publicClient,
+  CHAIN_ID
+);
 
 // chooses the best trade 
-const bestTrade: TradeV2 = TradeV2.chooseBestTrade(trades, isExactIn)
+const bestTrade: TradeV2 = TradeV2.chooseBestTrade(trades, isExactIn);
 ```
 
-## 6. Check trade information
+## 7. Check trade information
 ```js
 // print useful information about the trade, such as the quote, executionPrice, fees, etc
 console.log(bestTrade.toLog())
 
 // get trade fee information
-const { totalFeePct, feeAmountIn } = await bestTrade.getTradeFee(provider)
-console.log('Total fees percentage', totalFeePct.toSignificant(6), '%')
-console.log(`Fee: ${feeAmountIn.toSignificant(6)} ${feeAmountIn.token.symbol}`)
+const { totalFeePct, feeAmountIn } = await bestTrade.getTradeFee();
+console.log("Total fees percentage", totalFeePct.toSignificant(6), "%");
+console.log(`Fee: ${feeAmountIn.toSignificant(6)} ${feeAmountIn.token.symbol}`);
 ```
 
-## 7. Declare slippage tolerance and swap method/parameters
+## 8. Declare slippage tolerance and swap method/parameters
 ```js
 // set slippage tolerance
-const userSlippageTolerance = new Percent(JSBI.BigInt(50), JSBI.BigInt(10000)) // 0.5%
-
-// set deadline for the transaction
-const currenTimeInSec =  Math.floor((new Date().getTime()) / 1000)
-const daedline = currenTimeInSec + 3600
+const userSlippageTolerance = new Percent("50", "10000"); // 0.5%
 
 // set swap options
-const swapOptions = {
-  recipient: ACCOUNT, 
-  allowedSlippage: userSlippageTolerance, 
-  deadline,
-  feeOnTransfer: false // or true
-}
+const swapOptions: TradeOptions = {
+  allowedSlippage: userSlippageTolerance,
+  ttl: 3600,
+  recipient: account.address,
+  feeOnTransfer: false, // or true
+};
 
 // generate swap method and parameters for contract call
 const {
-  methodName, // e.g. swapExactTokensForAVAX,
-  args,       // e.g.[amountIn, amountOut, binSteps, path, to, deadline]
+  methodName, // e.g. swapExactTokensForNATIVE,
+  args,       // e.g.[amountIn, amountOut, (pairBinSteps, versions, tokenPath) to, deadline]
   value       // e.g. 0x0
 } = bestTrade.swapCallParameters(swapOptions)
 
 ```
-## 8. Execute trade using Ethers.js
+## 9. Execute trade using Viem
+
+Remember to approve spending ERC20 tokens by router before execution
 ```js
-// init router contract
-const router = new Contract(
-  LB_ROUTER_V21_ADDRESS[CHAIN_ID],
-  LBRouterV21ABI,
-  SIGNER
-)
-
-// estimate gas
-const gasOptions = value && !isZero(value) ? { value } : {} 
-const gasEstimate = await router.estimateGas[methodName](...args, options)
-
-// execute swap
-const options = value && !isZero(value) 
-  ? { value, from: ACCOUNT }
-  : { from: ACCOUNT }
-await router[methodName](...args, {
-  gasLimit: calculateGasMargin(gasEstimate),
-  ...options
-})
+const { request } = await publicClient.simulateContract({
+  address: router,
+  abi: LBRouterV21ABI,
+  functionName: methodName,
+  args: args,
+  account,
+});
+const hash = await walletClient.writeContract(request);
+console.log(`Transaction sent with hash ${hash}`);
 ```

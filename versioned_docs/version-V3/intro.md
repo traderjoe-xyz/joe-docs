@@ -13,3 +13,4 @@ Features:
 - Tocker locker to lock tokens given custom vesting schedule
 - Bin-style orderbook
 - Customizable token bonding curve that acts as the market maker of last resort
+

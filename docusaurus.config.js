@@ -70,7 +70,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "Liquidity Book Docs",
+        title: "Trader Joe Docs",
         logo: {
           alt: "Trader Joe logo",
           src: "img/joe_logo.png",

@@ -44,14 +44,14 @@ const config = {
           // editUrl:
           //   'https://github.com/traderjoe-xyz',
           includeCurrentVersion: false,
-          versions:{
+          versions: {
             V2: {
-              banner: 'none',
+              banner: "none",
             },
             V1: {
-              banner: 'none',
+              banner: "none",
             },
-          }
+          },
         },
         blog: {
           showReadingTime: true,
@@ -73,15 +73,15 @@ const config = {
         title: "Liquidity Book Docs",
         logo: {
           alt: "Trader Joe logo",
-          src: "img/joe_logo.svg",
+          src: "img/joe_logo.png",
         },
         items: [
           {
-            type: 'docsVersionDropdown',
-            position: 'left',
+            type: "docsVersionDropdown",
+            position: "left",
             dropdownActiveClassDisabled: true,
-            docsPluginId: 'default',
-            className: 'persistent',
+            docsPluginId: "default",
+            className: "persistent",
           },
           {
             label: "Whitepaper",
@@ -92,7 +92,7 @@ const config = {
             href: "https://github.com/traderjoe-xyz/joe-v2",
             label: "GitHub",
             position: "right",
-          }
+          },
         ],
       },
       footer: {
@@ -120,7 +120,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ['solidity'],
+        additionalLanguages: ["solidity"],
       },
     }),
 

@@ -11,7 +11,7 @@ Token swaps are conducted by calling the router by calling for a specific input 
 
 ## Individual Swap
 
-Swaps in Liquidity Book may cross one or mre bins inside a token pair contract called `LBPair`. Starting from the active bin, it will consume the liquidity of the bin until reaching the desired amount or emptying the bin. When a bin is empty, liquidity will be taken in the next closest bin at the exchange rate defined by the bin. This bin then becomes the active bin of the pair.
+Swaps in Liquidity Book may cross one or more bins inside a token pair contract called `LBPair`. Starting from the active bin, it will consume the liquidity of the bin until reaching the desired amount or emptying the bin. When a bin is empty, liquidity will be taken in the next closest bin at the exchange rate defined by the bin. This bin then becomes the active bin of the pair.
 
 <!-- TODO: Needs a section on surge pricing -->
 

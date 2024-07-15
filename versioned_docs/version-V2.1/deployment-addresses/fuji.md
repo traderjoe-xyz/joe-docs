@@ -5,6 +5,22 @@ sidebar_label: Fuji Testnet
 
 # Fuji
 
+### Helper contracts
+
+|Contract|Address|
+| :--------------------: | :-------------------------------------------------------------------------------------------------------------------: |
+|     LBHooksLens	     | [0x6124086b90ab910038e607aa1bdd67b284c31c98](https://testnet.snowtrace.io/address/0x6124086b90ab910038e607aa1bdd67b284c31c98) |
+| LiquidityHelperContract | [0xA5c68C9E55Dde3505e60c4B5eAe411e2977dfB35](https://testnet.snowtrace.io/address/0xA5c68C9E55Dde3505e60c4B5eAe411e2977dfB35) |
+
+### V2.2
+
+|Contract|Address|
+| :--------------------: | :-------------------------------------------------------------------------------------------------------------------: |
+|     LBFactory     | [0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c](https://testnet.snowtrace.io/address/0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c) |
+|     LBRouter      | [0x18556DA13313f3532c54711497A8FedAC273220E](https://testnet.snowtrace.io/address/0x18556DA13313f3532c54711497A8FedAC273220E) |
+|     LBQuoter      | [0x9A550a522BBaDFB69019b0432800Ed17855A51C3](https://testnet.snowtrace.io/address/0x9A550a522BBaDFB69019b0432800Ed17855A51C3) |
+|   LBHooksManager  | [0x3A8E1Be95467690F7C592B596e42d11b3710c633](https://testnet.snowtrace.io/address/0x3A8E1Be95467690F7C592B596e42d11b3710c633) |
+
 ### V2.1
 
 |     Contract      |                                                            Address                                                            |

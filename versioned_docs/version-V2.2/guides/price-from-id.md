@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 # Get Price From Bin Id
 
-In v2.1 each `bin` holds the liquidity of the pair for a specific price range. Thus, it is possible to link a certain `bin` to a price by using the `id` of the underlying `bin`. We provide examples to get the price from a `binId`.
+In v2.2 each `bin` holds the liquidity of the pair for a specific price range. Thus, it is possible to link a certain `bin` to a price by using the `id` of the underlying `bin`. We provide examples to get the price from a `binId`.
 
 ### Conversion Functions
 
@@ -51,7 +51,7 @@ def getPriceFromId(binId: int, binStep: int) -> float:
 
 ### Example
 
-Here is an example to illustrate the conversion function with the [`sAVAX`/`AVAX`](https://traderjoexyz.com/avalanche/pool/v21/0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be/AVAX/5) pair which has a `binStep` of 5. We choose here a `binId` equal to 8388755. Price returned doesn't need to be adjusted, as both tokens have 18 decimals.
+Here is an example to illustrate the conversion function with the [`sAVAX`/`AVAX`](https://traderjoexyz.com/avalanche/pool/v22/0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be/AVAX/5) pair which has a `binStep` of 5. We choose here a `binId` equal to 8388755. Price returned doesn't need to be adjusted, as both tokens have 18 decimals.
 
 ```python
 getPriceFromId(8388755, 5)

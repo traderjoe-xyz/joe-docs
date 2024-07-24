@@ -6,12 +6,6 @@ sidebar_label: Tracking Pool Balances
 
 # Tracking Pool Balances
 
-:::note
-#### Key Changes in V2.1
-
-- Events `LiquidityAdded` and `LiquidityRemoved` are now replaced with `DepositedToBins` and `WithdrawnFromBins`. 
-- Token amounts are now encoded in `byte32`. 
-:::
 
 The `LBPair` contract emits `DepositedToBins` and `WithdrawnFromBins` events when users add or remove liquidity from the market. 
 

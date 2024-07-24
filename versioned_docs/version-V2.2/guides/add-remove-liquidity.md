@@ -12,8 +12,9 @@ Liquidity management is performed through `LBRouter` contract. This contract wil
 - Liquidity may be distributed to specific `Bins`, with different amounts per `Bin`.
 
 :::note
+- The v2.2 `LBRouter` is not backwards compatible with v2.1 `LBPairs`, although ABI stays the same
 - The v2.1 `LBRouter` is not backwards compatible with v2.0 `LBPairs`.
-- The v2.0 `LBRouter` must be used to remove liquidity from v2.0 `LBPairs`.
+- The v2.0 `LBRouter` must be used to remove liquidity from v2.0 `LBPairs` and v2.1 `LBRouter` must be used to remove liquidity from v2.1 `LBPairs`
 :::
 
 ## Adding Liquidity

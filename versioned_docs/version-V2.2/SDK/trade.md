@@ -22,7 +22,7 @@ import {
   RouteV2,
   TradeV2,
   TradeOptions,
-  LB_ROUTER_V21_ADDRESS,
+  LB_ROUTER_V22_ADDRESS,
   jsonAbis,
 } from "@traderjoe-xyz/sdk-v2";
 import {
@@ -43,9 +43,9 @@ import { config } from "dotenv";
 ```js
 config();
 const privateKey = process.env.PRIVATE_KEY;
-const { LBRouterV21ABI } = jsonAbis;
+const { LBRouterV22ABI } = jsonAbis;
 const CHAIN_ID = ChainId.AVALANCHE;
-const router = LB_ROUTER_V21_ADDRESS[CHAIN_ID];
+const router = LB_ROUTER_V22_ADDRESS[CHAIN_ID];
 const account = privateKeyToAccount(`0x${privateKey}`);
 ```
 
@@ -189,7 +189,7 @@ Remember to approve spending ERC20 tokens by router before execution
 ```js
 const { request } = await publicClient.simulateContract({
   address: router,
-  abi: LBRouterV21ABI,
+  abi: LBRouterV22ABI,
   functionName: methodName,
   args: args,
   account,

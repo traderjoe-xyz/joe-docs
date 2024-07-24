@@ -1,125 +1,146 @@
-## PriceHelper
+# PriceHelper
+[Git Source](https://github.com/traderjoe-xyz/joe-v2/blob/16f011d25e6bf6d0a0c479974345b623d491104f/src/libraries/PriceHelper.sol)
+
+**Author:**
+Trader Joe
 
 This library contains functions to calculate prices
 
-### getPriceFromId
+
+## State Variables
+### REAL_ID_SHIFT
 
 ```solidity
-function getPriceFromId(uint24 id, uint16 binStep) internal pure returns (uint256)
+int256 private constant REAL_ID_SHIFT = 1 << 23;
 ```
 
-Calculates the price from the id and the bin step
 
-#### Parameters
+## Functions
+### getPriceFromId
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| id | uint24 | The id |
-| binStep | uint16 | The bin step |
+*Calculates the price from the id and the bin step*
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| price | uint256 | The price as a 128.128-binary fixed-point number |
+```solidity
+function getPriceFromId(uint24 id, uint16 binStep) internal pure returns (uint256 price);
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`id`|`uint24`|The id|
+|`binStep`|`uint16`|The bin step|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`price`|`uint256`|The price as a 128.128-binary fixed-point number|
+
 
 ### getIdFromPrice
 
+*Calculates the id from the price and the bin step*
+
+
 ```solidity
-function getIdFromPrice(uint256 price, uint16 binStep) internal pure returns (uint24)
+function getIdFromPrice(uint256 price, uint16 binStep) internal pure returns (uint24 id);
 ```
+**Parameters**
 
-Calculates the id from the price and the bin step
+|Name|Type|Description|
+|----|----|-----------|
+|`price`|`uint256`|The price as a 128.128-binary fixed-point number|
+|`binStep`|`uint16`|The bin step|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| price | uint256 | The price as a 128.128-binary fixed-point number |
-| binStep | uint16 | The bin step |
+|Name|Type|Description|
+|----|----|-----------|
+|`id`|`uint24`|The id|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| id | uint24 | The id |
 
 ### getBase
 
+*Calculates the base from the bin step, which is `1 + binStep / BASIS_POINT_MAX`*
+
+
 ```solidity
-function getBase(uint16 binStep) internal pure returns (uint256)
+function getBase(uint16 binStep) internal pure returns (uint256);
 ```
+**Parameters**
 
-Calculates the base from the bin step, which is `1 + binStep / BASIS_POINT_MAX`.
+|Name|Type|Description|
+|----|----|-----------|
+|`binStep`|`uint16`|The bin step|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| binStep | uint16 | The bin step |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint256`|base The base|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| base | uint256 | The base |
 
 ### getExponent
 
+*Calculates the exponent from the id, which is `id - REAL_ID_SHIFT`*
+
+
 ```solidity
-function getExponent(uint24 id) internal pure returns (int256)
+function getExponent(uint24 id) internal pure returns (int256);
 ```
+**Parameters**
 
-Calculates the exponent from the id, which is `id - REAL_ID_SHIFT`.
+|Name|Type|Description|
+|----|----|-----------|
+|`id`|`uint24`|The id|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| id | uint24 | The id |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`int256`|exponent The exponent|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| exponent | int256 | The exponent |
 
 ### convertDecimalPriceTo128x128
 
+*Converts a price with 18 decimals to a 128.128-binary fixed-point number*
+
+
 ```solidity
-function convertDecimalPriceTo128x128(uint256 price) internal pure returns (uint256)
+function convertDecimalPriceTo128x128(uint256 price) internal pure returns (uint256);
 ```
+**Parameters**
 
-Converts a price with 18 decimals to a 128.128-binary fixed-point number
+|Name|Type|Description|
+|----|----|-----------|
+|`price`|`uint256`|The price with 18 decimals|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| price | uint256 | The price with 18 decimals |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint256`|price128x128 The 128.128-binary fixed-point number|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| price128x128 | uint256 | The 128.128-binary fixed-point number |
 
 ### convert128x128PriceToDecimal
 
+*Converts a 128.128-binary fixed-point number to a price with 18 decimals*
+
+
 ```solidity
-function convert128x128PriceToDecimal(uint256 price128x128) internal pure returns (uint256)
+function convert128x128PriceToDecimal(uint256 price128x128) internal pure returns (uint256);
 ```
+**Parameters**
 
-Converts a 128.128-binary fixed-point number to a price with 18 decimals
+|Name|Type|Description|
+|----|----|-----------|
+|`price128x128`|`uint256`|The 128.128-binary fixed-point number|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| price128x128 | uint256 | The 128.128-binary fixed-point number |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint256`|price The price with 18 decimals|
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| price | uint256 | The price with 18 decimals |

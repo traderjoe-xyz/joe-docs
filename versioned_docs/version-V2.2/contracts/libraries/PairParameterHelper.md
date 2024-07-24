@@ -1,442 +1,579 @@
-## Pair Parameter Helper
+# PairParameterHelper
+[Git Source](https://github.com/traderjoe-xyz/joe-v2/blob/16f011d25e6bf6d0a0c479974345b623d491104f/src/libraries/PairParameterHelper.sol)
 
-Liquidity Book Pair Parameter Helper Library - This library contains functions to get and set parameters of a pair
+**Author:**
+Trader Joe
 
-The parameters are stored in a single bytes32 variable. 
+*This library contains functions to get and set parameters of a pair
+The parameters are stored in a single bytes32 variable in the following format:
+[0 - 16[: base factor (16 bits)
+[16 - 28[: filter period (12 bits)
+[28 - 40[: decay period (12 bits)
+[40 - 54[: reduction factor (14 bits)
+[54 - 78[: variable fee control (24 bits)
+[78 - 92[: protocol share (14 bits)
+[92 - 112[: max volatility accumulator (20 bits)
+[112 - 132[: volatility accumulator (20 bits)
+[132 - 152[: volatility reference (20 bits)
+[152 - 176[: index reference (24 bits)
+[176 - 216[: time of last update (40 bits)
+[216 - 232[: oracle index (16 bits)
+[232 - 256[: active index (24 bits)*
+
+
+## State Variables
+### OFFSET_BASE_FACTOR
 
 ```solidity
-library PairParameterHelper {
+uint256 internal constant OFFSET_BASE_FACTOR = 0;
 ```
 
+
+### OFFSET_FILTER_PERIOD
+
+```solidity
+uint256 internal constant OFFSET_FILTER_PERIOD = 16;
+```
+
+
+### OFFSET_DECAY_PERIOD
+
+```solidity
+uint256 internal constant OFFSET_DECAY_PERIOD = 28;
+```
+
+
+### OFFSET_REDUCTION_FACTOR
+
+```solidity
+uint256 internal constant OFFSET_REDUCTION_FACTOR = 40;
+```
+
+
+### OFFSET_VAR_FEE_CONTROL
+
+```solidity
+uint256 internal constant OFFSET_VAR_FEE_CONTROL = 54;
+```
+
+
+### OFFSET_PROTOCOL_SHARE
+
+```solidity
+uint256 internal constant OFFSET_PROTOCOL_SHARE = 78;
+```
+
+
+### OFFSET_MAX_VOL_ACC
+
+```solidity
+uint256 internal constant OFFSET_MAX_VOL_ACC = 92;
+```
+
+
+### OFFSET_VOL_ACC
+
+```solidity
+uint256 internal constant OFFSET_VOL_ACC = 112;
+```
+
+
+### OFFSET_VOL_REF
+
+```solidity
+uint256 internal constant OFFSET_VOL_REF = 132;
+```
+
+
+### OFFSET_ID_REF
+
+```solidity
+uint256 internal constant OFFSET_ID_REF = 152;
+```
+
+
+### OFFSET_TIME_LAST_UPDATE
+
+```solidity
+uint256 internal constant OFFSET_TIME_LAST_UPDATE = 176;
+```
+
+
+### OFFSET_ORACLE_ID
+
+```solidity
+uint256 internal constant OFFSET_ORACLE_ID = 216;
+```
+
+
+### OFFSET_ACTIVE_ID
+
+```solidity
+uint256 internal constant OFFSET_ACTIVE_ID = 232;
+```
+
+
+### MASK_STATIC_PARAMETER
+
+```solidity
+uint256 internal constant MASK_STATIC_PARAMETER = 0xffffffffffffffffffffffffffff;
+```
+
+
+## Functions
 ### getBaseFactor
 
+*Get the base factor from the encoded pair parameters*
+
+
 ```solidity
-function getBaseFactor(bytes32 params) internal pure returns (uint16 baseFactor)
+function getBaseFactor(bytes32 params) internal pure returns (uint16 baseFactor);
 ```
+**Parameters**
 
-Get the base factor from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 16[: base factor (16 bits) [16 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`baseFactor`|`uint16`|The base factor|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| baseFactor | uint16 | The base factor |
 
 ### getFilterPeriod
 
+*Get the filter period from the encoded pair parameters*
+
+
 ```solidity
-function getFilterPeriod(bytes32 params) internal pure returns (uint16 filterPeriod)
+function getFilterPeriod(bytes32 params) internal pure returns (uint16 filterPeriod);
 ```
+**Parameters**
 
-Get the filter period from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 16[: other parameters [16 - 28[: filter period (12 bits) [28 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`filterPeriod`|`uint16`|The filter period|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| filterPeriod | uint16 | The filter period |
 
 ### getDecayPeriod
 
+*Get the decay period from the encoded pair parameters*
+
+
 ```solidity
-function getDecayPeriod(bytes32 params) internal pure returns (uint16 decayPeriod)
+function getDecayPeriod(bytes32 params) internal pure returns (uint16 decayPeriod);
 ```
+**Parameters**
 
-Get the decay period from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 28[: other parameters [28 - 40[: decay period (12 bits) [40 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`decayPeriod`|`uint16`|The decay period|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| decayPeriod | uint16 | The decay period |
 
 ### getReductionFactor
 
+*Get the reduction factor from the encoded pair parameters*
+
+
 ```solidity
-function getReductionFactor(bytes32 params) internal pure returns (uint16 reductionFactor)
+function getReductionFactor(bytes32 params) internal pure returns (uint16 reductionFactor);
 ```
+**Parameters**
 
-Get the reduction factor from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 40[: other parameters [40 - 54[: reduction factor (14 bits) [54 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`reductionFactor`|`uint16`|The reduction factor|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| reductionFactor | uint16 | The reduction factor |
 
 ### getVariableFeeControl
 
+*Get the variable fee control from the encoded pair parameters*
+
+
 ```solidity
-function getVariableFeeControl(bytes32 params) internal pure returns (uint24 variableFeeControl)
+function getVariableFeeControl(bytes32 params) internal pure returns (uint24 variableFeeControl);
 ```
+**Parameters**
 
-Get the variable fee control from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 54[: other parameters [54 - 78[: variable fee control (24 bits) [78 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`variableFeeControl`|`uint24`|The variable fee control|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| variableFeeControl | uint24 | The variable fee control |
 
 ### getProtocolShare
 
+*Get the protocol share from the encoded pair parameters*
+
+
 ```solidity
-function getProtocolShare(bytes32 params) internal pure returns (uint16 protocolShare)
+function getProtocolShare(bytes32 params) internal pure returns (uint16 protocolShare);
 ```
+**Parameters**
 
-Get the protocol share from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 78[: other parameters [78 - 92[: protocol share (14 bits) [92 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`protocolShare`|`uint16`|The protocol share|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| protocolShare | uint16 | The protocol share |
 
 ### getMaxVolatilityAccumulator
 
+*Get the max volatility accumulator from the encoded pair parameters*
+
+
 ```solidity
-function getMaxVolatilityAccumulator(bytes32 params) internal pure returns (uint24 maxVolatilityAccumulator)
+function getMaxVolatilityAccumulator(bytes32 params) internal pure returns (uint24 maxVolatilityAccumulator);
 ```
+**Parameters**
 
-Get the max volatility accumulator from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 92[: other parameters [92 - 112[: max volatility accumulator (20 bits) [112 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`maxVolatilityAccumulator`|`uint24`|The max volatility accumulator|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| maxVolatilityAccumulator | uint24 | The max volatility accumulator |
 
 ### getVolatilityAccumulator
 
+*Get the volatility accumulator from the encoded pair parameters*
+
+
 ```solidity
-function getVolatilityAccumulator(bytes32 params) internal pure returns (uint24 volatilityAccumulator)
+function getVolatilityAccumulator(bytes32 params) internal pure returns (uint24 volatilityAccumulator);
 ```
+**Parameters**
 
-Get the volatility accumulator from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 112[: other parameters [112 - 132[: volatility accumulator (20 bits) [132 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`volatilityAccumulator`|`uint24`|The volatility accumulator|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| volatilityAccumulator | uint24 | The volatility accumulator |
 
 ### getVolatilityReference
 
+*Get the volatility reference from the encoded pair parameters*
+
+
 ```solidity
-function getVolatilityReference(bytes32 params) internal pure returns (uint24 volatilityReference)
+function getVolatilityReference(bytes32 params) internal pure returns (uint24 volatilityReference);
 ```
+**Parameters**
 
-Get the volatility reference from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 132[: other parameters [132 - 152[: volatility reference (20 bits) [152 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`volatilityReference`|`uint24`|The volatility reference|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| volatilityReference | uint24 | The volatility reference |
 
 ### getIdReference
 
+*Get the index reference from the encoded pair parameters*
+
+
 ```solidity
-function getIdReference(bytes32 params) internal pure returns (uint24 idReference)
+function getIdReference(bytes32 params) internal pure returns (uint24 idReference);
 ```
+**Parameters**
 
-Get the index reference from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 152[: other parameters [152 - 176[: index reference (24 bits) [176 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`idReference`|`uint24`|The index reference|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| idReference | uint24 | The index reference |
 
 ### getTimeOfLastUpdate
 
+*Get the time of last update from the encoded pair parameters*
+
+
 ```solidity
-function getTimeOfLastUpdate(bytes32 params) internal pure returns (uint40 timeOflastUpdate)
+function getTimeOfLastUpdate(bytes32 params) internal pure returns (uint40 timeOflastUpdate);
 ```
+**Parameters**
 
-Get the time of last update from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 176[: other parameters [176 - 216[: time of last update (40 bits) [216 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`timeOflastUpdate`|`uint40`|The time of last update|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| timeOflastUpdate | uint40 | The time of last update |
 
 ### getOracleId
 
+*Get the oracle id from the encoded pair parameters*
+
+
 ```solidity
-function getOracleId(bytes32 params) internal pure returns (uint16 oracleId)
+function getOracleId(bytes32 params) internal pure returns (uint16 oracleId);
 ```
+**Parameters**
 
-Get the oracle id from the encoded pair parameters
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 216[: other parameters [216 - 232[: oracle id (16 bits) [232 - 256[: other parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`oracleId`|`uint16`|The oracle id|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| oracleId | uint16 | The oracle id |
 
 ### getActiveId
 
+*Get the active index from the encoded pair parameters*
+
+
 ```solidity
-function getActiveId(bytes32 params) internal pure returns (uint24 activeId)
+function getActiveId(bytes32 params) internal pure returns (uint24 activeId);
 ```
+**Parameters**
 
-Get the active index from the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 232[: other parameters [232 - 256[: active index (24 bits)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`activeId`|`uint24`|The active index|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| activeId | uint24 | The active index |
 
 ### getDeltaId
 
+*Get the delta between the current active index and the cached active index*
+
+
 ```solidity
-function getDeltaId(bytes32 params, uint24 activeId) internal pure returns (uint24)
+function getDeltaId(bytes32 params, uint24 activeId) internal pure returns (uint24);
 ```
+**Parameters**
 
-Get the delta between the active index and the reference index.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters, as follows: [0 - 232[: other parameters [232 - 256[: active index (24 bits)|
+|`activeId`|`uint24`|The current active index|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| activeId | uint24 | The active index |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint24`|The delta|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  |  | The delta |
 
 ### getBaseFee
 
+*Calculates the base fee, with 18 decimals*
+
+
 ```solidity
-function getBaseFee(bytes32 params, uint16 binStep) internal pure returns (uint256)
+function getBaseFee(bytes32 params, uint16 binStep) internal pure returns (uint256);
 ```
+**Parameters**
 
-Calculates the base fee, with 18 decimals.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`binStep`|`uint16`|The bin step (in basis points)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| binStep | uint16 | The bin step (in basis points) |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint256`|baseFee The base fee|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  |  | The base fee |
 
 ### getVariableFee
 
+*Calculates the variable fee*
+
+
 ```solidity
-function getVariableFee(bytes32 params, uint16 binStep) internal pure returns (uint256 variableFee)
+function getVariableFee(bytes32 params, uint16 binStep) internal pure returns (uint256 variableFee);
 ```
+**Parameters**
 
-Calculates the variable fee.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`binStep`|`uint16`|The bin step (in basis points)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| binStep | uint16 | The bin step (in basis points) |
+|Name|Type|Description|
+|----|----|-----------|
+|`variableFee`|`uint256`|The variable fee|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| variableFee | uint256 | The variable fee |
 
 ### getTotalFee
 
+*Calculates the total fee, which is the sum of the base fee and the variable fee*
+
+
 ```solidity
-function getTotalFee(bytes32 params, uint16 binStep) internal pure returns (uint128)
+function getTotalFee(bytes32 params, uint16 binStep) internal pure returns (uint128);
 ```
+**Parameters**
 
-Calculates the total fee, which is the sum of the base fee and the variable fee.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`binStep`|`uint16`|The bin step (in basis points)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| binStep | uint16 | The bin step (in basis points) |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint128`|totalFee The total fee|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  |  | The total fee |
 
 ### setOracleId
 
+*Set the oracle id in the encoded pair parameters*
+
+
 ```solidity
-function setOracleId(bytes32 params, uint16 oracleId) internal pure returns (bytes32)
+function setOracleId(bytes32 params, uint16 oracleId) internal pure returns (bytes32);
 ```
+**Parameters**
 
-Set the oracle id in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`oracleId`|`uint16`|The oracle id|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| oracleId | uint16 | The oracle id |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | bytes32 | The updated encoded pair parameters |
 
 ### setVolatilityReference
 
+*Set the volatility reference in the encoded pair parameters*
+
+
 ```solidity
-function setVolatilityReference(bytes32 params, uint24 volRef) internal pure returns (bytes32)
+function setVolatilityReference(bytes32 params, uint24 volRef) internal pure returns (bytes32);
 ```
+**Parameters**
 
-Set the volatility reference in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`volRef`|`uint24`|The volatility reference|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| volRef | uint24 | The volatility reference |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | bytes32 | The updated encoded pair parameters |
 
 ### setVolatilityAccumulator
 
+*Set the volatility accumulator in the encoded pair parameters*
+
+
 ```solidity
-function setVolatilityAccumulator(bytes32 params, uint24 volAcc) internal pure returns (bytes32)
+function setVolatilityAccumulator(bytes32 params, uint24 volAcc) internal pure returns (bytes32);
 ```
+**Parameters**
 
-Set the volatility accumulator in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`volAcc`|`uint24`|The volatility accumulator|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| volAcc | uint24 | The volatility accumulator |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | bytes32 | The updated encoded pair parameters |
 
 ### setActiveId
 
+*Set the active id in the encoded pair parameters*
+
+
 ```solidity
-function setActiveId(bytes32 params, uint24 activeId) internal pure returns (bytes32 newParams)
+function setActiveId(bytes32 params, uint24 activeId) internal pure returns (bytes32 newParams);
 ```
+**Parameters**
 
-Set the active id in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`activeId`|`uint24`|The active id|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| activeId | uint24 | The active id |
+|Name|Type|Description|
+|----|----|-----------|
+|`newParams`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| newParams | bytes32 | The updated encoded pair parameters |
 
 ### setStaticFeeParameters
+
+*Sets the static fee parameters in the encoded pair parameters*
+
 
 ```solidity
 function setStaticFeeParameters(
@@ -448,148 +585,166 @@ function setStaticFeeParameters(
     uint24 variableFeeControl,
     uint16 protocolShare,
     uint24 maxVolatilityAccumulator
-) internal pure returns (bytes32 newParams)
+) internal pure returns (bytes32 newParams);
 ```
+**Parameters**
 
-Sets the static fee parameters in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`baseFactor`|`uint16`|The base factor|
+|`filterPeriod`|`uint16`|The filter period|
+|`decayPeriod`|`uint16`|The decay period|
+|`reductionFactor`|`uint16`|The reduction factor|
+|`variableFeeControl`|`uint24`|The variable fee control|
+|`protocolShare`|`uint16`|The protocol share|
+|`maxVolatilityAccumulator`|`uint24`|The max volatility accumulator|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| baseFactor | uint16 | The base factor |
-| filterPeriod | uint16 | The filter period |
-| decayPeriod | uint16 | The decay period |
-| reductionFactor | uint16 | The reduction factor |
-| variableFeeControl | uint24 | The variable fee control |
-| protocolShare | uint16 | The protocol share |
-| maxVolatilityAccumulator | uint24 | The max volatility accumulator |
+|Name|Type|Description|
+|----|----|-----------|
+|`newParams`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| newParams | bytes32 | The updated encoded pair parameters |
 
 ### updateIdReference
 
+*Updates the index reference in the encoded pair parameters*
+
+
 ```solidity
-function updateIdReference(bytes32 params) internal pure returns (bytes32 newParams)
+function updateIdReference(bytes32 params) internal pure returns (bytes32 newParams);
 ```
+**Parameters**
 
-Updates the index reference in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`newParams`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| newParams | bytes32 | The updated encoded pair parameters |
 
 ### updateTimeOfLastUpdate
 
+*Updates the time of last update in the encoded pair parameters*
+
+
 ```solidity
-function updateTimeOfLastUpdate(bytes32 params) internal view returns (bytes32 newParams)
+function updateTimeOfLastUpdate(bytes32 params, uint256 timestamp) internal pure returns (bytes32 newParams);
 ```
+**Parameters**
 
-Updates the time of last update in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`timestamp`|`uint256`|The timestamp|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`newParams`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| newParams | bytes32 | The updated encoded pair parameters |
 
 ### updateVolatilityReference
 
+*Updates the volatility reference in the encoded pair parameters*
+
+
 ```solidity
-function updateVolatilityReference(bytes32 params) internal pure returns (bytes32)
+function updateVolatilityReference(bytes32 params) internal pure returns (bytes32);
 ```
+**Parameters**
 
-Updates the volatility reference in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| | bytes32 | The updated encoded pair parameters |
 
 ### updateVolatilityAccumulator
 
+*Updates the volatility accumulator in the encoded pair parameters*
+
+
 ```solidity
-function updateVolatilityAccumulator(bytes32 params, uint24 activeId) internal pure returns (bytes32)
+function updateVolatilityAccumulator(bytes32 params, uint24 activeId) internal pure returns (bytes32);
 ```
+**Parameters**
 
-Updates the volatility accumulator in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`activeId`|`uint24`|The active id|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| activeId | uint24 | The active id |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| | bytes32 | The updated encoded pair parameters |
 
 ### updateReferences
 
+*Updates the volatility reference and the volatility accumulator in the encoded pair parameters*
+
+
 ```solidity
-function updateReferences(bytes32 params) internal view returns (bytes32)
+function updateReferences(bytes32 params, uint256 timestamp) internal pure returns (bytes32);
 ```
+**Parameters**
 
-Updates the volatility reference and the volatility accumulator in the encoded pair parameters.
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`timestamp`|`uint256`|The timestamp|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|The updated encoded pair parameters|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| | bytes32 | The updated encoded pair parameters |
 
 ### updateVolatilityParameters
 
+*Updates the volatility reference and the volatility accumulator in the encoded pair parameters*
+
+
 ```solidity
-function updateVolatilityParameters(bytes32 params, uint24 activeId) internal view returns (bytes32)
+function updateVolatilityParameters(bytes32 params, uint24 activeId, uint256 timestamp)
+    internal
+    pure
+    returns (bytes32);
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`params`|`bytes32`|The encoded pair parameters|
+|`activeId`|`uint24`|The active id|
+|`timestamp`|`uint256`|The timestamp|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|The updated encoded pair parameters|
+
+
+## Errors
+### PairParametersHelper__InvalidParameter
+
+```solidity
+error PairParametersHelper__InvalidParameter();
 ```
 
-Updates the volatility reference and the volatility accumulator in the encoded pair parameters.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| params | bytes32 | The encoded pair parameters |
-| activeId | uint24 | The active id |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| | bytes32 | The updated encoded pair parameters |

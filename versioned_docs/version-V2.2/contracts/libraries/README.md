@@ -1,7 +1,7 @@
 
 
 # Libraries
-- [math](/src/libraries/math)
+- [math](./math)
 - [BinHelper](BinHelper.md)
 - [Clone](Clone.md)
 - [Constants](Constants.md)

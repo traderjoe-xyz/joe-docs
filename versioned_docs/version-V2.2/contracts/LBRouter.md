@@ -1,287 +1,419 @@
-## LBRouter
+# LBRouter
+[Git Source](https://github.com/traderjoe-xyz/joe-v2/blob/16f011d25e6bf6d0a0c479974345b623d491104f/src/LBRouter.sol)
+
+**Inherits:**
+[ILBRouter](/src/interfaces/ILBRouter.sol/interface.ILBRouter.md)
+
+**Author:**
+Trader Joe
 
 Main contract to interact with to swap and manage liquidity on Joe V2 exchange.
 
-### constructor
+
+## State Variables
+### _factory2_2
 
 ```solidity
-constructor(ILBFactory factory, IJoeFactory factoryV1, ILBLegacyFactory legacyFactory, ILBLegacyRouter legacyRouter, IWNATIVE wnative)
+ILBFactory private immutable _factory2_2;
 ```
+
+
+### _factory2_1
+
+```solidity
+ILBFactory private immutable _factory2_1;
+```
+
+
+### _factoryV1
+
+```solidity
+IJoeFactory private immutable _factoryV1;
+```
+
+
+### _legacyFactory
+
+```solidity
+ILBLegacyFactory private immutable _legacyFactory;
+```
+
+
+### _legacyRouter
+
+```solidity
+ILBLegacyRouter private immutable _legacyRouter;
+```
+
+
+### _wnative
+
+```solidity
+IWNATIVE private immutable _wnative;
+```
+
+
+## Functions
+### onlyFactoryOwner
+
+
+```solidity
+modifier onlyFactoryOwner();
+```
+
+### ensure
+
+
+```solidity
+modifier ensure(uint256 deadline);
+```
+
+### verifyPathValidity
+
+
+```solidity
+modifier verifyPathValidity(Path memory path);
+```
+
+### constructor
 
 Constructor
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| factory | ILBFactory | Address of Joe V2.1 factory |
-| factoryV1 | IJoeFactory | Address of Joe V1 factory |
-| legacyFactory | ILBLegacyFactory | Address of Joe V2 factory |
-| legacyRouter | ILBLegacyRouter | Address of Joe V2 router |
-| wnative | IWNATIVE | Address of WNATIVE |
+```solidity
+constructor(
+    ILBFactory factory2_2,
+    IJoeFactory factoryV1,
+    ILBLegacyFactory legacyFactory,
+    ILBLegacyRouter legacyRouter,
+    ILBFactory factory2_1,
+    IWNATIVE wnative
+);
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`factory2_2`|`ILBFactory`|Address of Joe V2.2 factory|
+|`factoryV1`|`IJoeFactory`|Address of Joe V1 factory|
+|`legacyFactory`|`ILBLegacyFactory`|Address of Joe V2 factory|
+|`legacyRouter`|`ILBLegacyRouter`|Address of Joe V2 router|
+|`factory2_1`|`ILBFactory`|Address of Joe V2.1 factory|
+|`wnative`|`IWNATIVE`|Address of WNATIVE|
+
 
 ### receive
 
-```solidity
-receive() external payable
-```
+*Receive function that only accept NATIVE from the WNATIVE contract*
 
-Receive function that only accept NATIVE from the WNATIVE contract
+
+```solidity
+receive() external payable;
+```
 
 ### getFactory
 
+View function to get the factory V2.1 address
+
+
 ```solidity
-function getFactory() external view override returns (ILBFactory lbFactory)
+function getFactory() external view override returns (ILBFactory lbFactory);
 ```
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`lbFactory`|`ILBFactory`|The address of the factory V2.1|
+
+
+### getFactoryV2_1
 
 View function to get the factory V2.1 address
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| lbFactory | ILBFactory | The address of the factory V2.1 |
+```solidity
+function getFactoryV2_1() external view override returns (ILBFactory lbFactory);
+```
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`lbFactory`|`ILBFactory`|The address of the factory V2.1|
+
 
 ### getLegacyFactory
 
-```solidity
-function getLegacyFactory() external view override returns (ILBLegacyFactory legacyLBfactory)
-```
-
 View function to get the factory V2 address
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| legacyLBfactory | ILBLegacyFactory | The address of the factory V2 |
+```solidity
+function getLegacyFactory() external view override returns (ILBLegacyFactory legacyLBfactory);
+```
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`legacyLBfactory`|`ILBLegacyFactory`|The address of the factory V2|
+
 
 ### getV1Factory
 
-```solidity
-function getV1Factory() external view override returns (IJoeFactory factoryV1)
-```
-
 View function to get the factory V1 address
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| factoryV1 | IJoeFactory | The address of the factory V1 |
+```solidity
+function getV1Factory() external view override returns (IJoeFactory factoryV1);
+```
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`factoryV1`|`IJoeFactory`|The address of the factory V1|
+
 
 ### getLegacyRouter
 
-```solidity
-function getLegacyRouter() external view override returns (ILBLegacyRouter legacyRouter)
-```
-
 View function to get the router V2 address
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| legacyRouter | ILBLegacyRouter | The address of the router V2 |
+```solidity
+function getLegacyRouter() external view override returns (ILBLegacyRouter legacyRouter);
+```
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`legacyRouter`|`ILBLegacyRouter`|The address of the router V2|
+
 
 ### getWNATIVE
 
-```solidity
-function getWNATIVE() external view override returns (IWNATIVE wnative)
-```
-
 View function to get the WNATIVE address
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| wnative | IWNATIVE | The address of WNATIVE |
+```solidity
+function getWNATIVE() external view override returns (IWNATIVE wnative);
+```
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`wnative`|`IWNATIVE`|The address of WNATIVE|
+
 
 ### getIdFromPrice
 
-```solidity
-function getIdFromPrice(ILBPair pair, uint256 price) external view override returns (uint24)
-```
-
 Returns the approximate id corresponding to the inputted price.
-
 Warning, the returned id may be inaccurate close to the start price of a bin
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pair | ILBPair | The address of the LBPair |
-| price | uint256 | The price of y per x (multiplied by 1e36) |
+```solidity
+function getIdFromPrice(ILBPair pair, uint256 price) external view override returns (uint24);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`pair`|`ILBPair`|The address of the LBPair|
+|`price`|`uint256`|The price of y per x (multiplied by 1e36)|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | uint24 | The id corresponding to this price |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint24`|The id corresponding to this price|
+
 
 ### getPriceFromId
 
-```solidity
-function getPriceFromId(ILBPair pair, uint24 id) external view override returns (uint256)
-```
-
 Returns the price corresponding to the inputted id
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pair | ILBPair | The address of the LBPair |
-| id | uint24 | The id |
+```solidity
+function getPriceFromId(ILBPair pair, uint24 id) external view override returns (uint256);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`pair`|`ILBPair`|The address of the LBPair|
+|`id`|`uint24`|The id|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | uint256 | The price corresponding to this id |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint256`|The price corresponding to this id|
+
 
 ### getSwapIn
 
-```solidity
-function getSwapIn(ILBPair pair, uint128 amountOut, bool swapForY) public view override returns (uint128 amountIn, uint128 amountOutLeft, uint128 fee)
-```
-
 Simulate a swap in
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pair | ILBPair | The address of the LBPair |
-| amountOut | uint128 | The amount of token to receive |
-| swapForY | bool | Whether you swap X for Y (true), or Y for X (false) |
+```solidity
+function getSwapIn(ILBPair pair, uint128 amountOut, bool swapForY)
+    public
+    view
+    override
+    returns (uint128 amountIn, uint128 amountOutLeft, uint128 fee);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`pair`|`ILBPair`|The address of the LBPair|
+|`amountOut`|`uint128`|The amount of token to receive|
+|`swapForY`|`bool`|Whether you swap X for Y (true), or Y for X (false)|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountIn | uint128 | The amount of token to send in order to receive amountOut token |
-| amountOutLeft | uint128 | The amount of token Out that can't be returned due to a lack of liquidity |
-| fee | uint128 | The amount of fees paid in token sent |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountIn`|`uint128`|The amount of token to send in order to receive amountOut token|
+|`amountOutLeft`|`uint128`|The amount of token Out that can't be returned due to a lack of liquidity|
+|`fee`|`uint128`|The amount of fees paid in token sent|
+
 
 ### getSwapOut
 
-```solidity
-function getSwapOut(ILBPair pair, uint128 amountIn, bool swapForY) external view override returns (uint128 amountInLeft, uint128 amountOut, uint128 fee)
-```
-
 Simulate a swap out
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pair | ILBPair | The address of the LBPair |
-| amountIn | uint128 | The amount of token sent |
-| swapForY | bool | Whether you swap X for Y (true), or Y for X (false) |
+```solidity
+function getSwapOut(ILBPair pair, uint128 amountIn, bool swapForY)
+    external
+    view
+    override
+    returns (uint128 amountInLeft, uint128 amountOut, uint128 fee);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`pair`|`ILBPair`|The address of the LBPair|
+|`amountIn`|`uint128`|The amount of token sent|
+|`swapForY`|`bool`|Whether you swap X for Y (true), or Y for X (false)|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountInLeft | uint128 | The amount of token In that can't be swapped due to a lack of liquidity |
-| amountOut | uint128 | The amount of token received if amountIn tokenX are sent |
-| fee | uint128 | The amount of fees paid in token sent |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountInLeft`|`uint128`|The amount of token In that can't be swapped due to a lack of liquidity|
+|`amountOut`|`uint128`|The amount of token received if amountIn tokenX are sent|
+|`fee`|`uint128`|The amount of fees paid in token sent|
+
 
 ### createLBPair
 
-```solidity
-function createLBPair(IERC20 tokenX, IERC20 tokenY, uint24 activeId, uint16 binStep) external override returns (ILBPair pair)
-```
-
 Create a liquidity bin LBPair for tokenX and tokenY using the factory
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tokenX | IERC20 | The address of the first token |
-| tokenY | IERC20 | The address of the second token |
-| activeId | uint24 | The active id of the pair |
-| binStep | uint16 | The bin step in basis point, used to calculate log(1 + binStep) |
+```solidity
+function createLBPair(IERC20 tokenX, IERC20 tokenY, uint24 activeId, uint16 binStep)
+    external
+    override
+    returns (ILBPair pair);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`tokenX`|`IERC20`|The address of the first token|
+|`tokenY`|`IERC20`|The address of the second token|
+|`activeId`|`uint24`|The active id of the pair|
+|`binStep`|`uint16`|The bin step in basis point, used to calculate log(1 + binStep)|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pair | ILBPair | The address of the newly created LBPair |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`pair`|`ILBPair`|The address of the newly created LBPair|
+
 
 ### addLiquidity
 
-```solidity
-function addLiquidity(
-    LiquidityParameters calldata liquidityParameters
-) external returns (
-    uint256 amountXAdded,
-    uint256 amountYAdded,
-    uint256 amountXLeft,
-    uint256 amountYLeft,
-    uint256[] memory depositIds,
-    uint256[] memory liquidityMinted
-)
-```
-
 Add liquidity while performing safety checks
 
-#### Parameters
+*This function is compliant with fee on transfer tokens*
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| liquidityParameters | LiquidityParameters | The liquidity parameters |
 
-#### Return Values
+```solidity
+function addLiquidity(LiquidityParameters calldata liquidityParameters)
+    external
+    override
+    returns (
+        uint256 amountXAdded,
+        uint256 amountYAdded,
+        uint256 amountXLeft,
+        uint256 amountYLeft,
+        uint256[] memory depositIds,
+        uint256[] memory liquidityMinted
+    );
+```
+**Parameters**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountXAdded | uint256 | The amount of token X added |
-| amountYAdded | uint256 | The amount of token Y added |
-| amountXLeft | uint256 | The amount of token X left (sent back to liquidityParameters.refundTo) |
-| amountYLeft | uint256 | The amount of token Y left (sent back to liquidityParameters.refundTo) |
-| depositIds | uint256[] | The ids of the deposits |
-| liquidityMinted | uint256[] | The amount of liquidity minted |
+|Name|Type|Description|
+|----|----|-----------|
+|`liquidityParameters`|`LiquidityParameters`|The liquidity parameters|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountXAdded`|`uint256`|The amount of token X added|
+|`amountYAdded`|`uint256`|The amount of token Y added|
+|`amountXLeft`|`uint256`|The amount of token X left (sent back to liquidityParameters.refundTo)|
+|`amountYLeft`|`uint256`|The amount of token Y left (sent back to liquidityParameters.refundTo)|
+|`depositIds`|`uint256[]`|The ids of the deposits|
+|`liquidityMinted`|`uint256[]`|The amount of liquidity minted|
+
 
 ### addLiquidityNATIVE
 
-```solidity
-function addLiquidityNATIVE(
-    LiquidityParameters calldata liquidityParameters
-) external payable returns (
-    uint256 amountXAdded,
-    uint256 amountYAdded,
-    uint256 amountXLeft,
-    uint256 amountYLeft,
-    uint256[] memory depositIds,
-    uint256[] memory liquidityMinted
-)
-```
-
 Add liquidity with NATIVE while performing safety checks
 
-#### Parameters
+*This function is compliant with fee on transfer tokens*
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| liquidityParameters | LiquidityParameters | The liquidity parameters |
 
-#### Return Values
+```solidity
+function addLiquidityNATIVE(LiquidityParameters calldata liquidityParameters)
+    external
+    payable
+    override
+    returns (
+        uint256 amountXAdded,
+        uint256 amountYAdded,
+        uint256 amountXLeft,
+        uint256 amountYLeft,
+        uint256[] memory depositIds,
+        uint256[] memory liquidityMinted
+    );
+```
+**Parameters**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountXAdded | uint256 | The amount of token X added |
-| amountYAdded | uint256 | The amount of token Y added |
-| amountXLeft | uint256 | The amount of token X left (sent back to liquidityParameters.refundTo) |
-| amountYLeft | uint256 | The amount of token Y left (sent back to liquidityParameters.refundTo) |
-| depositIds | uint256[] | The ids of the deposits |
-| liquidityMinted | uint256[] | The amount of liquidity minted |
+|Name|Type|Description|
+|----|----|-----------|
+|`liquidityParameters`|`LiquidityParameters`|The liquidity parameters|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountXAdded`|`uint256`|The amount of token X added|
+|`amountYAdded`|`uint256`|The amount of token Y added|
+|`amountXLeft`|`uint256`|The amount of token X left (sent back to liquidityParameters.refundTo)|
+|`amountYLeft`|`uint256`|The amount of token Y left (sent back to liquidityParameters.refundTo)|
+|`depositIds`|`uint256[]`|The ids of the deposits|
+|`liquidityMinted`|`uint256[]`|The amount of liquidity minted|
+
 
 ### removeLiquidity
+
+Remove liquidity while performing safety checks
+
+*This function is compliant with fee on transfer tokens*
+
 
 ```solidity
 function removeLiquidity(
@@ -294,33 +426,38 @@ function removeLiquidity(
     uint256[] memory amounts,
     address to,
     uint256 deadline
-) external ensure(deadline) returns (uint256 amountX, uint256 amountY)
+) external override ensure(deadline) returns (uint256 amountX, uint256 amountY);
 ```
+**Parameters**
 
-Remove liquidity while performing safety checks
+|Name|Type|Description|
+|----|----|-----------|
+|`tokenX`|`IERC20`|The address of token X|
+|`tokenY`|`IERC20`|The address of token Y|
+|`binStep`|`uint16`|The bin step of the LBPair|
+|`amountXMin`|`uint256`|The min amount to receive of token X|
+|`amountYMin`|`uint256`|The min amount to receive of token Y|
+|`ids`|`uint256[]`|The list of ids to burn|
+|`amounts`|`uint256[]`|The list of amounts to burn of each id in `_ids`|
+|`to`|`address`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tokenX | IERC20 | The address of token X |
-| tokenY | IERC20| The address of token Y |
-| binStep | uint16 | The bin step of the LBPair |
-| amountXMin | uint256 | The min amount to receive of token X |
-| amountYMin | uint256 | The min amount to receive of token Y |
-| ids | uint256[] | The list of ids to burn |
-| amounts | uint256[] | The list of amounts to burn of each id in `_ids` |
-| to | address | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+|Name|Type|Description|
+|----|----|-----------|
+|`amountX`|`uint256`|Amount of token X returned|
+|`amountY`|`uint256`|Amount of token Y returned|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountX | uint256 | Amount of token X returned |
-| amountY | uint256 | Amount of token Y returned |
 
 ### removeLiquidityNATIVE
+
+Remove NATIVE liquidity while performing safety checks
+
+*This function is **NOT** compliant with fee on transfer tokens.
+This is wanted as it would make users pays the fee on transfer twice,
+use the `removeLiquidity` function to remove liquidity with fee on transfer tokens.*
+
 
 ```solidity
 function removeLiquidityNATIVE(
@@ -332,32 +469,33 @@ function removeLiquidityNATIVE(
     uint256[] memory amounts,
     address payable to,
     uint256 deadline
-) external ensure(deadline) returns (uint256 amountToken, uint256 amountNATIVE)
+) external override ensure(deadline) returns (uint256 amountToken, uint256 amountNATIVE);
 ```
+**Parameters**
 
-Remove NATIVE liquidity while performing safety checks
+|Name|Type|Description|
+|----|----|-----------|
+|`token`|`IERC20`|The address of token|
+|`binStep`|`uint16`|The bin step of the LBPair|
+|`amountTokenMin`|`uint256`|The min amount to receive of token|
+|`amountNATIVEMin`|`uint256`|The min amount to receive of NATIVE|
+|`ids`|`uint256[]`|The list of ids to burn|
+|`amounts`|`uint256[]`|The list of amounts to burn of each id in `_ids`|
+|`to`|`address payable`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| token | IERC20 | The address of token |
-| binStep | uint16 | The bin step of the LBPair |
-| amountTokenMin | uint256 | The min amount to receive of token |
-| amountNATIVEMin | uint256 | The min amount to receive of NATIVE |
-| ids | uint256[] | The list of ids to burn |
-| amounts | uint256[] | The list of amounts to burn of each id in `_ids` |
-| to | address | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+|Name|Type|Description|
+|----|----|-----------|
+|`amountToken`|`uint256`|Amount of token returned|
+|`amountNATIVE`|`uint256`|Amount of NATIVE returned|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountToken | uint256 | Amount of token returned |
-| amountNATIVE | uint256 | Amount of NATIVE returned |
 
 ### swapExactTokensForTokens
+
+Swaps exact tokens for tokens while performing safety checks
+
 
 ```solidity
 function swapExactTokensForTokens(
@@ -366,482 +504,657 @@ function swapExactTokensForTokens(
     Path memory path,
     address to,
     uint256 deadline
-) external ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut)
+) external override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut);
 ```
+**Parameters**
 
-Swaps exact tokens for tokens while performing safety checks
+|Name|Type|Description|
+|----|----|-----------|
+|`amountIn`|`uint256`|The amount of token to send|
+|`amountOutMin`|`uint256`|The min amount of token to receive|
+|`path`|`Path`|The path of the swap|
+|`to`|`address`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountIn | uint256 | The amount of token to send |
-| amountOutMin | uint256 | The min amount of token to receive |
-| path | Path | The path of the swap |
-| to | address | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|Output amount of the swap|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | Output amount of the swap |
 
 ### swapExactTokensForNATIVE
 
-```solidity
-function swapExactTokensForNATIVE(uint256 amountIn, uint256 amountOutMinNATIVE, Path memory path, address payable to, uint256 deadline) external override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut)
-```
-
 Swaps exact tokens for NATIVE while performing safety checks
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountIn | uint256 | The amount of token to send |
-| amountOutMinNATIVE | uint256 | The min amount of NATIVE to receive |
-| path | Path | The path of the swap |
-| to | address payable | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+```solidity
+function swapExactTokensForNATIVE(
+    uint256 amountIn,
+    uint256 amountOutMinNATIVE,
+    Path memory path,
+    address payable to,
+    uint256 deadline
+) external override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`amountIn`|`uint256`|The amount of token to send|
+|`amountOutMinNATIVE`|`uint256`|The min amount of NATIVE to receive|
+|`path`|`Path`|The path of the swap|
+|`to`|`address payable`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | Output amount of the swap |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|Output amount of the swap|
+
 
 ### swapExactNATIVEForTokens
 
-```solidity
-function swapExactNATIVEForTokens(uint256 amountOutMin, Path memory path, address to, uint256 deadline) external payable override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut)
-```
-
 Swaps exact NATIVE for tokens while performing safety checks
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOutMin | uint256 | The min amount of token to receive |
-| path | Path | The path of the swap |
-| to | address | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+```solidity
+function swapExactNATIVEForTokens(uint256 amountOutMin, Path memory path, address to, uint256 deadline)
+    external
+    payable
+    override
+    ensure(deadline)
+    verifyPathValidity(path)
+    returns (uint256 amountOut);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOutMin`|`uint256`|The min amount of token to receive|
+|`path`|`Path`|The path of the swap|
+|`to`|`address`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | Output amount of the swap |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|Output amount of the swap|
+
 
 ### swapTokensForExactTokens
 
+Swaps tokens for exact tokens while performing safety checks
+
+
 ```solidity
-function swapTokensForExactTokens(uint256 amountOut, uint256 amountInMax, Path memory path, address to, uint256 deadline) external override ensure(deadline) verifyPathValidity(path) returns (uint256[] memory amountsIn)
+function swapTokensForExactTokens(
+    uint256 amountOut,
+    uint256 amountInMax,
+    Path memory path,
+    address to,
+    uint256 deadline
+) external override ensure(deadline) verifyPathValidity(path) returns (uint256[] memory amountsIn);
 ```
+**Parameters**
 
-Swaps tokens for exact tokens while performing safety checks, disallowing any limit orders.
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|The amount of token to receive|
+|`amountInMax`|`uint256`|The max amount of token to send|
+|`path`|`Path`|The path of the swap|
+|`to`|`address`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | The amount of token to receive |
-| amountInMax | uint256 | The max amount of token to send |
-| path | Path | The path of the swap |
-| to | address | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+|Name|Type|Description|
+|----|----|-----------|
+|`amountsIn`|`uint256[]`|Input amounts of the swap|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountsIn | uint256[] | path amounts for every step of the swap |
 
 ### swapTokensForExactNATIVE
 
-```solidity
-function swapTokensForExactNATIVE(uint256 amountNATIVEOut, uint256 amountInMax, Path memory path, address payable to, uint256 deadline) external override ensure(deadline) verifyPathValidity(path) returns (uint256[] memory amountsIn)
-```
-
 Swaps tokens for exact NATIVE while performing safety checks
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountNATIVEOut | uint256 | The amount of NATIVE to receive |
-| amountInMax | uint256 | The max amount of token to send |
-| path | Path | The path of the swap |
-| to | address payable | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+```solidity
+function swapTokensForExactNATIVE(
+    uint256 amountNATIVEOut,
+    uint256 amountInMax,
+    Path memory path,
+    address payable to,
+    uint256 deadline
+) external override ensure(deadline) verifyPathValidity(path) returns (uint256[] memory amountsIn);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`amountNATIVEOut`|`uint256`|The amount of NATIVE to receive|
+|`amountInMax`|`uint256`|The max amount of token to send|
+|`path`|`Path`|The path of the swap|
+|`to`|`address payable`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountsIn | uint256[] | path amounts for every step of the swap |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountsIn`|`uint256[]`|path amounts for every step of the swap|
+
 
 ### swapNATIVEForExactTokens
 
-```solidity
-function swapNATIVEForExactTokens(uint256 amountOut, Path memory path, address to, uint256 deadline) external payable override ensure(deadline) verifyPathValidity(path) returns (uint256[] memory amountsIn)
-```
-
 Swaps NATIVE for exact tokens while performing safety checks
 
-#### Parameters
+*Will refund any NATIVE amount sent in excess to `msg.sender`*
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | The amount of tokens to receive |
-| path | Path | The path of the swap |
-| to | address | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
 
-#### Return Values
+```solidity
+function swapNATIVEForExactTokens(uint256 amountOut, Path memory path, address to, uint256 deadline)
+    external
+    payable
+    override
+    ensure(deadline)
+    verifyPathValidity(path)
+    returns (uint256[] memory amountsIn);
+```
+**Parameters**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountsIn | uint256[] | path amounts for every step of the swap |
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|The amount of tokens to receive|
+|`path`|`Path`|The path of the swap|
+|`to`|`address`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountsIn`|`uint256[]`|path amounts for every step of the swap|
+
 
 ### swapExactTokensForTokensSupportingFeeOnTransferTokens
 
-```solidity
-function swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256 amountIn, uint256 amountOutMin, Path memory path, address to, uint256 deadline) external override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut)
-```
-
 Swaps exact tokens for tokens while performing safety checks supporting for fee on transfer tokens
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountIn | uint256 | The amount of token to send |
-| amountOutMin | uint256 | The min amount of token to receive |
-| path | Path | The path of the swap |
-| to | address | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+```solidity
+function swapExactTokensForTokensSupportingFeeOnTransferTokens(
+    uint256 amountIn,
+    uint256 amountOutMin,
+    Path memory path,
+    address to,
+    uint256 deadline
+) external override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`amountIn`|`uint256`|The amount of token to send|
+|`amountOutMin`|`uint256`|The min amount of token to receive|
+|`path`|`Path`|The path of the swap|
+|`to`|`address`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | Output amount of the swap |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|Output amount of the swap|
+
 
 ### swapExactTokensForNATIVESupportingFeeOnTransferTokens
 
-```solidity
-function swapExactTokensForNATIVESupportingFeeOnTransferTokens(uint256 amountIn, uint256 amountOutMinNATIVE, Path memory path, address payable to, uint256 deadline) external override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut)
-```
-
 Swaps exact tokens for NATIVE while performing safety checks supporting for fee on transfer tokens
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountIn | uint256 | The amount of token to send |
-| amountOutMinNATIVE | uint256 | The min amount of NATIVE to receive |
-| path | Path | The path of the swap |
-| to | address payable | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+```solidity
+function swapExactTokensForNATIVESupportingFeeOnTransferTokens(
+    uint256 amountIn,
+    uint256 amountOutMinNATIVE,
+    Path memory path,
+    address payable to,
+    uint256 deadline
+) external override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`amountIn`|`uint256`|The amount of token to send|
+|`amountOutMinNATIVE`|`uint256`|The min amount of NATIVE to receive|
+|`path`|`Path`|The path of the swap|
+|`to`|`address payable`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | Output amount of the swap |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|Output amount of the swap|
+
 
 ### swapExactNATIVEForTokensSupportingFeeOnTransferTokens
 
-```solidity
-function swapExactNATIVEForTokensSupportingFeeOnTransferTokens(uint256 amountOutMin, Path memory path, address to, uint256 deadline) external payable override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut)
-```
-
 Swaps exact NATIVE for tokens while performing safety checks supporting for fee on transfer tokens
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOutMin | uint256 | The min amount of token to receive |
-| path | Path | The path of the swap |
-| to | address | The address of the recipient |
-| deadline | uint256 | The deadline of the tx |
+```solidity
+function swapExactNATIVEForTokensSupportingFeeOnTransferTokens(
+    uint256 amountOutMin,
+    Path memory path,
+    address to,
+    uint256 deadline
+) external payable override ensure(deadline) verifyPathValidity(path) returns (uint256 amountOut);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOutMin`|`uint256`|The min amount of token to receive|
+|`path`|`Path`|The path of the swap|
+|`to`|`address`|The address of the recipient|
+|`deadline`|`uint256`|The deadline of the tx|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | Output amount of the swap |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|Output amount of the swap|
+
 
 ### sweep
 
-```solidity
-function sweep(IERC20 token, address to, uint256 amount) external override onlyFactoryOwner
-```
-
 Unstuck tokens that are sent to this contract by mistake
 
-#### Parameters
+*Only callable by the factory owner*
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| token | IERC20 | The address of the token |
-| to | address | The address of the user to send back the tokens |
-| amount | uint256 | The amount to send |
+
+```solidity
+function sweep(IERC20 token, address to, uint256 amount) external override onlyFactoryOwner;
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`token`|`IERC20`|The address of the token|
+|`to`|`address`|The address of the user to send back the tokens|
+|`amount`|`uint256`|The amount to send|
+
 
 ### sweepLBToken
 
-```solidity
-function sweepLBToken(ILBToken lbToken, address to, uint256[] calldata ids, uint256[] calldata amounts) external override onlyFactoryOwner
-```
-
 Unstuck LBTokens that are sent to this contract by mistake
 
-#### Parameters
+*Only callable by the factory owner*
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| lbToken | ILBToken | The address of the LBToken |
-| to | address | The address of the user to send back the tokens |
-| ids | uint256[] calldata | The list of token ids |
-| amounts | uint256[] calldata | The list of amounts to send |
+
+```solidity
+function sweepLBToken(ILBToken lbToken, address to, uint256[] calldata ids, uint256[] calldata amounts)
+    external
+    override
+    onlyFactoryOwner;
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`lbToken`|`ILBToken`|The address of the LBToken|
+|`to`|`address`|The address of the user to send back the tokens|
+|`ids`|`uint256[]`|The list of token ids|
+|`amounts`|`uint256[]`|The list of amounts to send|
+
 
 ### _addLiquidity
 
-```solidity
-function _addLiquidity(LiquidityParameters calldata liq, ILBPair pair) private ensure(liq.deadline) returns (uint256 amountXAdded, uint256 amountYAdded, uint256 amountXLeft, uint256 amountYLeft, uint256[] memory depositIds, uint256[] memory liquidityMinted)
-```
-
 Helper function to add liquidity
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| liq | LiquidityParameters | The liquidity parameter |
-| pair | ILBPair | LBPair where liquidity is deposited |
+```solidity
+function _addLiquidity(LiquidityParameters calldata liq, ILBPair pair)
+    private
+    ensure(liq.deadline)
+    returns (
+        uint256 amountXAdded,
+        uint256 amountYAdded,
+        uint256 amountXLeft,
+        uint256 amountYLeft,
+        uint256[] memory depositIds,
+        uint256[] memory liquidityMinted
+    );
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`liq`|`LiquidityParameters`|The liquidity parameter|
+|`pair`|`ILBPair`|LBPair where liquidity is deposited|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountXAdded | uint256 | Amount of token X added |
-| amountYAdded | uint256 | Amount of token Y added |
-| amountXLeft | uint256 | Amount of token X left |
-| amountYLeft | uint256 | Amount of token Y left |
-| depositIds | uint256[] memory | The list of deposit ids |
-| liquidityMinted | uint256[] memory | The list of liquidity minted |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountXAdded`|`uint256`|Amount of token X added|
+|`amountYAdded`|`uint256`|Amount of token Y added|
+|`amountXLeft`|`uint256`|Amount of token X left|
+|`amountYLeft`|`uint256`|Amount of token Y left|
+|`depositIds`|`uint256[]`|The list of deposit ids|
+|`liquidityMinted`|`uint256[]`|The list of liquidity minted|
+
 
 ### _getAmountsIn
 
-```solidity
-function _getAmountsIn(Version[] memory versions, address[] memory pairs, IERC20[] memory tokenPath, uint256 amountOut) private view returns (uint256[] memory amountsIn)
-```
-
 Helper function to return the amounts in
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| versions | Version[] memory | The list of versions (V1, V2 or V2_1) |
-| pairs | address[] memory | The list of pairs |
-| tokenPath | IERC20[] memory | The swap path |
-| amountOut | uint256 | The amount out |
+```solidity
+function _getAmountsIn(Version[] memory versions, address[] memory pairs, IERC20[] memory tokenPath, uint256 amountOut)
+    private
+    view
+    returns (uint256[] memory amountsIn);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`versions`|`Version[]`|The list of versions (V1, V2, V2_1 or V2_2)|
+|`pairs`|`address[]`|The list of pairs|
+|`tokenPath`|`IERC20[]`|The swap path|
+|`amountOut`|`uint256`|The amount out|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountsIn | uint256[] memory | The list of amounts in |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountsIn`|`uint256[]`|The list of amounts in|
+
 
 ### _removeLiquidity
 
-```solidity
-function _removeLiquidity(ILBPair pair, uint256 amountXMin, uint256 amountYMin, uint256[] memory ids, uint256[] memory amounts, address to) private returns (uint256 amountX, uint256 amountY)
-```
-
 Helper function to remove liquidity
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pair | ILBPair | The address of the LBPair |
-| amountXMin | uint256 | The min amount to receive of token X |
-| amountYMin | uint256 | The min amount to receive of token Y |
-| ids | uint256[] memory | The list of ids to burn |
-| amounts | uint256[] memory | The list of amounts to burn of each id in `_ids` |
-| to | address | The address of the recipient |
+```solidity
+function _removeLiquidity(
+    ILBPair pair,
+    uint256 amountXMin,
+    uint256 amountYMin,
+    uint256[] memory ids,
+    uint256[] memory amounts,
+    address to
+) private returns (uint256 amountX, uint256 amountY);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`pair`|`ILBPair`|The address of the LBPair|
+|`amountXMin`|`uint256`|The min amount to receive of token X|
+|`amountYMin`|`uint256`|The min amount to receive of token Y|
+|`ids`|`uint256[]`|The list of ids to burn|
+|`amounts`|`uint256[]`|The list of amounts to burn of each id in `_ids`|
+|`to`|`address`|The address of the recipient|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountX | uint256 | The amount of token
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountX`|`uint256`|The amount of token X sent by the pair|
+|`amountY`|`uint256`|The amount of token Y sent by the pair|
+
 
 ### _swapExactTokensForTokens
 
-```solidity
-function _swapExactTokensForTokens(uint256 amountIn, address[] memory pairs, Version[] memory versions, IERC20[] memory tokenPath, address to) private returns (uint256 amountOut)
-```
-
 Helper function to swap exact tokens for tokens
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountIn | uint256 | The amount of token sent |
-| pairs | address[] | The list of pairs |
-| versions | Version[] | The list of versions (V1, V2 or V2_1) |
-| tokenPath | IERC20[] | The swap path using the binSteps following `pairBinSteps` |
-| to | address | The address of the recipient |
+```solidity
+function _swapExactTokensForTokens(
+    uint256 amountIn,
+    address[] memory pairs,
+    Version[] memory versions,
+    IERC20[] memory tokenPath,
+    address to
+) private returns (uint256 amountOut);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`amountIn`|`uint256`|The amount of token sent|
+|`pairs`|`address[]`|The list of pairs|
+|`versions`|`Version[]`|The list of versions (V1, V2, V2_1 or V2_2)|
+|`tokenPath`|`IERC20[]`|The swap path using the binSteps following `pairBinSteps`|
+|`to`|`address`|The address of the recipient|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | The amount of token sent to `to` |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|The amount of token sent to `to`|
+
 
 ### _swapTokensForExactTokens
 
-```solidity
-function _swapTokensForExactTokens(address[] memory pairs, Version[] memory versions, IERC20[] memory tokenPath, uint256[] memory amountsIn, address to) private returns (uint256 amountOut)
-```
-
 Helper function to swap tokens for exact tokens
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pairs | address[] | The array of pairs |
-| versions | Version[] | The list of versions (V1, V2 or V2_1) |
-| tokenPath | IERC20[] | The swap path using the binSteps following `pairBinSteps` |
-| amountsIn | uint256[] | The list of amounts in |
-| to | address | The address of the recipient |
+```solidity
+function _swapTokensForExactTokens(
+    address[] memory pairs,
+    Version[] memory versions,
+    IERC20[] memory tokenPath,
+    uint256[] memory amountsIn,
+    address to
+) private returns (uint256 amountOut);
+```
+**Parameters**
 
-#### Return Values
+|Name|Type|Description|
+|----|----|-----------|
+|`pairs`|`address[]`|The array of pairs|
+|`versions`|`Version[]`|The list of versions (V1, V2, V2_1 or V2_2)|
+|`tokenPath`|`IERC20[]`|The swap path using the binSteps following `pairBinSteps`|
+|`amountsIn`|`uint256[]`|The list of amounts in|
+|`to`|`address`|The address of the recipient|
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amountOut | uint256 | The amount of token sent to `to` |
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`amountOut`|`uint256`|The amount of token sent to `to`|
+
 
 ### _swapSupportingFeeOnTransferTokens
 
-```solidity
-function _swapSupportingFeeOnTransferTokens(address[] memory pairs, Version[] memory versions, IERC20[] memory tokenPath, address to) private
-```
-
 Helper function to swap exact tokens supporting for fee on transfer tokens
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pairs | address[] | The list of pairs |
-| versions | Version[] | The list of versions (V1, V2 or V2_1) |
-| tokenPath | IERC20[] | The swap path using the binSteps following `pairBinSteps` |
-| to | address | The address of the recipient |
+```solidity
+function _swapSupportingFeeOnTransferTokens(
+    address[] memory pairs,
+    Version[] memory versions,
+    IERC20[] memory tokenPath,
+    address to
+) private;
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`pairs`|`address[]`|The list of pairs|
+|`versions`|`Version[]`|The list of versions (V1, V2, V2_1 or V2_2)|
+|`tokenPath`|`IERC20[]`|The swap path using the binSteps following `pairBinSteps`|
+|`to`|`address`|The address of the recipient|
+
 
 ### _getLBPairInformation
 
-```solidity
-function _getLBPairInformation(IERC20 tokenX, IERC20 tokenY, uint256 binStep, Version version) private view returns (address lbPair)
-```
-
 Helper function to return the address of the LBPair
 
-#### Parameters
+*Revert if the pair is not created yet*
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tokenX | IERC20 | The address of the tokenX |
-| tokenY | IERC20 | The address of the tokenY |
-| binStep | uint256 | The bin step of the LBPair |
-| version | Version | The version of the LBPair |
 
-#### Return Values
+```solidity
+function _getLBPairInformation(IERC20 tokenX, IERC20 tokenY, uint256 binStep, Version version)
+    private
+    view
+    returns (address lbPair);
+```
+**Parameters**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| lbPair | address | The address of the LBPair |
+|Name|Type|Description|
+|----|----|-----------|
+|`tokenX`|`IERC20`|The address of the tokenX|
+|`tokenY`|`IERC20`|The address of the tokenY|
+|`binStep`|`uint256`|The bin step of the LBPair|
+|`version`|`Version`|The version of the LBPair|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`lbPair`|`address`|The address of the LBPair|
+
 
 ### _getPair
 
-```solidity
-function _getPair(IERC20 tokenX, IERC20 tokenY, uint256 binStep, Version version) private view returns (address pair)
-```
-
 Helper function to return the address of the pair (v1 or v2, according to `binStep`)
 
-#### Parameters
+*Revert if the pair is not created yet*
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tokenX | IERC20 | The address of the tokenX |
-| tokenY | IERC20 | The address of the tokenY |
-| binStep | uint256 | The bin step of the LBPair |
-| version | Version | The version of the LBPair |
 
-#### Return Values
+```solidity
+function _getPair(IERC20 tokenX, IERC20 tokenY, uint256 binStep, Version version) private view returns (address pair);
+```
+**Parameters**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pair | address | The address of the pair of binStep `binStep` |
+|Name|Type|Description|
+|----|----|-----------|
+|`tokenX`|`IERC20`|The address of the tokenX|
+|`tokenY`|`IERC20`|The address of the tokenY|
+|`binStep`|`uint256`|The bin step of the LBPair|
+|`version`|`Version`|The version of the LBPair|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`pair`|`address`|The address of the pair of binStep `binStep`|
+
 
 ### _getPairs
 
-```solidity
-function _getPairs(uint256[] memory pairBinSteps, Version[] memory versions, IERC20[] memory tokenPath) private view returns (address[] memory pairs)
-```
-
 Helper function to return a list of pairs
 
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pairBinSteps | uint256[] | The list of bin steps |
-| versions | Version[] | The list of versions (V1, V2 or V2_1) |
-| tokenPath | IERC20[] | The swap path using the binSteps following `pairBinSteps` |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| pairs | address[] | The list of pairs |
-
-### _safeTransferNATIVE
 
 ```solidity
-function _safeTransferNATIVE(address to, uint256 amount) private
+function _getPairs(uint256[] memory pairBinSteps, Version[] memory versions, IERC20[] memory tokenPath)
+    private
+    view
+    returns (address[] memory pairs);
 ```
+**Parameters**
 
-Helper function to transfer NATIVE
+|Name|Type|Description|
+|----|----|-----------|
+|`pairBinSteps`|`uint256[]`|The list of bin steps|
+|`versions`|`Version[]`|The list of versions (V1, V2, V2_1 or V2_2)|
+|`tokenPath`|`IERC20[]`|The swap path using the binSteps following `pairBinSteps`|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| to | address | The address of the recipient |
-| amount | uint256 | The NATIVE amount to send |
+|Name|Type|Description|
+|----|----|-----------|
+|`pairs`|`address[]`|The list of pairs|
 
-### _wnativeDepositAndTransfer
+
+### _safeTransfer
+
+Helper function to transfer tokens to `to`
+
 
 ```solidity
-function _wnativeDepositAndTransfer(address to, uint256 amount) private
+function _safeTransfer(IERC20 token, address to, uint256 amount) private;
 ```
+**Parameters**
 
-Helper function to deposit and transfer _wnative
+|Name|Type|Description|
+|----|----|-----------|
+|`token`|`IERC20`|The address of the token|
+|`to`|`address`|The address of the recipient|
+|`amount`|`uint256`|The amount to send|
 
-#### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| to | address | The address of the recipient |
-| amount | uint256 | The NATIVE amount to wrap |
+### _safeTransferFrom
+
+Helper function to transfer tokens from `from` to `to`
+
+
+```solidity
+function _safeTransferFrom(IERC20 token, address from, address to, uint256 amount) private;
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`token`|`IERC20`|The address of the token|
+|`from`|`address`|The address of the sender|
+|`to`|`address`|The address of the recipient|
+|`amount`|`uint256`|The amount to send|
+
+
+### _safeTransferNative
+
+Helper function to transfer NATIVE to `to`
+
+
+```solidity
+function _safeTransferNative(address to, uint256 amount) private;
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`to`|`address`|The address of the recipient|
+|`amount`|`uint256`|The amount to send|
+
+
+### _wNativeDepositAndTransfer
+
+Helper function to deposit and transfer WNative to `to`
+
+
+```solidity
+function _wNativeDepositAndTransfer(address to, uint256 amount) private;
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`to`|`address`|The address of the recipient|
+|`amount`|`uint256`|The amount to deposit and transfer|
+
+
+### _wNativeWithdrawAndTransfer
+
+Helper function to withdraw and transfer WNative to `to`
+
+
+```solidity
+function _wNativeWithdrawAndTransfer(address to, uint256 amount) private;
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`to`|`address`|The address of the recipient|
+|`amount`|`uint256`|The amount to withdraw and transfer|
+
+

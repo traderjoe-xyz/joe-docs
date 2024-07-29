@@ -1,69 +1,115 @@
-## Liquidity Configurations
+# LiquidityConfigurations
+[Git Source](https://github.com/traderjoe-xyz/joe-v2/blob/16f011d25e6bf6d0a0c479974345b623d491104f/src/libraries/math/LiquidityConfigurations.sol)
+
+**Author:**
+Trader Joe
 
 This library contains functions to encode and decode the config of a pool and interact with the encoded bytes32.
 
-### encodeParams
+
+## State Variables
+### OFFSET_ID
 
 ```solidity
-function encodeParams(uint64 distributionX, uint64 distributionY, uint24 id) internal pure returns (bytes32 config)
+uint256 private constant OFFSET_ID = 0;
 ```
 
-Encode the distributionX, distributionY and id into a single bytes32
 
-#### Parameters
+### OFFSET_DISTRIBUTION_Y
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| distributionX | uint64 | The distribution of the first token |
-| distributionY | uint64 | The distribution of the second token |
-| id | uint24 | The id of the pool |
+```solidity
+uint256 private constant OFFSET_DISTRIBUTION_Y = 24;
+```
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| config | bytes32 | The encoded config as follows: [0 - 24[: id [24 - 88[: distributionY [88 - 152[: distributionX [152 - 256[: empty |
+### OFFSET_DISTRIBUTION_X
+
+```solidity
+uint256 private constant OFFSET_DISTRIBUTION_X = 88;
+```
+
+
+### PRECISION
+
+```solidity
+uint256 private constant PRECISION = 1e18;
+```
+
+
+## Functions
+### encodeParams
+
+*Encode the distributionX, distributionY and id into a single bytes32*
+
+
+```solidity
+function encodeParams(uint64 distributionX, uint64 distributionY, uint24 id) internal pure returns (bytes32 config);
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`distributionX`|`uint64`|The distribution of the first token|
+|`distributionY`|`uint64`|The distribution of the second token|
+|`id`|`uint24`|The id of the pool|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`config`|`bytes32`|The encoded config as follows: [0 - 24[: id [24 - 88[: distributionY [88 - 152[: distributionX [152 - 256[: empty|
+
 
 ### decodeParams
 
+*Decode the distributionX, distributionY and id from a single bytes32*
+
+
 ```solidity
-function decodeParams(bytes32 config) internal pure returns (uint64 distributionX, uint64 distributionY, uint24 id)
+function decodeParams(bytes32 config) internal pure returns (uint64 distributionX, uint64 distributionY, uint24 id);
 ```
+**Parameters**
 
-Decode the distributionX, distributionY and id from a single bytes32
+|Name|Type|Description|
+|----|----|-----------|
+|`config`|`bytes32`|The encoded config as follows: [0 - 24[: id [24 - 88[: distributionY [88 - 152[: distributionX [152 - 256[: empty|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| config | bytes32 | The encoded config as follows: [0 - 24[: id [24 - 88[: distributionY [88 - 152[: distributionX [152 - 256[: empty |
+|Name|Type|Description|
+|----|----|-----------|
+|`distributionX`|`uint64`|The distribution of the first token|
+|`distributionY`|`uint64`|The distribution of the second token|
+|`id`|`uint24`|The id of the bin to add the liquidity to|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| distributionX | uint64 | The distribution of the first token |
-| distributionY | uint64 | The distribution of the second token |
-| id | uint24 | The id of the bin to add the liquidity to |
 
 ### getAmountsAndId
 
+*Get the amounts and id from a config and amountsIn*
+
+
 ```solidity
-function getAmountsAndId(bytes32 config, bytes32 amountsIn) internal pure returns (bytes32, uint24)
+function getAmountsAndId(bytes32 config, bytes32 amountsIn) internal pure returns (bytes32, uint24);
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`config`|`bytes32`|The encoded config as follows: [0 - 24[: id [24 - 88[: distributionY [88 - 152[: distributionX [152 - 256[: empty|
+|`amountsIn`|`bytes32`|The amounts to distribute as follows: [0 - 128[: x1 [128 - 256[: x2|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|amounts The distributed amounts as follows: [0 - 128[: x1 [128 - 256[: x2|
+|`<none>`|`uint24`|id The id of the bin to add the liquidity to|
+
+
+## Errors
+### LiquidityConfigurations__InvalidConfig
+
+```solidity
+error LiquidityConfigurations__InvalidConfig();
 ```
 
-Get the amounts and id from a config and amountsIn
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| config | bytes32 | The encoded config |
-| amountsIn | bytes32 | The amounts to distribute as follows: [0 - 128[: x1 [128 - 256[: x2 |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| amounts | bytes32 | The distributed amounts as follows: [0 - 128[: x1 [128 - 256[: x2 |
-| id | uint24 | The id of the bin to add the liquidity to |

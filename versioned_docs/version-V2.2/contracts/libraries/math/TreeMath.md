@@ -1,171 +1,181 @@
-## Tree Math
+# TreeMath
+[Git Source](https://github.com/traderjoe-xyz/joe-v2/blob/16f011d25e6bf6d0a0c479974345b623d491104f/src/libraries/math/TreeMath.sol)
 
-Liquidity Book Tree Math Library: This library contains functions to interact with a tree of TreeUint24.
+**Author:**
+Trader Joe
 
+This library contains functions to interact with a tree of TreeUint24.
+
+
+## Functions
 ### contains
 
+*Returns true if the tree contains the id*
+
+
 ```solidity
-function contains(TreeUint24 storage tree, uint24 id) internal view returns (bool)
+function contains(TreeUint24 storage tree, uint24 id) internal view returns (bool);
 ```
+**Parameters**
 
-Returns true if the tree contains the id.
+|Name|Type|Description|
+|----|----|-----------|
+|`tree`|`TreeUint24`|The tree|
+|`id`|`uint24`|The id|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tree | TreeUint24 storage | The tree |
-| id | uint24 | The id |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bool`|True if the tree contains the id|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| none | bool | Returns true if the tree contains the id |
 
 ### add
 
+*Adds the id to the tree and returns true if the id was not already in the tree
+It will also propagate the change to the parent levels.*
+
+
 ```solidity
-function add(TreeUint24 storage tree, uint24 id) internal returns (bool)
+function add(TreeUint24 storage tree, uint24 id) internal returns (bool);
 ```
+**Parameters**
 
-Adds the id to the tree and returns true if the id was not already in the tree. It will also propagate the change to the parent levels.
+|Name|Type|Description|
+|----|----|-----------|
+|`tree`|`TreeUint24`|The tree|
+|`id`|`uint24`|The id|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tree | TreeUint24 storage | The tree |
-| id | uint24 | The id |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bool`|True if the id was not already in the tree|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| none | bool | Returns true if the id was not already in the tree |
 
 ### remove
 
+*Removes the id from the tree and returns true if the id was in the tree.
+It will also propagate the change to the parent levels.*
+
+
 ```solidity
-function remove(TreeUint24 storage tree, uint24 id) internal returns (bool)
+function remove(TreeUint24 storage tree, uint24 id) internal returns (bool);
 ```
+**Parameters**
 
-Removes the id from the tree and returns true if the id was in the tree. It will also propagate the change to the parent levels.
+|Name|Type|Description|
+|----|----|-----------|
+|`tree`|`TreeUint24`|The tree|
+|`id`|`uint24`|The id|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tree | TreeUint24 storage | The tree |
-| id | uint24 | The id |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bool`|True if the id was in the tree|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| none | bool |Returns true if the id was in the tree |
 
 ### findFirstRight
 
+*Returns the first id in the tree that is lower than or equal to the given id.
+It will return type(uint24).max if there is no such id.*
+
+
 ```solidity
-function findFirstRight(TreeUint24 storage tree, uint24 id) internal view returns (uint24)
+function findFirstRight(TreeUint24 storage tree, uint24 id) internal view returns (uint24);
 ```
+**Parameters**
 
-Returns the first id in the tree that is lower than or equal to the given id. It will return type(uint24).max if there is no such id.
+|Name|Type|Description|
+|----|----|-----------|
+|`tree`|`TreeUint24`|The tree|
+|`id`|`uint24`|The id|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tree | TreeUint24 storage | The tree |
-| id | uint24 | The id |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint24`|The first id in the tree that is lower than or equal to the given id|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| none | uint24 | Returns the first id in the tree that is lower than or equal to the given id |
 
 ### findFirstLeft
 
-```solidity
-function findFirstLeft(TreeUint24 storage tree, uint24 id) internal view returns (uint24)
-```
+*Returns the first id in the tree that is higher than or equal to the given id.
+It will return 0 if there is no such id.*
 
-Returns the first id in the tree that is higher than or equal to the given id. It will return 0 if there is no such id.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tree | TreeUint24 storage | The tree |
-| id | uint24 | The id |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| none | uint24 | Returns the first id in the tree that is higher than or equal to the given id |
-
-### findFirstLeft
 
 ```solidity
-function findFirstLeft(TreeUint24 storage tree, uint24 id) internal view returns (uint24)
+function findFirstLeft(TreeUint24 storage tree, uint24 id) internal view returns (uint24);
 ```
+**Parameters**
 
-Returns the first id in the tree that is higher than or equal to the given id. It will return 0 if there is no such id.
+|Name|Type|Description|
+|----|----|-----------|
+|`tree`|`TreeUint24`|The tree|
+|`id`|`uint24`|The id|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| tree | TreeUint24 storage | The tree |
-| id | uint24 | The id |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint24`|The first id in the tree that is higher than or equal to the given id|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | uint24 | The first id in the tree that is higher than or equal to the given id |
 
 ### _closestBitRight
 
+*Returns the first bit in the given leaves that is strictly lower than the given bit.
+It will return type(uint256).max if there is no such bit.*
+
+
 ```solidity
-function _closestBitRight(bytes32 leaves, uint8 bit) private pure returns (uint256)
+function _closestBitRight(bytes32 leaves, uint8 bit) private pure returns (uint256);
 ```
+**Parameters**
 
-Returns the first bit in the given leaves that is strictly lower than the given bit. It will return type(uint256).max if there is no such bit.
+|Name|Type|Description|
+|----|----|-----------|
+|`leaves`|`bytes32`|The leaves|
+|`bit`|`uint8`|The bit|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| leaves | bytes32 | The leaves |
-| bit | uint8 | The bit |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint256`|The first bit in the given leaves that is strictly lower than the given bit|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | uint256 | The first bit in the given leaves that is strictly lower than the given bit |
 
 ### _closestBitLeft
 
+*Returns the first bit in the given leaves that is strictly higher than the given bit.
+It will return type(uint256).max if there is no such bit.*
+
+
 ```solidity
-function _closestBitLeft(bytes32 leaves, uint8 bit) private pure returns (uint256)
+function _closestBitLeft(bytes32 leaves, uint8 bit) private pure returns (uint256);
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`leaves`|`bytes32`|The leaves|
+|`bit`|`uint8`|The bit|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`uint256`|The first bit in the given leaves that is strictly higher than the given bit|
+
+
+## Structs
+### TreeUint24
+
+```solidity
+struct TreeUint24 {
+    bytes32 level0;
+    mapping(bytes32 => bytes32) level1;
+    mapping(bytes32 => bytes32) level2;
+}
 ```
 
-Returns the first bit in the given leaves that is strictly higher than the given bit. It will return type(uint256).max if there is no such bit.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| leaves | bytes32 | The leaves |
-| bit | uint8 | The bit |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | uint256 | The first bit in the given leaves that is strictly higher than the given bit |

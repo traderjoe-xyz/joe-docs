@@ -1,337 +1,381 @@
-## Packed Uint128 Math
+# PackedUint128Math
+[Git Source](https://github.com/traderjoe-xyz/joe-v2/blob/16f011d25e6bf6d0a0c479974345b623d491104f/src/libraries/math/PackedUint128Math.sol)
 
-This library contains functions to encode and decode two uint128 into a single bytes32 and interact with the encoded bytes32.
+**Author:**
+Trader Joe
 
-### encode
+This library contains functions to encode and decode two uint128 into a single bytes32
+and interact with the encoded bytes32.
+
+
+## State Variables
+### OFFSET
 
 ```solidity
-function encode(uint128 x1, uint128 x2) internal pure returns (bytes32 z)
+uint256 private constant OFFSET = 128;
 ```
 
-Encodes two uint128 into a single bytes32.
 
-#### Parameters
+### MASK_128
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x1 | uint128 | The first uint128 |
-| x2 | uint128 | The second uint128 |
+```solidity
+uint256 private constant MASK_128 = 0xffffffffffffffffffffffffffffffff;
+```
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: x1<br/>[128 - 256[: x2|
+### MASK_128_PLUS_ONE
+
+```solidity
+uint256 private constant MASK_128_PLUS_ONE = MASK_128 + 1;
+```
+
+
+## Functions
+### encode
+
+*Encodes two uint128 into a single bytes32*
+
+
+```solidity
+function encode(uint128 x1, uint128 x2) internal pure returns (bytes32 z);
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`x1`|`uint128`|The first uint128|
+|`x2`|`uint128`|The second uint128|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The encoded bytes32 as follows: [0 - 128[: x1 [128 - 256[: x2|
+
 
 ### encodeFirst
 
+*Encodes a uint128 into a single bytes32 as the first uint128*
+
+
 ```solidity
-function encodeFirst(uint128 x1) internal pure returns (bytes32 z)
+function encodeFirst(uint128 x1) internal pure returns (bytes32 z);
 ```
+**Parameters**
 
-Encodes a uint128 into a single bytes32 as the first uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`x1`|`uint128`|The uint128|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x1 | uint128 | The uint128 |
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The encoded bytes32 as follows: [0 - 128[: x1 [128 - 256[: empty|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: x1<br/>[128 - 256[: empty|
 
 ### encodeSecond
 
+*Encodes a uint128 into a single bytes32 as the second uint128*
+
+
 ```solidity
-function encodeSecond(uint128 x2) internal pure returns (bytes32 z)
+function encodeSecond(uint128 x2) internal pure returns (bytes32 z);
 ```
+**Parameters**
 
-Encodes a uint128 into a single bytes32 as the second uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`x2`|`uint128`|The uint128|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x2 | uint128 | The uint128 |
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The encoded bytes32 as follows: [0 - 128[: empty [128 - 256[: x2|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: empty<br/>[128 - 256[: x2|
 
 ### encode
 
+*Encodes a uint128 into a single bytes32 as the first or second uint128*
+
+
 ```solidity
-function encode(uint128 x, bool first) internal pure returns (bytes32 z)
+function encode(uint128 x, bool first) internal pure returns (bytes32 z);
 ```
+**Parameters**
 
-Encodes a uint128 into a single bytes32 as the first or second uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`uint128`|The uint128|
+|`first`|`bool`|Whether to encode as the first or second uint128|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | uint128 | The uint128 |
-| first | bool | Whether to encode as the first or second uint128 |
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The encoded bytes32 as follows: if first: [0 - 128[: x [128 - 256[: empty else: [0 - 128[: empty [128 - 256[: x|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br/>if first:<br/>[0 - 128[: x<br/>[128 - 256[: empty<br/>else:<br/>[0 - 128[: empty<br/>[128 - 256[: x|
 
 ### decode
 
+*Decodes a bytes32 into two uint128*
+
+
 ```solidity
-function decode(bytes32 z) internal pure returns (uint128 x1, uint128 x2)
+function decode(bytes32 z) internal pure returns (uint128 x1, uint128 x2);
 ```
+**Parameters**
 
-Decodes a bytes32 into two uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The encoded bytes32 as follows: [0 - 128[: x1 [128 - 256[: x2|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: x1<br/>[128 - 256[: x2|
+|Name|Type|Description|
+|----|----|-----------|
+|`x1`|`uint128`|The first uint128|
+|`x2`|`uint128`|The second uint128|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x1 | uint128 | The first uint128 |
-| x2 | uint128 | The second uint128 |
 
 ### decodeX
 
+*Decodes a bytes32 into a uint128 as the first uint128*
+
+
 ```solidity
-function decodeX(bytes32 z) internal pure returns (uint128 x1)
+function decodeX(bytes32 z) internal pure returns (uint128 x);
 ```
+**Parameters**
 
-Decodes a bytes32 into a uint128 as the first uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The encoded bytes32 as follows: [0 - 128[: x [128 - 256[: any|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows:<br/>[0 - 128[: x1<br/>[128 - 256[: any|
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`uint128`|The first uint128|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x1 | uint128 | The first uint128 |
 
 ### decodeY
 
+*Decodes a bytes32 into a uint128 as the second uint128*
+
+
 ```solidity
-function decodeY(bytes32 z) internal pure returns (uint128 x2)
+function decodeY(bytes32 z) internal pure returns (uint128 y);
 ```
+**Parameters**
 
-Decodes a bytes32 into a uint128 as the second uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The encoded bytes32 as follows: [0 - 128[: any [128 - 256[: y|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows: [0 - 128[: any; [128 - 256[: x2 |
+|Name|Type|Description|
+|----|----|-----------|
+|`y`|`uint128`|The second uint128|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x2 | uint128 | The second uint128 |
 
 ### decode
 
+*Decodes a bytes32 into a uint128 as the first or second uint128*
+
+
 ```solidity
-function decode(bytes32 z, bool first) internal pure returns (uint128 x)
+function decode(bytes32 z, bool first) internal pure returns (uint128 x);
 ```
+**Parameters**
 
-Decodes a bytes32 into a uint128 as the first or second uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The encoded bytes32 as follows: if first: [0 - 128[: x1 [128 - 256[: empty else: [0 - 128[: empty [128 - 256[: x2|
+|`first`|`bool`|Whether to decode as the first or second uint128|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The encoded bytes32 as follows: if first: [0 - 128[: x1; [128 - 256[: empty; else: [0 - 128[: empty; [128 - 256[: x2 |
-| first | bool | Whether to decode as the first or second uint128 |
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`uint128`|The decoded uint128|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | uint128 | The decoded uint128 |
 
 ### add
 
+*Adds two encoded bytes32, reverting on overflow on any of the uint128*
+
+
 ```solidity
-function add(bytes32 x, bytes32 y) internal pure returns (bytes32 z)
+function add(bytes32 x, bytes32 y) internal pure returns (bytes32 z);
 ```
+**Parameters**
 
-Adds two encoded bytes32, reverting on overflow on any of the uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`bytes32`|The first bytes32 encoded as follows: [0 - 128[: x1 [128 - 256[: x2|
+|`y`|`bytes32`|The second bytes32 encoded as follows: [0 - 128[: y1 [128 - 256[: y2|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | bytes32 | The first bytes32 encoded as follows: [0 - 128[: x1; [128 - 256[: x2 |
-| y | bytes32 | The second bytes32 encoded as follows: [0 - 128[: y1; [128 - 256[: y2 |
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The sum of x and y encoded as follows: [0 - 128[: x1 + y1 [128 - 256[: x2 + y2|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The sum of x and y encoded as follows: [0 - 128[: x1 + y1; [128 - 256[: x2 + y2 |
 
 ### add
 
+*Adds an encoded bytes32 and two uint128, reverting on overflow on any of the uint128*
+
+
 ```solidity
-function add(bytes32 x, uint128 y1, uint128 y2) internal pure returns (bytes32)
+function add(bytes32 x, uint128 y1, uint128 y2) internal pure returns (bytes32);
 ```
+**Parameters**
 
-Adds an encoded bytes32 and two uint128, reverting on overflow on any of the uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`bytes32`|The bytes32 encoded as follows: [0 - 128[: x1 [128 - 256[: x2|
+|`y1`|`uint128`|The first uint128|
+|`y2`|`uint128`|The second uint128|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | bytes32 | The bytes32 encoded as follows: [0 - 128[: x1; [128 - 256[: x2 |
-| y1 | uint128 | The first uint128 |
-| y2 | uint128 | The second uint128 |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|z The sum of x and y encoded as follows: [0 - 128[: x1 + y1 [128 - 256[: x2 + y2|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | bytes32 | The sum of x and y encoded as follows: [0 - 128[: x1 + y1; [128 - 256[: x2 + y2 |
 
 ### sub
 
+*Subtracts two encoded bytes32, reverting on underflow on any of the uint128*
+
+
 ```solidity
-function sub(bytes32 x, bytes32 y) internal pure returns (bytes32 z)
+function sub(bytes32 x, bytes32 y) internal pure returns (bytes32 z);
 ```
+**Parameters**
 
-Subtracts two encoded bytes32, reverting on underflow on any of the uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`bytes32`|The first bytes32 encoded as follows: [0 - 128[: x1 [128 - 256[: x2|
+|`y`|`bytes32`|The second bytes32 encoded as follows: [0 - 128[: y1 [128 - 256[: y2|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | bytes32 | The first bytes32 encoded as follows: [0 - 128[: x1; [128 - 256[: x2 |
-| y | bytes32 | The second bytes32 encoded as follows: [0 - 128[: y1; [128 - 256[: y2 |
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The difference of x and y encoded as follows: [0 - 128[: x1 - y1 [128 - 256[: x2 - y2|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The difference of x and y encoded as follows: [0 - 128[: x1 - y1; [128 - 256[: x2 - y2 |
 
 ### sub
 
+*Subtracts an encoded bytes32 and two uint128, reverting on underflow on any of the uint128*
+
+
 ```solidity
-function sub(bytes32 x, uint128 y1, uint128 y2) internal pure returns (bytes32)
+function sub(bytes32 x, uint128 y1, uint128 y2) internal pure returns (bytes32);
 ```
+**Parameters**
 
-Subtracts an encoded bytes32 and two uint128, reverting on underflow on any of the uint128.
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`bytes32`|The bytes32 encoded as follows: [0 - 128[: x1 [128 - 256[: x2|
+|`y1`|`uint128`|The first uint128|
+|`y2`|`uint128`|The second uint128|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | bytes32 | The bytes32 encoded as follows: [0 - 128[: x1; [128 - 256[: x2 |
-| y1 | uint128 | The first uint128 |
-| y2 | uint128 | The second uint128 |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bytes32`|z The difference of x and y encoded as follows: [0 - 128[: x1 - y1 [128 - 256[: x2 - y2|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | bytes32 | The difference of x and y encoded as follows: [0 - 128[: x1 - y1; [128 - 256[: x2 - y2 |
 
 ### lt
 
+*Returns whether any of the uint128 of x is strictly greater than the corresponding uint128 of y*
+
+
 ```solidity
-function lt(bytes32 x, bytes32 y) internal pure returns (bool)
+function lt(bytes32 x, bytes32 y) internal pure returns (bool);
 ```
+**Parameters**
 
-Returns whether any of the uint128 of x is greater than the corresponding uint128 of y.
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`bytes32`|The first bytes32 encoded as follows: [0 - 128[: x1 [128 - 256[: x2|
+|`y`|`bytes32`|The second bytes32 encoded as follows: [0 - 128[: y1 [128 - 256[: y2|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | bytes32 | The first bytes32 encoded as follows: [0 - 128[: x1; [128 - 256[: x2 |
-| y | bytes32 | The second bytes32 encoded as follows: [0 - 128[: y1; [128 - 256[: y2 |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bool`|x1 < y1 || x2 < y2|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | bool | x1 < y1 or x2 < y2 |
 
 ### gt
 
-```solidity
-function gt(bytes32 x, bytes32 y) internal pure returns (bool)
-```
+*Returns whether any of the uint128 of x is strictly greater than the corresponding uint128 of y*
 
-Returns whether any of the uint128 of x is greater than or equal to the corresponding uint128 of y.
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | bytes32 | The first bytes32 encoded as follows: [0 - 128[: x1; [128 - 256[: x2 |
-| y | bytes32 | The second bytes32 encoded as follows: [0 - 128[: y1; [128 - 256[: y2 |
-
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-|  | bool | x1 > y1 or x2 > y2 |
-
-### scalarMulShiftRoundUp
 
 ```solidity
-function scalarMulShiftRoundUp(bytes32 x, uint256 multiplier) internal pure returns (bytes32 z)
+function gt(bytes32 x, bytes32 y) internal pure returns (bool);
 ```
+**Parameters**
 
-Multiplies an encoded bytes32 by a uint256 then shifts the result 128 bits to the right, rounding up.
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`bytes32`|The first bytes32 encoded as follows: [0 - 128[: x1 [128 - 256[: x2|
+|`y`|`bytes32`|The second bytes32 encoded as follows: [0 - 128[: y1 [128 - 256[: y2|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | bytes32 | The bytes32 encoded as follows: [0 - 128[: x1 [128 - 256[: x2 |
-| multiplier | uint256 | The uint128 to multiply by |
+|Name|Type|Description|
+|----|----|-----------|
+|`<none>`|`bool`|x1 < y1 || x2 < y2|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The product of x and multiplier encoded as follows: [0 - 128[: ceil((x1 * multiplier) / 2^128) [128 - 256[: ceil((x2 * multiplier) / 2^128) |
 
 ### scalarMulDivBasisPointRoundDown
 
+*Multiplies an encoded bytes32 by a uint128 then divides the result by 10_000, rounding down
+The result can't overflow as the multiplier needs to be smaller or equal to 10_000*
+
+
 ```solidity
-function scalarMulDivBasisPointRoundDown(bytes32 x, uint128 multiplier) internal pure returns (bytes32 z)
+function scalarMulDivBasisPointRoundDown(bytes32 x, uint128 multiplier) internal pure returns (bytes32 z);
+```
+**Parameters**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`x`|`bytes32`|The bytes32 encoded as follows: [0 - 128[: x1 [128 - 256[: x2|
+|`multiplier`|`uint128`|The uint128 to multiply by (must be smaller or equal to 10_000)|
+
+**Returns**
+
+|Name|Type|Description|
+|----|----|-----------|
+|`z`|`bytes32`|The product of x and multiplier encoded as follows: [0 - 128[: floor((x1 * multiplier) / 10_000) [128 - 256[: floor((x2 * multiplier) / 10_000)|
+
+
+## Errors
+### PackedUint128Math__AddOverflow
+
+```solidity
+error PackedUint128Math__AddOverflow();
 ```
 
-Multiplies an encoded bytes32 by a uint128 then divides the result by 10_000, rounding down. The result can't overflow as the multiplier needs to be smaller or equal to 10_000.
+### PackedUint128Math__SubUnderflow
 
-#### Parameters
+```solidity
+error PackedUint128Math__SubUnderflow();
+```
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| x | bytes32 | The bytes32 encoded as follows: [0 - 128[: x1 [128 - 256[: x2 |
-| multiplier | uint128 | The uint128 to multiply by (must be smaller or equal to 10_000) |
+### PackedUint128Math__MultiplierTooLarge
 
-#### Return Values
+```solidity
+error PackedUint128Math__MultiplierTooLarge();
+```
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| z | bytes32 | The product of x and multiplier encoded as follows: [0 - 128[: floor((x1 * multiplier) / 10_000) [128 - 256[: floor((x2 * multiplier) / 10_000) |

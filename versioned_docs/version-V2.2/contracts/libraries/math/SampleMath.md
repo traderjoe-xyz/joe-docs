@@ -1,17 +1,68 @@
-## Sample Math
+# SampleMath
+[Git Source](https://github.com/traderjoe-xyz/joe-v2/blob/16f011d25e6bf6d0a0c479974345b623d491104f/src/libraries/math/SampleMath.sol)
 
-Liquidity Book Sample Math Library
+**Author:**
+Trader Joe
 
-This library contains functions to encode and decode a sample into a single bytes32 and interact with the encoded bytes32
-The sample is encoded as follows: <br/>
-0 - 16: oracle length (16 bits) <br/>
-16 - 80: cumulative id (64 bits)<br/>
-80 - 144: cumulative volatility accumulator (64 bits)<br/>
-144 - 208: cumulative bin crossed (64 bits)<br/>
-208 - 216: sample lifetime (8 bits)<br/>
-216 - 256: sample creation timestamp (40 bits)<br/>
+This library contains functions to encode and decode a sample into a single bytes32
+and interact with the encoded bytes32
+The sample is encoded as follows:
+0 - 16: oracle length (16 bits)
+16 - 80: cumulative id (64 bits)
+80 - 144: cumulative volatility accumulator (64 bits)
+144 - 208: cumulative bin crossed (64 bits)
+208 - 216: sample lifetime (8 bits)
+216 - 256: sample creation timestamp (40 bits)
 
+
+## State Variables
+### OFFSET_ORACLE_LENGTH
+
+```solidity
+uint256 internal constant OFFSET_ORACLE_LENGTH = 0;
+```
+
+
+### OFFSET_CUMULATIVE_ID
+
+```solidity
+uint256 internal constant OFFSET_CUMULATIVE_ID = 16;
+```
+
+
+### OFFSET_CUMULATIVE_VOLATILITY
+
+```solidity
+uint256 internal constant OFFSET_CUMULATIVE_VOLATILITY = 80;
+```
+
+
+### OFFSET_CUMULATIVE_BIN_CROSSED
+
+```solidity
+uint256 internal constant OFFSET_CUMULATIVE_BIN_CROSSED = 144;
+```
+
+
+### OFFSET_SAMPLE_LIFETIME
+
+```solidity
+uint256 internal constant OFFSET_SAMPLE_LIFETIME = 208;
+```
+
+
+### OFFSET_SAMPLE_CREATION
+
+```solidity
+uint256 internal constant OFFSET_SAMPLE_CREATION = 216;
+```
+
+
+## Functions
 ### encode
+
+*Encodes a sample*
+
 
 ```solidity
 function encode(
@@ -21,220 +72,229 @@ function encode(
     uint64 cumulativeBinCrossed,
     uint8 sampleLifetime,
     uint40 createdAt
-) internal pure returns (bytes32 sample)
+) internal pure returns (bytes32 sample);
 ```
+**Parameters**
 
-Encodes a sample
+|Name|Type|Description|
+|----|----|-----------|
+|`oracleLength`|`uint16`|The oracle length|
+|`cumulativeId`|`uint64`|The cumulative id|
+|`cumulativeVolatility`|`uint64`|The cumulative volatility|
+|`cumulativeBinCrossed`|`uint64`|The cumulative bin crossed|
+|`sampleLifetime`|`uint8`|The sample lifetime|
+|`createdAt`|`uint40`|The sample creation timestamp|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| oracleLength | uint16 | The oracle length |
-| cumulativeId | uint64 | The cumulative id |
-| cumulativeVolatility | uint64 | The cumulative volatility |
-| cumulativeBinCrossed | uint64 | The cumulative bin crossed |
-| sampleLifetime | uint8 | The sample lifetime |
-| createdAt | uint40 | The sample creation timestamp |
+|Name|Type|Description|
+|----|----|-----------|
+|`sample`|`bytes32`|The encoded sample|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample |
 
 ### getOracleLength
 
+*Gets the oracle length from an encoded sample*
+
+
 ```solidity
-function getOracleLength(bytes32 sample) internal pure returns (uint16 length)
+function getOracleLength(bytes32 sample) internal pure returns (uint16 length);
 ```
+**Parameters**
 
-Gets the oracle length from an encoded sample
+|Name|Type|Description|
+|----|----|-----------|
+|`sample`|`bytes32`|The encoded sample as follows: [0 - 16[: oracle length (16 bits) [16 - 256[: any (240 bits)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br/>[0 - 16[: oracle length (16 bits) <br/>[16 - 256[: any (240 bits) |
+|Name|Type|Description|
+|----|----|-----------|
+|`length`|`uint16`|The oracle length|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| length | uint16 | The oracle length |
 
 ### getCumulativeId
 
+*Gets the cumulative id from an encoded sample*
+
+
 ```solidity
-function getCumulativeId(bytes32 sample) internal pure returns (uint64 id)
+function getCumulativeId(bytes32 sample) internal pure returns (uint64 id);
 ```
+**Parameters**
 
-Gets the cumulative id from an encoded sample
+|Name|Type|Description|
+|----|----|-----------|
+|`sample`|`bytes32`|The encoded sample as follows: [0 - 16[: any (16 bits) [16 - 80[: cumulative id (64 bits) [80 - 256[: any (176 bits)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br/>[0 - 16[: any (16 bits) <br/>[16 - 80[: cumulative id (64 bits) <br/>[80 - 256[: any (176 bits) |
+|Name|Type|Description|
+|----|----|-----------|
+|`id`|`uint64`|The cumulative id|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| id | uint64 | The cumulative id |
 
 ### getCumulativeVolatility
 
+*Gets the cumulative volatility accumulator from an encoded sample*
+
+
 ```solidity
-function getCumulativeVolatility(bytes32 sample) internal pure returns (uint64 volatilityAccumulator)
+function getCumulativeVolatility(bytes32 sample) internal pure returns (uint64 volatilityAccumulator);
 ```
+**Parameters**
 
-Gets the cumulative volatility accumulator from an encoded sample
+|Name|Type|Description|
+|----|----|-----------|
+|`sample`|`bytes32`|The encoded sample as follows: [0 - 80[: any (80 bits) [80 - 144[: cumulative volatility accumulator (64 bits) [144 - 256[: any (112 bits)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br/>[0 - 80[: any (80 bits) <br/>[80 - 144[: cumulative volatility accumulator (64 bits) <br/>[144 - 256[: any (112 bits) |
+|Name|Type|Description|
+|----|----|-----------|
+|`volatilityAccumulator`|`uint64`|The cumulative volatility|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| volatilityAccumulator | uint64 | The cumulative volatility |
 
 ### getCumulativeBinCrossed
 
+*Gets the cumulative bin crossed from an encoded sample*
+
+
 ```solidity
-function getCumulativeBinCrossed(bytes32 sample) internal pure returns (uint64 binCrossed)
+function getCumulativeBinCrossed(bytes32 sample) internal pure returns (uint64 binCrossed);
 ```
+**Parameters**
 
-Gets the cumulative bin crossed from an encoded sample
+|Name|Type|Description|
+|----|----|-----------|
+|`sample`|`bytes32`|The encoded sample as follows: [0 - 144[: any (144 bits) [144 - 208[: cumulative bin crossed (64 bits) [208 - 256[: any (48 bits)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br/>[0 - 144[: any (144 bits) <br/>[144 - 208[: cumulative bin crossed (64 bits) <br/>[208 - 256[: any (48 bits) |
+|Name|Type|Description|
+|----|----|-----------|
+|`binCrossed`|`uint64`|The cumulative bin crossed|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| binCrossed | uint64 | The cumulative bin crossed |
 
 ### getSampleLifetime
 
+*Gets the sample lifetime from an encoded sample*
+
+
 ```solidity
-function getSampleLifetime(bytes32 sample) internal pure returns (uint8 lifetime)
+function getSampleLifetime(bytes32 sample) internal pure returns (uint8 lifetime);
 ```
+**Parameters**
 
-Gets the sample lifetime from an encoded sample
+|Name|Type|Description|
+|----|----|-----------|
+|`sample`|`bytes32`|The encoded sample as follows: [0 - 208[: any (208 bits) [208 - 216[: sample lifetime (8 bits) [216 - 256[: any (40 bits)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br/>[0 - 208[: any (208 bits) <br/>[208 - 216[: sample lifetime (8 bits) <br/>[216 - 256[: any (40 bits) |
+|Name|Type|Description|
+|----|----|-----------|
+|`lifetime`|`uint8`|The sample lifetime|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| lifetime | uint8 | The sample lifetime |
 
 ### getSampleCreation
 
+*Gets the sample creation timestamp from an encoded sample*
+
+
 ```solidity
-function getSampleCreation(bytes32 sample) internal pure returns (uint40 creation)
+function getSampleCreation(bytes32 sample) internal pure returns (uint40 creation);
 ```
+**Parameters**
 
-Gets the sample creation timestamp from an encoded sample
+|Name|Type|Description|
+|----|----|-----------|
+|`sample`|`bytes32`|The encoded sample as follows: [0 - 216[: any (216 bits) [216 - 256[: sample creation timestamp (40 bits)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br/>[0 - 216[: any (216 bits) <br/>[216 - 256[: sample creation timestamp (40 bits) |
+|Name|Type|Description|
+|----|----|-----------|
+|`creation`|`uint40`|The sample creation timestamp|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| creation | uint40 | The sample creation timestamp |
 
 ### getSampleLastUpdate
 
+*Gets the sample last update timestamp from an encoded sample*
+
+
 ```solidity
-function getSampleLastUpdate(bytes32 sample) internal pure returns (uint40 lastUpdate)
+function getSampleLastUpdate(bytes32 sample) internal pure returns (uint40 lastUpdate);
 ```
+**Parameters**
 
-Gets the sample last update timestamp from an encoded sample
+|Name|Type|Description|
+|----|----|-----------|
+|`sample`|`bytes32`|The encoded sample as follows: [0 - 216[: any (216 bits) [216 - 256[: sample creation timestamp (40 bits)|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample as follows: <br/>[0 - 216[: any (216 bits) <br/>[216 - 256[: sample creation timestamp (40 bits) |
+|Name|Type|Description|
+|----|----|-----------|
+|`lastUpdate`|`uint40`|The sample last update timestamp|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| lastUpdate | uint40 | The sample last update timestamp |
 
 ### getWeightedAverage
 
+*Gets the weighted average of two samples and their respective weights*
+
+
 ```solidity
-function getWeightedAverage(
-    bytes32 sample1,
-    bytes32 sample2,
-    uint40 weight1,
-    uint40 weight2
-) internal pure returns (uint64 weightedAverageId, uint64 weightedAverageVolatility, uint64 weightedAverageBinCrossed)
+function getWeightedAverage(bytes32 sample1, bytes32 sample2, uint40 weight1, uint40 weight2)
+    internal
+    pure
+    returns (uint64 weightedAverageId, uint64 weightedAverageVolatility, uint64 weightedAverageBinCrossed);
 ```
+**Parameters**
 
-Gets the weighted average of two samples and their respective weights
+|Name|Type|Description|
+|----|----|-----------|
+|`sample1`|`bytes32`|The first encoded sample|
+|`sample2`|`bytes32`|The second encoded sample|
+|`weight1`|`uint40`|The weight of the first sample|
+|`weight2`|`uint40`|The weight of the second sample|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample1 | bytes32 | The first encoded sample |
-| sample2 | bytes32 | The second encoded sample |
-| weight1 | uint40 | The weight of the first sample |
-| weight2 | uint40 | The weight of the second sample |
+|Name|Type|Description|
+|----|----|-----------|
+|`weightedAverageId`|`uint64`|The weighted average id|
+|`weightedAverageVolatility`|`uint64`|The weighted average volatility|
+|`weightedAverageBinCrossed`|`uint64`|The weighted average bin crossed|
 
-#### Return Values
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| weightedAverageId | uint64 | The weighted average id |
-| weightedAverageVolatility | uint64 | The weighted average volatility |
-| weightedAverageBinCrossed | uint64 | The weighted average bin crossed |
 
 ### update
 
+*Updates a sample with the given values*
+
+
 ```solidity
-function update(bytes32 sample, uint40 deltaTime, uint24 activeId, uint24 volatilityAccumulator, uint24 binCrossed) internal pure returns (uint64 cumulativeId, uint64 cumulativeVolatility, uint64 cumulativeBinCrossed)
+function update(bytes32 sample, uint40 deltaTime, uint24 activeId, uint24 volatilityAccumulator, uint24 binCrossed)
+    internal
+    pure
+    returns (uint64 cumulativeId, uint64 cumulativeVolatility, uint64 cumulativeBinCrossed);
 ```
+**Parameters**
 
-Updates a sample with the given values
+|Name|Type|Description|
+|----|----|-----------|
+|`sample`|`bytes32`|The encoded sample|
+|`deltaTime`|`uint40`|The time elapsed since the last update|
+|`activeId`|`uint24`|The active id|
+|`volatilityAccumulator`|`uint24`|The volatility accumulator|
+|`binCrossed`|`uint24`|The bin crossed|
 
-#### Parameters
+**Returns**
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sample | bytes32 | The encoded sample |
-| deltaTime | uint40 | The time elapsed since the last update |
-| activeId | uint24 | The active id |
-| volatilityAccumulator | uint24 | The volatility accumulator |
-| binCrossed | uint24 | The bin crossed |
+|Name|Type|Description|
+|----|----|-----------|
+|`cumulativeId`|`uint64`|The cumulative id|
+|`cumulativeVolatility`|`uint64`|The cumulative volatility|
+|`cumulativeBinCrossed`|`uint64`|The cumulative bin crossed|
 
-#### Return Values
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| cumulativeId | uint64 | The cumulative id |
-| cumulativeVolatility | uint64 | The cumulative volatility |
-| cumulativeBinCrossed | uint64 | The cumulative bin crossed |

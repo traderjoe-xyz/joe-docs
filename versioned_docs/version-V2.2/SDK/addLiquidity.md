@@ -12,7 +12,7 @@ This guide shows how to add liquidity into a LBPair using the SDKs and viem. In 
 ### imports
 ```js
 import { ChainId, Token, TokenAmount } from '@traderjoe-xyz/sdk-core'
-import { PairV2, LB_ROUTER_V21_ADDRESS, jsonAbis, LiquidityDistribution, getLiquidityConfig, getUniformDistributionFromBinRange } from '@traderjoe-xyz/sdk-v2'
+import { PairV2, LB_ROUTER_V22_ADDRESS, jsonAbis, LiquidityDistribution, getLiquidityConfig, getUniformDistributionFromBinRange } from '@traderjoe-xyz/sdk-v2'
 import { createPublicClient, createWalletClient, http, parseUnits, BaseError, ContractFunctionRevertedError } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { avalanche } from 'viem/chains'
@@ -24,9 +24,9 @@ import { config } from 'dotenv';
 ```js
 config();
 const privateKey = process.env.PRIVATE_KEY;
-const { LBRouterV21ABI } = jsonAbis
+const { LBRouterV22ABI } = jsonAbis
 const CHAIN_ID = ChainId.AVALANCHE
-const router = LB_ROUTER_V21_ADDRESS[CHAIN_ID]
+const router = LB_ROUTER_V22_ADDRESS[CHAIN_ID]
 const account = privateKeyToAccount(`0x${privateKey}`)
 ```
 
@@ -107,13 +107,13 @@ const deadline = currenTimeInSec + 3600
 ```js
 const pair = new PairV2(USDC, USDC_E)
 const binStep = Number(BIN_STEP)
-const isV21 = true
-const lbPair = await pair.fetchLBPair(binStep, isV21, publicClient, CHAIN_ID)
+const pairVersion = 'v22'
+const lbPair = await pair.fetchLBPair(binStep, pairVersion, publicClient, CHAIN_ID)
 if (lbPair.LBPair == "0x0000000000000000000000000000000000000000") {
     console.log("No LB pair found with given parameters")
     return
 }
-const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, isV21, publicClient)
+const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, pairVersion, publicClient)
 const activeBinId = lbPairData.activeId
 ```
 
@@ -156,7 +156,7 @@ For additional details about the parameters, refer to this [link](/versioned_doc
 ```js
 const { request } = await publicClient.simulateContract({
     address: router,
-    abi: LBRouterV21ABI,
+    abi: LBRouterV22ABI,
     functionName: "addLiquidity",
     args: [addLiquidityInput],
     account

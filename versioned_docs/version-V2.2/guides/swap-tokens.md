@@ -7,7 +7,7 @@ sidebar_label: Swap Tokens
 
 ## Introduction
 
-Token swaps can be executed through the `LBRrouter` contract. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. The `LBRouter` in V2.1 is able to perform swaps through `LBPair` V2.1, V2.0 and pair contracts from V1.
+Token swaps can be executed through the `LBRrouter` contract. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. The `LBRouter` in V2.2 is able to perform swaps through `LBPair` V2.2, V2.1, V2.0 and pair contracts from V1.
 
 The rest of the document describes:
 
@@ -59,7 +59,7 @@ uint256[] memory pairBinSteps = new uint256[](1); // pairBinSteps[i] refers to t
 pairBinSteps[0] = 1;
 
 ILBRouter.Version[] memory versions = new ILBRouter.Version[](1);
-versions[0] = ILBRouter.Version.V2_1; // add the version of the Dex to perform the swap on
+versions[0] = ILBRouter.Version.V2_2; // add the version of the Dex to perform the swap on
 
 ILBRouter.Path memory path; // instanciate and populate the path to perform the swap.
 path.pairBinSteps = pairBinSteps;
@@ -84,7 +84,7 @@ uint256[] memory pairBinSteps = new uint256[](1);
 pairBinSteps[0] = 15;
 
 ILBRouter.Version[] memory versions = new ILBRouter.Version[](1);
-versions[0] = ILBRouter.Version.V2_1; // add the version of the Dex to perform the swap on
+versions[0] = ILBRouter.Version.V2_2; // add the version of the Dex to perform the swap on
 
 ILBRouter.Path memory path; // instanciate and populate the path to perform the swap.
 path.pairBinSteps = pairBinSteps;
@@ -96,7 +96,7 @@ uint256 amountOutWithSlippage = amountOut * 99 / 100 // We allow for 1% slippage
 uint256 amountOutReal = router.swapExactNATIVEForTokens{value: amountIn}(amountOutWithSlippage, path, to, block.timestamp + 1);
 ```
 
-#### 3. Swap USDT to get 10 USDC output using `swapTokensForExactTokens` that routes through WAVAX. In this example, the first swap occurs through USDT/WAVAX V2.1 pool and the second swap occurs through WAVAX/USDC V1 pool:
+#### 3. Swap USDT to get 10 USDC output using `swapTokensForExactTokens` that routes through WAVAX. In this example, the first swap occurs through USDT/WAVAX V2.2 pool and the second swap occurs through WAVAX/USDC V1 pool:
 
 ```js
 uint256 amountOut = 10e6;
@@ -113,7 +113,7 @@ pairBinSteps[0] = 15;
 pairBinSteps[1] = 0; // Bin step of 0 points to the Joe V1 pair
 
 ILBRouter.Version[] memory versions = new ILBRouter.Version[](2);
-versions[0] = ILBRouter.Version.V2_1;
+versions[0] = ILBRouter.Version.V2_2;
 versions[1] = ILBRouter.Version.V1;
 
 ILBRouter.Path memory path;

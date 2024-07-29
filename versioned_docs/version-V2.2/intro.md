@@ -8,7 +8,7 @@ slug: /
 # Introduction
 
 :::info
-V2.1 adds Gas Optimization, Factory Presets, and new Router and Quoter support. See [Key Changes](/versioned_docs/version-V2.1/key-changes.md) for details.
+V2.2 adds Hooks and new Router and Quoter support. See [Key Changes](/versioned_docs/version-V2.2/key-changes.md) for details.
 :::
 
 Liquidity Book is a novel, highly-capital efficient Automated Market Maker (AMM) protocol. Its features include:

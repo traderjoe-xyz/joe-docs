@@ -107,13 +107,13 @@ const deadline = currenTimeInSec + 3600
 ```js
 const pair = new PairV2(USDC, USDC_E)
 const binStep = Number(BIN_STEP)
-const isV21 = true
-const lbPair = await pair.fetchLBPair(binStep, isV21, publicClient, CHAIN_ID)
+const pairVersion = 'v21'
+const lbPair = await pair.fetchLBPair(binStep, pairVersion, publicClient, CHAIN_ID)
 if (lbPair.LBPair == "0x0000000000000000000000000000000000000000") {
     console.log("No LB pair found with given parameters")
     return
 }
-const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, isV21, publicClient)
+const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, pairVersion, publicClient)
 const activeBinId = lbPairData.activeId
 ```
 

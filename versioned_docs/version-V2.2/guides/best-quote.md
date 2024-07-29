@@ -7,7 +7,7 @@ sidebar_label: Finding The Best Quote
 
 ## Introduction
 
-Finding the optimal quote for a givien tokens path can be obtained through the `LBQuoter` contract. This contract will find the best combinations of swaps accross the V1, V2 and V2.1 pairs in order to optimise cost.
+Finding the optimal quote for a givien tokens path can be obtained through the `LBQuoter` contract. This contract will find the best combinations of swaps accross the V1, V2, V2.1 and V2.2 pairs in order to optimise cost.
 
 The rest of the document describes:
 

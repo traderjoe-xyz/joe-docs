@@ -5,14 +5,14 @@ sidebar_label: Removing Liquidity
 
 # Removing Liquidity
 
-This guide shows how to remove liquidity from a V2.1 pool using the SDKs, and Viem. In this example, we will be removing liquidity from a LBPair of USDC/USDC.e/1bps
+This guide shows how to remove liquidity from a V2.2 pool using the SDKs, and Viem. In this example, we will be removing liquidity from a LBPair of USDC/USDC.e/1bps
 
 ## 1. Required imports and constants for this guide
 
 ### Imports
 ```js
 import { ChainId, Token } from '@traderjoe-xyz/sdk-core'
-import { PairV2, LB_ROUTER_V21_ADDRESS, jsonAbis, } from '@traderjoe-xyz/sdk-v2'
+import { PairV2, LB_ROUTER_V22_ADDRESS, jsonAbis, } from '@traderjoe-xyz/sdk-v2'
 import { getContract, createPublicClient, createWalletClient, http, BaseError, ContractFunctionRevertedError } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { avalanche } from 'viem/chains'
@@ -22,9 +22,9 @@ import { config } from 'dotenv';
 ```js
 config();
 const privateKey = process.env.PRIVATE_KEY;
-const { LBRouterV21ABI, LBPairV21ABI } = jsonAbis
+const { LBRouterV22ABI, LBPairV21ABI } = jsonAbis
 const CHAIN_ID = ChainId.AVALANCHE
-const router = LB_ROUTER_V21_ADDRESS[CHAIN_ID]
+const router = LB_ROUTER_V22_ADDRESS[CHAIN_ID]
 const account = privateKeyToAccount(`0x${privateKey}`)
 ```
 
@@ -73,13 +73,13 @@ const walletClient = createWalletClient({
 ```js
 const pair = new PairV2(USDC, USDC_E)
 const binStep = Number(BIN_STEP)
-const isV21 = true
-const lbPair = await pair.fetchLBPair(binStep, isV21, publicClient, CHAIN_ID)
+const pairVersion = 'v22'
+const lbPair = await pair.fetchLBPair(binStep, pairVersion, publicClient, CHAIN_ID)
 if (lbPair.LBPair == "0x0000000000000000000000000000000000000000") {
     console.log("No LB pair found with given parameters")
     return
 }
-const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, isV21, publicClient)
+const lbPairData = await PairV2.getLBPairReservesAndId(lbPair.LBPair, pairVersion, publicClient)
 const activeBinId = lbPairData.activeId.toNumber()
 ```
 
@@ -155,13 +155,13 @@ const removeLiquidityInput = {
 }
 ```
 
-Note that `removeLiquidityParams` will look different for the `removeLiquidityAVAX` method. Please refer to this [link](/versioned_docs/version-V2.1/guides/add-remove-liquidity.md#removing-liquidity) for specific details.
+Note that `removeLiquidityParams` will look different for the `removeLiquidityAVAX` method. Please refer to this [link](/versioned_docs/version-V2.2/guides/add-remove-liquidity.md#removing-liquidity) for specific details.
 
 ## 6. Execute removeLiquidity contract call
 ```js
 const { request } = await publicClient.simulateContract({
     address: router,
-    abi: LBRouterV21ABI,
+    abi: LBRouterV22ABI,
     functionName: "removeLiquidity",
     args: [
         removeLiquidityInput.tokenX,

@@ -8,7 +8,7 @@ Initializable
 that has been modified to update the `_nonReentrantBefore` and `_nonReentrantAfter`
 functions to `internal` visibility.
 Contract module that helps prevent reentrant calls to a function.
-Inheriting from `ReentrancyGuard` will make the [nonReentrant](/src/libraries/ReentrancyGuardUpgradeable.sol/abstract.ReentrancyGuardUpgradeable.md#nonreentrant) modifier
+Inheriting from `ReentrancyGuard` will make the `nonReentrant` modifier
 available, which can be applied to functions to make sure there are no nested
 (reentrant) calls to them.
 Note that because there is a single `nonReentrant` guard, functions marked as

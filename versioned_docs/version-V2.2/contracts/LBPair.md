@@ -2,7 +2,7 @@
 [Git Source](https://github.com/traderjoe-xyz/joe-v2/blob/16f011d25e6bf6d0a0c479974345b623d491104f/src/LBPair.sol)
 
 **Inherits:**
-[LBToken](/src/LBToken.sol/abstract.LBToken.md), [ReentrancyGuardUpgradeable](/src/libraries/ReentrancyGuardUpgradeable.sol/abstract.ReentrancyGuardUpgradeable.md), [Clone](/src/libraries/Clone.sol/abstract.Clone.md), [ILBPair](/src/interfaces/ILBPair.sol/interface.ILBPair.md)
+[LBToken](./LBToken.md), [ReentrancyGuardUpgradeable](./libraries/ReentrancyGuardUpgradeable.md), [Clone](./libraries/Clone.md), [ILBPair](./interfaces/ILBPair.md)
 
 **Author:**
 Trader Joe

@@ -63,4 +63,40 @@ def decodeAmounts(amounts: bytes) -> tuple:
 ```
 
 </TabItem>
+<TabItem value="flipside" label="Flipside SQL" default>
+
+```sql
+SELECT
+  TX_HASH,
+  BLOCK_TIMESTAMP,
+  ethereum.public.udf_hex_to_int (SUBSTR(SUBSTR(DATA, 3 + 2 * 64, 64), 33, 32)) :: integer AS AMOUNT_X_OUT,
+  ethereum.public.udf_hex_to_int (SUBSTR(SUBSTR(DATA, 3 + 2 * 64, 64), 1, 32)) :: integer as AMOUNT_Y_OUT,
+FROM
+  avalanche.core.fact_event_logs
+WHERE
+  TOPICS [0] = '0xad7d6f97abf51ce18e17a38f4d70e975be9c0708474987bb3e26ad21bd93ca70'
+  AND CONTRACT_ADDRESS = LOWER('0xD446eb1660F766d533BeCeEf890Df7A69d26f7d1')
+LIMIT
+  100
+```
+
+</TabItem>
+<TabItem value="dune" label="DUNE SQL" default>
+
+```sql
+SELECT
+  tx_hash,
+  block_time,
+  bytearray_to_int256(bytearray_substring (DATA, 1 + 2 * 32 + 16, 16)) as AMOUNT_X_OUT,
+  bytearray_to_int256(bytearray_substring (DATA, 1 + 2 * 32, 16)) as AMOUNT_Y_OUT
+FROM
+  avalanche_c.logs
+WHERE
+  topic0 = 0xad7d6f97abf51ce18e17a38f4d70e975be9c0708474987bb3e26ad21bd93ca70
+  and contract_address = 0xD446eb1660F766d533BeCeEf890Df7A69d26f7d1
+LIMIT
+  100
+```
+
+</TabItem>
 </Tabs>

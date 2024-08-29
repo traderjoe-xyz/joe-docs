@@ -8,8 +8,8 @@ const katex = require("rehype-katex");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Liquidity Book Docs",
-  tagline: "Liquidity Book is a novel, highly capital efficient AMM.",
+  title: "Trader Joe Docs",
+  tagline: "Documentation for Trader Joe XYZ.",
   url: "https://docs.traderjoexyz.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -19,7 +19,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "traderjoe-xyz", // Usually your GitHub org/user name.
-  projectName: "joe-docs-v2", // Usually your repo name.
+  projectName: "joe-docs", // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want

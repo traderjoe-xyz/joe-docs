@@ -7,7 +7,7 @@ sidebar_label: Swap Tokens
 
 ## Introduction
 
-Token swaps can be executed through the `LBRrouter` contract. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. The `LBRouter` in V2.2 is able to perform swaps through `LBPair` V2.2, V2.1, V2.0 and pair contracts from V1.
+Token swaps can be executed through the `LBRouter` contract. This contract will abstract some of the complexity of the swap, perform safety checks and will revert if certain conditions were to not be met. The `LBRouter` in V2.2 is able to perform swaps through `LBPair` V2.2, V2.1, V2.0 and pair contracts from V1.
 
 The rest of the document describes:
 

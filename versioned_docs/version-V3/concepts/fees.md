@@ -18,29 +18,20 @@ Because the fee is determined by the spread between the bid and ask prices, you 
 Token Mill allows you to customize the allocation of fees among various beneficiaries.
 
 There are four beneficiaries that can receive a portion of the purchase fee:
+
 - Protocol (Token Mill)
-- Creator 
+- Creator
 - Staking
 - Referral
 
-Token Mill charges a fixed platform fee of 20%. The creator has full flexibility in distributing the remaining 80% as desired.
+Token Mill charges a fixed platform fee of 20%. If there is a referrer, they receive half of this fee (10%). The remaining 80% is allocated according to the creator's preference, which can be split between the creator and staking.
 
 ### Staking
 
-Creators can choose to implement staking for their token, enabling fees to be distributed to stakers.
+Creators can choose to implement staking for their token, enabling fees to be distributed to stakers. Fees are streamed continuously and stakers can claim fees in real time. There is no lock up or vesting of staked tokens. However, locked tokens can also be staked.
 
-### Referrals
+### Referral Program
 
-Creators have the option to include a referral program, allowing users to refer friends and earn a share of the fees from their trades.
+Creators have the option to include a referral program, allowing users to refer friends and earn a share of the fees from their trades ad infinitum.
 
-Users without a referrer will have this portion of the fee disributed to the beneficiaries.
-
-### Example
-
-Creator sets the fees to:
-- Protocol 20%
-- Creator 20%
-- Staking 40%
-- Referral 20%
-
-If a user buys a token without a referrer, then the fee becomes protocol 25%, creator 25% and staking 50%.
+Referrals apply to all markets and referrers get half of the platform fee (10%).

@@ -8,7 +8,7 @@ slug: /
 # Introduction
 
 :::info
-User Manual has been moved to https://help.traderjoexyz.com
+User Manual has been moved to https://support.lfj.gg/en/
 :::
 
 Joe V2 is a decentralized exchange based on Liquidity Book, a novel AMM protocol. 

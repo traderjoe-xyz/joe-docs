@@ -1,6 +1,6 @@
 # Joe V2 Docs
 
-This repo contains developer docs for Liquidity Book, a novel, highly capital efficient AMM invented by Trader Joe XYZ. 
+This repo contains developer docs for Liquidity Book, a novel, highly capital efficient AMM invented by LFJ. 
 
 ## Setup
 This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.

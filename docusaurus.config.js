@@ -10,7 +10,7 @@ const katex = require("rehype-katex");
 const config = {
   title: "LFJ Docs",
   tagline: "Documentation for LFJ.",
-  url: "https://docs.lfj.com",
+  url: "https://docs.lfj.gg",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",

@@ -8,18 +8,14 @@ const katex = require("rehype-katex");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Trader Joe Docs",
-  tagline: "Documentation for Trader Joe XYZ.",
-  url: "https://docs.traderjoexyz.com",
+  title: "LFJ Docs",
+  tagline: "Documentation for LFJ.",
+  url: "https://docs.lfj.gg",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: "traderjoe-xyz", // Usually your GitHub org/user name.
-  projectName: "joe-docs", // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -70,9 +66,9 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "Trader Joe Docs",
+        title: " Docs",
         logo: {
-          alt: "Trader Joe logo",
+          alt: "LFJ logo",
           src: "img/joe_logo.png",
         },
         items: [
@@ -103,11 +99,11 @@ const config = {
             items: [
               {
                 label: "Discord",
-                href: "https://discord.gg/traderjoe",
+                href: "https://discord.gg/lfj",
               },
               {
                 label: "Twitter",
-                href: "https://twitter.com/traderjoe_xyz",
+                href: "https://twitter.com/LFJ_gg",
               },
               {
                 label: "Blog",

@@ -5,21 +5,31 @@ sidebar_label: Avalanche Mainnet
 
 # Avalanche
 
+### Routers
+
+|                 Contract                 |                                                       Address                                                        |
+| :--------------------------------------: | :------------------------------------------------------------------------------------------------------------------: |
+|              Joe Aggregator              | [0x45A62B090DF48243F12A21897e7ed91863E2c86b](https://arbiscan.io/address/0x45A62B090DF48243F12A21897e7ed91863E2c86b) |
+|        1inch (partner aggregator)        | [0x111111125421ca6dc452d289314280a0f8842a65](https://arbiscan.io/address/0x111111125421ca6dc452d289314280a0f8842a65) |
+| OKX (token approval, partner aggregator) | [0x40aA958dd87FC8305b97f2BA922CDdCa374bcD7f](https://arbiscan.io/address/0x40aA958dd87FC8305b97f2BA922CDdCa374bcD7f) |
+|      OKX (swap, partner aggregator)      | [0x1daC23e41Fc8ce857E86fD8C1AE5b6121C67D96d](https://arbiscan.io/address/0x1daC23e41Fc8ce857E86fD8C1AE5b6121C67D96d) |
+|                   Odos                   | [0x88de50B233052e4Fb783d4F6db78Cc34fEa3e9FC](https://arbiscan.io/address/0x88de50B233052e4Fb783d4F6db78Cc34fEa3e9FC) |
+
 ### Helper contracts
 
-|Contract|Address|
-| :--------------------: | :-------------------------------------------------------------------------------------------------------------------: |
-|     LBHooksLens	     | [0x6124086b90ab910038e607aa1bdd67b284c31c98](https://snowtrace.io/address/0x6124086b90ab910038e607aa1bdd67b284c31c98) |
+|        Contract         |                                                        Address                                                        |
+| :---------------------: | :-------------------------------------------------------------------------------------------------------------------: |
+|       LBHooksLens       | [0x6124086b90ab910038e607aa1bdd67b284c31c98](https://snowtrace.io/address/0x6124086b90ab910038e607aa1bdd67b284c31c98) |
 | LiquidityHelperContract | [0xA5c68C9E55Dde3505e60c4B5eAe411e2977dfB35](https://snowtrace.io/address/0xA5c68C9E55Dde3505e60c4B5eAe411e2977dfB35) |
 
 ### V2.2
 
-|     Contract      |                                                        Address                                                        |
-| :---------------: | :-------------------------------------------------------------------------------------------------------------------: |
-|     LBFactory     | [0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c](https://snowtrace.io/address/0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c) |
-|     LBRouter      | [0x18556DA13313f3532c54711497A8FedAC273220E](https://snowtrace.io/address/0x18556DA13313f3532c54711497A8FedAC273220E) |
-|     LBQuoter      | [0x9A550a522BBaDFB69019b0432800Ed17855A51C3](https://snowtrace.io/address/0x9A550a522BBaDFB69019b0432800Ed17855A51C3) |
-|   LBHooksManager  | [0x3A8E1Be95467690F7C592B596e42d11b3710c633](https://snowtrace.io/address/0x3A8E1Be95467690F7C592B596e42d11b3710c633) |
+|    Contract    |                                                        Address                                                        |
+| :------------: | :-------------------------------------------------------------------------------------------------------------------: |
+|   LBFactory    | [0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c](https://snowtrace.io/address/0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c) |
+|    LBRouter    | [0x18556DA13313f3532c54711497A8FedAC273220E](https://snowtrace.io/address/0x18556DA13313f3532c54711497A8FedAC273220E) |
+|    LBQuoter    | [0x9A550a522BBaDFB69019b0432800Ed17855A51C3](https://snowtrace.io/address/0x9A550a522BBaDFB69019b0432800Ed17855A51C3) |
+| LBHooksManager | [0x3A8E1Be95467690F7C592B596e42d11b3710c633](https://snowtrace.io/address/0x3A8E1Be95467690F7C592B596e42d11b3710c633) |
 
 ### V2.1
 

@@ -5,21 +5,31 @@ sidebar_label: Arbitrum One
 
 # Arbitrum One
 
+### Routers
+
+|                 Contract                 |                                                       Address                                                        |
+| :--------------------------------------: | :------------------------------------------------------------------------------------------------------------------: |
+|              Joe Aggregator              | [0x45A62B090DF48243F12A21897e7ed91863E2c86b](https://arbiscan.io/address/0x45A62B090DF48243F12A21897e7ed91863E2c86b) |
+|        1inch (partner aggregator)        | [0x111111125421ca6dc452d289314280a0f8842a65](https://arbiscan.io/address/0x111111125421ca6dc452d289314280a0f8842a65) |
+| OKX (token approval, partner aggregator) | [0x70cBb871E8f30Fc8Ce23609E9E0Ea87B6b222F58](https://arbiscan.io/address/0x70cBb871E8f30Fc8Ce23609E9E0Ea87B6b222F58) |
+|      OKX (swap, partner aggregator)      | [0xf332761c673b59B21fF6dfa8adA44d78c12dEF09](https://arbiscan.io/address/0xf332761c673b59B21fF6dfa8adA44d78c12dEF09) |
+|                   Odos                   | [0xa669e7A0d4b3e4Fa48af2dE86BD4CD7126Be4e13](https://arbiscan.io/address/0xa669e7A0d4b3e4Fa48af2dE86BD4CD7126Be4e13) |
+
 ### Helper contracts
 
-|Contract|Address|
-| :--------------------: | :-------------------------------------------------------------------------------------------------------------------: |
-|     LBHooksLens	     | [0x6124086b90ab910038e607aa1bdd67b284c31c98](https://arbiscan.io/address/0x6124086b90ab910038e607aa1bdd67b284c31c98) |
+|        Contract         |                                                       Address                                                        |
+| :---------------------: | :------------------------------------------------------------------------------------------------------------------: |
+|       LBHooksLens       | [0x6124086b90ab910038e607aa1bdd67b284c31c98](https://arbiscan.io/address/0x6124086b90ab910038e607aa1bdd67b284c31c98) |
 | LiquidityHelperContract | [0xA5c68C9E55Dde3505e60c4B5eAe411e2977dfB35](https://arbiscan.io/address/0xA5c68C9E55Dde3505e60c4B5eAe411e2977dfB35) |
 
 ### V2.2
 
-|     Contract      |                                                       Address                                                        |
-| :---------------: | :-------------------------------------------------------------------------------------------------------------------: |
-|     LBFactory     | [0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c](https://arbiscan.io/address/0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c) |
-|     LBRouter      | [0x18556DA13313f3532c54711497A8FedAC273220E](https://arbiscan.io/address/0x18556DA13313f3532c54711497A8FedAC273220E) |
-|     LBQuoter      | [0x9A550a522BBaDFB69019b0432800Ed17855A51C3](https://arbiscan.io/address/0x9A550a522BBaDFB69019b0432800Ed17855A51C3) |
-|   LBHooksManager  | [0x3A8E1Be95467690F7C592B596e42d11b3710c633](https://arbiscan.io/address/0x3A8E1Be95467690F7C592B596e42d11b3710c633) |
+|    Contract    |                                                       Address                                                        |
+| :------------: | :------------------------------------------------------------------------------------------------------------------: |
+|   LBFactory    | [0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c](https://arbiscan.io/address/0xb43120c4745967fa9b93E79C149E66B0f2D6Fe0c) |
+|    LBRouter    | [0x18556DA13313f3532c54711497A8FedAC273220E](https://arbiscan.io/address/0x18556DA13313f3532c54711497A8FedAC273220E) |
+|    LBQuoter    | [0x9A550a522BBaDFB69019b0432800Ed17855A51C3](https://arbiscan.io/address/0x9A550a522BBaDFB69019b0432800Ed17855A51C3) |
+| LBHooksManager | [0x3A8E1Be95467690F7C592B596e42d11b3710c633](https://arbiscan.io/address/0x3A8E1Be95467690F7C592B596e42d11b3710c633) |
 
 ### V2.1
 

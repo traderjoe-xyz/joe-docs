@@ -13,7 +13,7 @@ sidebar_label: Avalanche Mainnet
 |        1inch (partner aggregator)        | [0x111111125421ca6dc452d289314280a0f8842a65](https://arbiscan.io/address/0x111111125421ca6dc452d289314280a0f8842a65) |
 | OKX (token approval, partner aggregator) | [0x40aA958dd87FC8305b97f2BA922CDdCa374bcD7f](https://arbiscan.io/address/0x40aA958dd87FC8305b97f2BA922CDdCa374bcD7f) |
 |      OKX (swap, partner aggregator)      | [0x1daC23e41Fc8ce857E86fD8C1AE5b6121C67D96d](https://arbiscan.io/address/0x1daC23e41Fc8ce857E86fD8C1AE5b6121C67D96d) |
-|                   Odos                   | [0x88de50B233052e4Fb783d4F6db78Cc34fEa3e9FC](https://arbiscan.io/address/0x88de50B233052e4Fb783d4F6db78Cc34fEa3e9FC) |
+|        Odos (partner aggregator)         | [0x88de50B233052e4Fb783d4F6db78Cc34fEa3e9FC](https://arbiscan.io/address/0x88de50B233052e4Fb783d4F6db78Cc34fEa3e9FC) |
 
 ### Helper contracts
 

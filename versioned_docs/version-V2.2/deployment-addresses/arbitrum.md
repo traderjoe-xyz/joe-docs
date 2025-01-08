@@ -13,7 +13,7 @@ sidebar_label: Arbitrum One
 |        1inch (partner aggregator)        | [0x111111125421ca6dc452d289314280a0f8842a65](https://arbiscan.io/address/0x111111125421ca6dc452d289314280a0f8842a65) |
 | OKX (token approval, partner aggregator) | [0x70cBb871E8f30Fc8Ce23609E9E0Ea87B6b222F58](https://arbiscan.io/address/0x70cBb871E8f30Fc8Ce23609E9E0Ea87B6b222F58) |
 |      OKX (swap, partner aggregator)      | [0xf332761c673b59B21fF6dfa8adA44d78c12dEF09](https://arbiscan.io/address/0xf332761c673b59B21fF6dfa8adA44d78c12dEF09) |
-|                   Odos                   | [0xa669e7A0d4b3e4Fa48af2dE86BD4CD7126Be4e13](https://arbiscan.io/address/0xa669e7A0d4b3e4Fa48af2dE86BD4CD7126Be4e13) |
+|        Odos (partner aggregator)         | [0xa669e7A0d4b3e4Fa48af2dE86BD4CD7126Be4e13](https://arbiscan.io/address/0xa669e7A0d4b3e4Fa48af2dE86BD4CD7126Be4e13) |
 
 ### Helper contracts
 

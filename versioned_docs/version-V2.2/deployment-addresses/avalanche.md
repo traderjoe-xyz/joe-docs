@@ -7,13 +7,12 @@ sidebar_label: Avalanche Mainnet
 
 ### Routers
 
-|                 Contract                 |                                                        Address                                                        |
-| :--------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: |
-|              Joe Aggregator              | [0x45A62B090DF48243F12A21897e7ed91863E2c86b](https://snowscan.xyz/address/0x45A62B090DF48243F12A21897e7ed91863E2c86b) |
-|        1inch (partner aggregator)        | [0x111111125421ca6dc452d289314280a0f8842a65](https://snowscan.xyz/address/0x111111125421ca6dc452d289314280a0f8842a65) |
-| OKX (token approval, partner aggregator) | [0x40aA958dd87FC8305b97f2BA922CDdCa374bcD7f](https://snowscan.xyz/address/0x40aA958dd87FC8305b97f2BA922CDdCa374bcD7f) |
-|      OKX (swap, partner aggregator)      | [0x1daC23e41Fc8ce857E86fD8C1AE5b6121C67D96d](https://snowscan.xyz/address/0x1daC23e41Fc8ce857E86fD8C1AE5b6121C67D96d) |
-|        Odos (partner aggregator)         | [0x88de50B233052e4Fb783d4F6db78Cc34fEa3e9FC](https://snowscan.xyz/address/0x88de50B233052e4Fb783d4F6db78Cc34fEa3e9FC) |
+|    Contract    |                                                        Address                                                        |
+| :------------: | :-------------------------------------------------------------------------------------------------------------------: |
+| Joe Aggregator | [0x45A62B090DF48243F12A21897e7ed91863E2c86b](https://snowscan.xyz/address/0x45A62B090DF48243F12A21897e7ed91863E2c86b) |
+|  RouterLogic   | [0xB35033d71cF5E13cAB5eB8618260F94363Dff9Cf](https://snowscan.xyz/address/0xB35033d71cF5E13cAB5eB8618260F94363Dff9Cf) |
+| ForwarderLogic | [0xC04f291347D21DC663f7646056db22bFf8CE8430](https://snowscan.xyz/address/0xC04f291347D21DC663f7646056db22bFf8CE8430) |
+|   LimitOrder   | [0xDbeeB3FB3e864e490e71b1d5c86c3de683cA4626](https://snowscan.xyz/address/0xDbeeB3FB3e864e490e71b1d5c86c3de683cA4626) |
 
 ### Helper contracts
 

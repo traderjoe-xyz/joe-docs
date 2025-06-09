@@ -38,7 +38,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
-          //   'https://github.com/traderjoe-xyz',
+          //   'https://github.com/lfj-gg',
           includeCurrentVersion: false,
           versions: {
             V2: {
@@ -53,7 +53,7 @@ const config = {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          // editUrl: "https://github.com/traderjoe-xyz",
+          // editUrl: "https://github.com/lfj-gg",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -82,10 +82,10 @@ const config = {
           {
             label: "Whitepaper",
             position: "right",
-            href: "https://github.com/traderjoe-xyz/LB-Whitepaper/blob/main/Joe%20v2%20Liquidity%20Book%20Whitepaper.pdf",
+            href: "https://github.com/lfj-gg/LB-Whitepaper/blob/main/Joe%20v2%20Liquidity%20Book%20Whitepaper.pdf",
           },
           {
-            href: "https://github.com/traderjoe-xyz/joe-v2",
+            href: "https://github.com/lfj-gg/joe-v2",
             label: "GitHub",
             position: "right",
           },

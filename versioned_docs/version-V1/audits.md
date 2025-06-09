@@ -19,9 +19,9 @@ Trader Joe V1 dex received the following audits:
 
 
 ### Launchpad / Rocket Joe
-- [Paladin](https://github.com/traderjoe-xyz/rocket-joe/blob/main/audit/paladin_audit.pdf)
-- [Christoph Michel (Code4rena Top Warden)](https://github.com/traderjoe-xyz/rocket-joe/blob/main/audit/cmichel_audit.pdf)
-- [Certora](https://github.com/traderjoe-xyz/rocket-joe/blob/main/audit/audit_certora.pdf)
+- [Paladin](https://github.com/lfj-gg/rocket-joe/blob/main/audit/paladin_audit.pdf)
+- [Christoph Michel (Code4rena Top Warden)](https://github.com/lfj-gg/rocket-joe/blob/main/audit/cmichel_audit.pdf)
+- [Certora](https://github.com/lfj-gg/rocket-joe/blob/main/audit/audit_certora.pdf)
 
 
 ### Tokenomics V2 / sJOE & veJOE

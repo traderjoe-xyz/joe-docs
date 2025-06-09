@@ -8,7 +8,7 @@ This website is built using [Docusaurus 2](https://docusaurus.io/), a modern sta
 Run the development server:
 
 ```bash
-git clone https://github.com/traderjoe-xyz/joe-docs-v2.git
+git clone https://github.com/lfj-gg/joe-docs-v2.git
 cd joe-docs-v2
 yarn
 yarn start

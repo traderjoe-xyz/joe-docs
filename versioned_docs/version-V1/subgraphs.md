@@ -9,7 +9,7 @@ sidebar_label: Subgraphs
 
 Trader Joe V1 Dex maintains a number of public subgraphs. 
 
-The subgraphs are open sourced at [this github repo](https://github.com/traderjoe-xyz/joe-subgraphs). 
+The subgraphs are open sourced at [this github repo](https://github.com/lfj-gg/joe-subgraphs).
 
 ### Exchange
 

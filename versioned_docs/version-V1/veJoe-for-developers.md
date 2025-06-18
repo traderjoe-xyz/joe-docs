@@ -43,4 +43,4 @@ const boostedAPR = response.
 ```
 
 ### Reference
-​For more please refer to [Staking V2](https://github.com/traderjoe-xyz/research/blob/main/Joe%20Staking%20V2.pdf)
+​For more please refer to [Staking V2](https://github.com/lfj-gg/research/blob/main/Joe%20Staking%20V2.pdf)
